@@ -3,7 +3,8 @@ package com.xwdz.okhttpgson;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.xwdz.okhttputil.model.Parser;
+
+import com.xwdz.okhttpgson.model.Parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
