@@ -60,6 +60,9 @@ HttpManager.getInstance().addNetworkInterceptor();
 HttpManager.getInstance().getDefaultClient();
 ```
 
+
+### vAlpha-0.0.1 完成基础功能
+
 > todo
 
 
