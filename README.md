@@ -6,17 +6,17 @@
 ### Get
 
 ```
-MethodGet methodGet = OkHttpRun.get("url");
-        methodGet.addParams("user_key", "6a78a77c1ab1416582166e3b02446eea");
-        // or methodGet.addParams(new LinkedHashMap<String, String>());
-        methodGet.execute(new CallBack() {
+ MethodGet methodGet = OkHttpRun.get("url");
+        methodGet.addParams("key", "6a78a712331416582166e3b02446eea");
+        methodGet.addParams(new LinkedHashMap<String, String>());
+        methodGet.execute(new CallBack<String>() {
             @Override
             public void onError(Call call, Exception e) {
 
             }
 
             @Override
-            public void onResponse(Call call, Object response) {
+            public void onResponse(Call call, String response) {
 
             }
         });
@@ -63,7 +63,6 @@ HttpManager.getInstance().getDefaultClient();
 
 ### Alpha-v0.0.1 完成基础功能
 
-> todo
 
 
 
