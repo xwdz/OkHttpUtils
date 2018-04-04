@@ -1,6 +1,6 @@
 ### 添加依赖
 
-> todo
+> compile 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
 
 
 ### Get
@@ -60,6 +60,8 @@ HttpManager.getInstance().addNetworkInterceptor();
 HttpManager.getInstance().getDefaultClient();
 ```
 
+
+### Alpha-v0.0.2 修改groupId为 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
 
 ### Alpha-v0.0.1 完成基础功能
 
