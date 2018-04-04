@@ -40,9 +40,9 @@ def siteUrl = 'http://huangxingwei.cn'
 publish {
     userOrg = 'quinnhuang'//bintray.com的用户名
     repoName = 'xwdz-http'//远程仓库名字,不指明，默认是上传到maven
-    groupId = 'com.xwdz'//jcenter上的路径
+    groupId = 'com.xingwei'//jcenter上的路径
     artifactId = 'OkHttpUtil-Json'//项目名称
-    publishVersion = 'alpha-v0.0.1'//版本号
+    publishVersion = 'alpha-v0.0.2'//版本号
     desc = '网络请求库'//描述，不重要
     website = siteUrl//项目主页
 }
