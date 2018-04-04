@@ -60,6 +60,7 @@ HttpManager.getInstance().addNetworkInterceptor();
 HttpManager.getInstance().getDefaultClient();
 ```
 
+### Alpha-v0.0.3 修改 minSdkVersion 为15'
 
 ### Alpha-v0.0.2 修改groupId为 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
 
