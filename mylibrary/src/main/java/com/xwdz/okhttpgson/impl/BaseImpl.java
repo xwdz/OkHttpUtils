@@ -15,7 +15,6 @@ import okhttp3.Response;
 public abstract class BaseImpl {
 
     private HttpManager mHttpManager;
-    private Class mClass;
 
     protected BaseImpl() {
         mHttpManager = HttpManager.getInstance();
@@ -27,7 +26,7 @@ public abstract class BaseImpl {
 
     protected void execute(Request request, CallBack callBack) {
         try {
-            this.mHttpManager.execute(request, callBack, mClass);
+            this.mHttpManager.execute(request, callBack);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -39,9 +38,5 @@ public abstract class BaseImpl {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void setClass(Class aClass) {
-        this.mClass = aClass;
     }
 }

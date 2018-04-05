@@ -28,5 +28,4 @@ public interface BaseRequest {
 
     Request getRequest();
 
-    void setClass(Class tClass);
 }

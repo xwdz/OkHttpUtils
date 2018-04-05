@@ -3,10 +3,10 @@ package com.xwdz.okhttpgson;
 import android.os.Handler;
 import android.os.Looper;
 
-
 import com.xwdz.okhttpgson.model.Parser;
 
 import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +22,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * @author huangxingwei(quinn @ 9fens.com)
  * @since 2018/3/27
  */
-public class HttpManager {
+public class HttpManager<T> {
 
     private static final int CONNECT_TIMEOUT_SECONDS = 30;
     private static final int READ_TIMEOUT_SECONDS = 30;
@@ -85,7 +85,7 @@ public class HttpManager {
     }
 
 
-    public void execute(final Request request, final CallBack callBack, final Class c) {
+    public void execute(final Request request, final CallBack callBack) {
         Call call = mClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -113,8 +113,10 @@ public class HttpManager {
                             }
 
                             try {
+                                ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
+                                Class<T> aClass = (Class<T>) type.getActualTypeArguments()[0];
                                 final String json = response.body().string();
-                                final Object object = Parser.getInstance().parser(json, c);
+                                final Object object = Parser.getInstance().parser(json, aClass);
                                 callBack.onNativeResponse(call, response);
                                 callBack.response(call, object);
                             } catch (IOException e) {

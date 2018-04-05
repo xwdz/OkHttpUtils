@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         MethodPost post = OkHttpRun.post("");
         post.addParams("username","111");
         post.addParams("password","000000");
-        post.setClass(Test2.class);
         post.execute(new CallBack<Test2>() {
             @Override
             public void onError(Call call, Exception e) {

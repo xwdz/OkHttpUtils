@@ -77,11 +77,6 @@ public final class MethodPostImpl extends BaseImpl implements MethodPost {
         return mRequest;
     }
 
-    @Override
-    public void setClass(Class aClass) {
-        super.setClass(aClass);
-    }
-
     private Request createPostRequest(String url, LinkedHashMap<String, String> httpParams) {
         Request.Builder requestBuilder = new Request.Builder();
         FormBody.Builder params = new FormBody.Builder();
