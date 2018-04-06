@@ -2,7 +2,7 @@ package com.xwdz.okhttpgson.impl;
 
 import android.text.TextUtils;
 
-import com.xwdz.okhttpgson.CallBack;
+import com.xwdz.okhttpgson.ICallBack;
 import com.xwdz.okhttpgson.HttpManager;
 
 import java.io.IOException;
@@ -32,8 +32,8 @@ public abstract class BaseImpl {
         return mHttpManager.execute(request);
     }
 
-    void execute(Request request, CallBack callBack) {
-        mHttpManager.execute(request, callBack);
+    void execute(Request request, ICallBack ICallBack) {
+        mHttpManager.execute(request, ICallBack);
     }
 
     protected void cancel() {

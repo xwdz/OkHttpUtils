@@ -82,35 +82,35 @@ public class HttpManager<T> {
     }
 
 
-    public void execute(final Request request, final CallBack callBack) {
+    public void execute(final Request request, final ICallBack ICallBack) {
         Call call = mClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                if (callBack != null) {
-                    callBack.onFailure(call, e);
+                if (ICallBack != null) {
+                    ICallBack.onFailure(call, e);
                 }
             }
 
             @Override
             public void onResponse(final Call call, final Response response) {
-                if (callBack != null) {
+                if (ICallBack != null) {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             if (!response.isSuccessful()) {
                                 IOException ioException = new IOException("request failed , reponses code is : " + response.code());
-                                callBack.onFailure(call, ioException);
+                                ICallBack.onFailure(call, ioException);
                                 return;
                             }
 
                             if (call.isCanceled()) {
-                                callBack.onFailure(call, new IOException("Canceled!"));
+                                ICallBack.onFailure(call, new IOException("Canceled!"));
                                 return;
                             }
 
                             try {
-                                callBack.onNativeResponse(call, response);
+                                ICallBack.onNativeResponse(call, response);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

@@ -1,6 +1,6 @@
 package com.xwdz.okhttpgson.impl;
 
-import com.xwdz.okhttpgson.CallBack;
+import com.xwdz.okhttpgson.ICallBack;
 import com.xwdz.okhttpgson.method.MethodPost;
 import com.xwdz.okhttpgson.method.OkHttpRequest;
 
@@ -39,11 +39,11 @@ public class MethodPostImpl extends BaseImpl implements MethodPost {
     }
 
     @Override
-    public void execute(CallBack callBack) {
+    public void execute(ICallBack ICallBack) {
         if (mRequest == null){
             mRequest = buildPostRequest();
         }
-        super.execute(mRequest, callBack);
+        super.execute(mRequest, ICallBack);
     }
 
     @Override

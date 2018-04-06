@@ -1,6 +1,6 @@
 package com.xwdz.okhttpgson.impl;
 
-import com.xwdz.okhttpgson.CallBack;
+import com.xwdz.okhttpgson.ICallBack;
 import com.xwdz.okhttpgson.method.MethodGet;
 import com.xwdz.okhttpgson.method.OkHttpRequest;
 
@@ -38,11 +38,11 @@ public class MethodGetImpl extends BaseImpl implements MethodGet {
     }
 
     @Override
-    public void execute(CallBack callBack) {
+    public void execute(ICallBack ICallBack) {
         if (mRequest == null){
             mRequest = buildRequest();
         }
-        super.execute(mRequest, callBack);
+        super.execute(mRequest, ICallBack);
     }
 
     @Override

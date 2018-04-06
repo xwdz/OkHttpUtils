@@ -7,7 +7,7 @@ import okhttp3.Response;
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/3/31
  */
-public interface CallBack {
+public interface ICallBack {
 
     void onFailure(Call call, Exception e);
 

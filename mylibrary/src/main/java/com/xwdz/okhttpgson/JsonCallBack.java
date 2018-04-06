@@ -14,7 +14,7 @@ import okhttp3.Response;
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/3/31
  */
-public abstract class JsonCallBack<T> implements CallBack {
+public abstract class JsonCallBack<T> implements ICallBack {
 
     @Override
     public void onNativeResponse(Call call, Response response) throws Exception {

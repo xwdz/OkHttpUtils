@@ -1,6 +1,6 @@
 package com.xwdz.okhttpgson.method;
 
-import com.xwdz.okhttpgson.CallBack;
+import com.xwdz.okhttpgson.ICallBack;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -16,7 +16,7 @@ public interface OkHttpRequest {
 
     Response execute() throws IOException;
 
-    void execute(CallBack callBack);
+    void execute(ICallBack ICallBack);
 
     void cancel();
 
