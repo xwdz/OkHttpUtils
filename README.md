@@ -1,51 +1,83 @@
 ### 添加依赖
 
-> compile 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
+```
+
+implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
+ 
+implementation 'com.squareup.okhttp3:okhttp:3.5.0'
+
+or
+
+complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
+ 
+compile 'com.squareup.okhttp3:okhttp:3.5.0'
+
+
+```
+
+
+
+
+## 请求
 
 
 ### Get
 
 ```
- MethodGet methodGet = OkHttpRun.get("url");
-        methodGet.addParams("key", "6a78a712331416582166e3b02446eea");
-        methodGet.addParams(new LinkedHashMap<String, String>());
-        methodGet.execute(new CallBack<String>() {
-            @Override
-            public void onFailure(Call call, Exception e) {
+OkHttpRun.get(GET)
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onSuccess(Call call, String response) {
+                        mTextView.setText(response);
+                    }
 
-            }
+                    @Override
+                    public void onFailure(Call call, Exception e) {
 
-            @Override
-            public void onSuccess(Call call, String response) {
-
-            }
-        });
+                    }
+                });
 ```
 
 
 ### POST
 
 ```
- MethodPost post = OkHttpRun.post("url");
-        post.addParams("username","abc");
-        post.addParams("password","000000");
-        //设置解析bean
-        post.setClass(Test2.class);
-        post.execute(new CallBack<Test2>() {
-            @Override
-            public void onFailure(Call call, Exception e) {
+OkHttpRun.post(POST).addParams("name", "xwd")
+                .addParams("pwd", "123")
+                .execute(new JsonCallBack<Token>() {
 
-            }
+                    @Override
+                    public void onSuccess(Call call, Token response) {
+                        mTextView.setText(response.toString());
+                    }
 
-            @Override
-            public void onSuccess(Call call, Test2 response) {
-                mTextView.setText(response.toString());
-            }
-        });
+                    @Override
+                    public void onFailure(Call call, Exception e) {
+                    }
+                });
 ```
 
 
-### 配置OkHttpClient
+## 解析
+
+### 默认支持Callback如下
+
+- StringCallBack
+- JsonCallBack
+
+### 如需要扩展实现ICallBack即可
+
+```
+public interface ICallBack {
+
+    void onFailure(Call call, Exception e);
+
+    void onNativeResponse(Call call, Response response) throws Exception;
+}
+```
+
+
+## 配置OkHttpClient
 
 > 添加拦截器到默认client
 
@@ -58,6 +90,13 @@ HttpManager.getInstance().addNetworkInterceptor();
 
 ```
 HttpManager.getInstance().getDefaultClient();
+```
+
+
+> 设置OKHttpClient
+
+```
+HttpManaget.getInstance().setOkHttpClient();
 ```
 
 ### Alpha-v0.0.3 修改 minSdkVersion 为15'

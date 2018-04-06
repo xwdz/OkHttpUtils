@@ -19,7 +19,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * @author huangxingwei(quinn @ 9fens.com)
  * @since 2018/3/27
  */
-public class HttpManager<T> {
+public class HttpManager {
 
     private static final int CONNECT_TIMEOUT_SECONDS = 30;
     private static final int READ_TIMEOUT_SECONDS = 30;
