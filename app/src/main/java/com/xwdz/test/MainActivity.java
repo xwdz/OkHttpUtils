@@ -26,9 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public void get(View view) {
-        OkHttpRun.get("")
+        OkHttpRun.get("http://www.baidu.com")
                 .execute(new StringCallBack() {
                     @Override
                     public void onSuccess(Call call, String response) {
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void post(View view) {
-        OkHttpRun.post("").addParams("name", "11")
+        OkHttpRun.post("http://www.baidu.com").addParams("name", "11")
                 .addParams("pwd", "123")
                 .execute(new JsonCallBack<WebToken>() {
 
