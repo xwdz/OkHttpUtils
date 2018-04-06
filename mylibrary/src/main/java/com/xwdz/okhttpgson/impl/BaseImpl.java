@@ -49,10 +49,4 @@ public abstract class BaseImpl {
             throw new NullPointerException("value == null");
         }
     }
-
-    void assertRequest(Request request) {
-        if (request == null) {
-            throw new NullPointerException("request == nul");
-        }
-    }
 }

@@ -82,7 +82,7 @@ public class HttpManager<T> {
     }
 
 
-    public void execute(final Request request, final CallBack<T> callBack) {
+    public void execute(final Request request, final CallBack callBack) {
         Call call = mClient.newCall(request);
         call.enqueue(new Callback() {
             @Override

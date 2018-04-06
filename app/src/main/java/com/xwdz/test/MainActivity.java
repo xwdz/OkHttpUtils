@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         OkHttpRun.post(POST).addParams("username", "irainiop_hxw")
                 .addParams("password", DigestUtil.doDigest("MD5", "000000"))
-                .create()
                 .execute(new JsonCallBack<WebToken>() {
 
                     @Override

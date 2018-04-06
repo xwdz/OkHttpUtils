@@ -32,13 +32,17 @@ public class MethodPostImpl extends BaseImpl implements MethodPost {
 
     @Override
     public Response execute() throws IOException {
-        assertRequest(mRequest);
+        if (mRequest == null){
+            mRequest = buildPostRequest();
+        }
         return super.execute(mRequest);
     }
 
     @Override
     public void execute(CallBack callBack) {
-        assertRequest(mRequest);
+        if (mRequest == null){
+            mRequest = buildPostRequest();
+        }
         super.execute(mRequest, callBack);
     }
 
@@ -86,10 +90,8 @@ public class MethodPostImpl extends BaseImpl implements MethodPost {
         return mRequest;
     }
 
-    @Override
-    public OkHttpRequest create() {
+    private void create() {
         mRequest = buildPostRequest();
-        return this;
     }
 
     private Request buildPostRequest() {

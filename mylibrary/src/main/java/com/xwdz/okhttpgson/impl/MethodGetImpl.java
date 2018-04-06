@@ -31,13 +31,17 @@ public class MethodGetImpl extends BaseImpl implements MethodGet {
 
     @Override
     public Response execute() throws IOException {
-        assertRequest(mRequest);
+        if (mRequest == null){
+            mRequest = buildRequest();
+        }
         return super.execute(mRequest);
     }
 
     @Override
     public void execute(CallBack callBack) {
-        assertRequest(mRequest);
+        if (mRequest == null){
+            mRequest = buildRequest();
+        }
         super.execute(mRequest, callBack);
     }
 
@@ -85,11 +89,6 @@ public class MethodGetImpl extends BaseImpl implements MethodGet {
         return mRequest;
     }
 
-    @Override
-    public OkHttpRequest create() {
-        this.mRequest = buildRequest();
-        return this;
-    }
 
     private Request buildRequest() {
         Request.Builder builder = new Request.Builder();

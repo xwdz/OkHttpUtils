@@ -32,6 +32,4 @@ public interface OkHttpRequest {
 
     Request getRequest();
 
-    OkHttpRequest create();
-
 }
