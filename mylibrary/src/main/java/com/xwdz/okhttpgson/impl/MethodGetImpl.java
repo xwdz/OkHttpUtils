@@ -1,16 +1,13 @@
 package com.xwdz.okhttpgson.impl;
 
-import com.xwdz.okhttpgson.ICallBack;
 import com.xwdz.okhttpgson.method.MethodGet;
-import com.xwdz.okhttpgson.method.OkHttpRequest;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * @author huangxingwei(xwdz9989@gmail.com)
@@ -18,80 +15,17 @@ import okhttp3.Response;
  */
 public class MethodGetImpl extends BaseImpl implements MethodGet {
 
-    private String mUrl;
-    private Object mTag;
-    private Request mRequest;
-
 
     public MethodGetImpl(String url) {
-        super();
-        this.mUrl = url;
-        this.mTag = url;
+        super(url);
     }
 
     @Override
-    public Response execute() throws IOException {
-        if (mRequest == null){
-            mRequest = buildRequest();
-        }
-        return super.execute(mRequest);
-    }
-
-    @Override
-    public void execute(ICallBack ICallBack) {
-        if (mRequest == null){
-            mRequest = buildRequest();
-        }
-        super.execute(mRequest, ICallBack);
-    }
-
-    @Override
-    public void cancel() {
-        super.cancel();
-    }
-
-    @Override
-    public OkHttpRequest addParams(String key, String value) {
-        assertKeyValue(key, value);
-        mParams.put(key, value);
-        return this;
-    }
-
-    @Override
-    public OkHttpRequest addParams(LinkedHashMap<String, String> map) {
-        mParams.clear();
-        mParams.putAll(map);
-        return this;
-    }
-
-    @Override
-    public OkHttpRequest addHeaders(String key, String value) {
-        assertKeyValue(key, value);
-        mHeaders.put(key, value);
-        return this;
-    }
-
-    @Override
-    public OkHttpRequest addHeaders(LinkedHashMap<String, String> headers) {
-        mHeaders.clear();
-        mHeaders.putAll(headers);
-        return this;
-    }
-
-    @Override
-    public OkHttpRequest setTag(String tag) {
-        this.mTag = tag;
-        return this;
-    }
-
-    @Override
-    public Request getRequest() {
-        return mRequest;
-    }
-
-
-    private Request buildRequest() {
+    public Request buildRequest() {
         Request.Builder builder = new Request.Builder();
+        for (Map.Entry<String, String> map : mHeaders.entrySet()) {
+            builder.addHeader(map.getKey(), map.getValue());
+        }
         builder.url(mUrl + appendHttpParams(mParams));
         builder.tag(mTag);
         return builder.build();

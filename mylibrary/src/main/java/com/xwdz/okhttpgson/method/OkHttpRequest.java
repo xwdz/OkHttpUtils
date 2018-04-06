@@ -16,7 +16,7 @@ public interface OkHttpRequest {
 
     Response execute() throws IOException;
 
-    void execute(ICallBack ICallBack);
+    void execute(ICallBack callBack);
 
     void cancel();
 
