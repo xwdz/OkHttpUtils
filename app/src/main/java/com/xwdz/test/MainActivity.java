@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public void get(View view) {
         OkHttpRun.get(GET)
                 .execute(new StringCallBack() {

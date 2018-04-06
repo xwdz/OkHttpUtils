@@ -2,24 +2,17 @@
 
 ```
 
-implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
- 
+implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.4'
 implementation 'com.squareup.okhttp3:okhttp:3.5.0'
 
 or
 
-complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
- 
+complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.4' 
 compile 'com.squareup.okhttp3:okhttp:3.5.0'
-
 
 ```
 
-
-
-
 ## 请求
-
 
 ### Get
 
@@ -79,31 +72,35 @@ public interface ICallBack {
 
 ## 配置OkHttpClient
 
-> 添加拦截器到默认client
+#### 添加拦截器到默认client
 
 ```
 HttpManager.getInstance().addInterceptor();
 HttpManager.getInstance().addNetworkInterceptor();
 ```
 
-> 获取内置OkHttpClient
+#### 获取内置OkHttpClient
 
 ```
 HttpManager.getInstance().getDefaultClient();
 ```
 
 
-> 设置OKHttpClient
+#### 设置OKHttpClient
 
 ```
 HttpManaget.getInstance().setOkHttpClient();
 ```
 
-### Alpha-v0.0.3 修改 minSdkVersion 为15'
 
-### Alpha-v0.0.2 修改groupId为 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
 
-### Alpha-v0.0.1 完成基础功能
+#### alpha-v0.0.4 统一处理请求，添加默认String，JsonCallBack
+
+#### alpha-v0.0.3 修改 minSdkVersion 为15
+
+#### alpha-v0.0.2 修改groupId为 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
+
+#### alpha-v0.0.1 完成基础功能
 
 
 
