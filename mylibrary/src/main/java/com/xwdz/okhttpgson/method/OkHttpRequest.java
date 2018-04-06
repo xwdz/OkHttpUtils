@@ -1,6 +1,6 @@
 package com.xwdz.okhttpgson.method;
 
-import com.xwdz.okhttpgson.ICallBack;
+import com.xwdz.okhttpgson.callback.ICallBack;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;

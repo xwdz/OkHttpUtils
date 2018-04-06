@@ -3,6 +3,8 @@ package com.xwdz.okhttpgson;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.xwdz.okhttpgson.callback.ICallBack;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -82,35 +84,29 @@ public class HttpManager {
     }
 
 
-    public void execute(final Request request, final ICallBack ICallBack) {
+    public void execute(final Request request, final ICallBack iCallBack) {
         Call call = mClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                if (ICallBack != null) {
-                    ICallBack.onFailure(call, e);
+            public void onFailure(final Call call, final IOException e) {
+                if (iCallBack != null) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            iCallBack.onFailure(call, e);
+                        }
+                    });
                 }
             }
 
             @Override
             public void onResponse(final Call call, final Response response) {
-                if (ICallBack != null) {
+                if (iCallBack != null) {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if (!response.isSuccessful()) {
-                                IOException ioException = new IOException("request failed , reponses code is : " + response.code());
-                                ICallBack.onFailure(call, ioException);
-                                return;
-                            }
-
-                            if (call.isCanceled()) {
-                                ICallBack.onFailure(call, new IOException("Canceled!"));
-                                return;
-                            }
-
                             try {
-                                ICallBack.onNativeResponse(call, response);
+                                iCallBack.onNativeResponse(call, response);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

@@ -1,14 +1,18 @@
 package com.xwdz.test;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.githang.android.snippet.security.DigestUtil;
-import com.xwdz.okhttpgson.StringCallBack;
-import com.xwdz.okhttpgson.JsonCallBack;
+import com.xwdz.okhttpgson.LOG;
 import com.xwdz.okhttpgson.OkHttpRun;
+import com.xwdz.okhttpgson.callback.FileCallBack;
+import com.xwdz.okhttpgson.callback.JsonCallBack;
+
+import java.io.File;
 
 import okhttp3.Call;
 
@@ -18,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String POST = "http://iop.parkingwang.com:9397/iop/auth/login"; //
     private static final String GET = "https://api.github.com/users";
+    private static final String DOWN = "http://download.kugou.com/download/kugou_android";
     private TextView mTextView;
 
     @Override
@@ -30,11 +35,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void get(View view) {
-        OkHttpRun.get(GET)
-                .execute(new StringCallBack() {
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
+        OkHttpRun.get(DOWN)
+                .execute(new FileCallBack<File>(path, "temp.apk") {
                     @Override
-                    public void onSuccess(Call call, String response) {
-                        mTextView.setText(response);
+                    protected void onProgressListener(float current, long total) {
+                        LOG.w("TAG", "current " + current * 100 + "/" + " " + total);
+                    }
+
+                    @Override
+                    protected void onFinish(File file) {
+                        LOG.w("TAG", "finish");
+                    }
+
+                    @Override
+                    protected void onStart() {
+                        LOG.w("TAG", "start");
                     }
 
                     @Override
@@ -45,14 +61,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void post(View view) {
-        OkHttpRun.post(POST).addParams("username", "irainiop_hxw")
+        OkHttpRun.post(POST)
+                .addParams("username", "irainiop_hxw")
                 .addParams("password", DigestUtil.doDigest("MD5", "000000"))
-                .execute(new JsonCallBack<WebToken>() {
+                .execute(new JsonCallBack<Response<WebToken>>() {
 
                     @Override
-                    public void onSuccess(Call call, WebToken response) {
-                        mTextView.setText(response.toString());
+                    public void onSuccess(Call call, Response<WebToken> response) {
+                        mTextView.setText(response.data.toString());
                     }
+
 
                     @Override
                     public void onFailure(Call call, Exception e) {

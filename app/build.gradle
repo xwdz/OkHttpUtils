@@ -30,7 +30,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.githang:androidsnippet:0.6.4'
     implementation 'com.google.code.gson:gson:2.2.4'
-    implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.4'
     implementation 'com.squareup.okhttp3:okhttp:3.5.0'
     implementation project(':mylibrary')
 }

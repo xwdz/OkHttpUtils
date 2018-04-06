@@ -2,7 +2,7 @@ package com.xwdz.okhttpgson.impl;
 
 import android.text.TextUtils;
 
-import com.xwdz.okhttpgson.ICallBack;
+import com.xwdz.okhttpgson.callback.ICallBack;
 import com.xwdz.okhttpgson.HttpManager;
 import com.xwdz.okhttpgson.method.OkHttpRequest;
 

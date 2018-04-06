@@ -1,6 +1,10 @@
 package com.xwdz.okhttpgson.model;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.$Gson$Types;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * @author huangxingwei(xwdz9989 @ gmail.com)
@@ -28,7 +32,16 @@ public class Parser {
     }
 
 
-    public <T> T parser(String json, Class<T> tClass) {
-        return mGson.fromJson(json, tClass);
+    public <T> T parser(String json, Type clazz) {
+        return mGson.fromJson(json, clazz);
+    }
+
+    public Type getSuperclassTypeParameter(Class<?> subclass) {
+        Type superclass = subclass.getGenericSuperclass();
+        if (superclass instanceof Class) {
+            throw new RuntimeException("Missing type parameter.");
+        }
+        ParameterizedType parameter = (ParameterizedType) superclass;
+        return $Gson$Types.canonicalize(parameter.getActualTypeArguments()[0]);
     }
 }
