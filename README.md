@@ -3,23 +3,16 @@
 ```
 
 implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
- 
 implementation 'com.squareup.okhttp3:okhttp:3.5.0'
 
 or
 
-complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
- 
+complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2' 
 compile 'com.squareup.okhttp3:okhttp:3.5.0'
-
 
 ```
 
-
-
-
 ## 请求
-
 
 ### Get
 
@@ -79,21 +72,21 @@ public interface ICallBack {
 
 ## 配置OkHttpClient
 
-> 添加拦截器到默认client
+#### 添加拦截器到默认client
 
 ```
 HttpManager.getInstance().addInterceptor();
 HttpManager.getInstance().addNetworkInterceptor();
 ```
 
-> 获取内置OkHttpClient
+#### 获取内置OkHttpClient
 
 ```
 HttpManager.getInstance().getDefaultClient();
 ```
 
 
-> 设置OKHttpClient
+#### 设置OKHttpClient
 
 ```
 HttpManaget.getInstance().setOkHttpClient();
