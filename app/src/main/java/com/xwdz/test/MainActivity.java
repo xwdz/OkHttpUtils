@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.githang.android.snippet.security.DigestUtil;
 import com.xwdz.okhttpgson.LOG;
 import com.xwdz.okhttpgson.OkHttpRun;
 import com.xwdz.okhttpgson.callback.FileCallBack;
@@ -20,7 +19,6 @@ import okhttp3.Call;
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final String POST = "http://iop.parkingwang.com:9397/iop/auth/login"; //
     private static final String GET = "https://api.github.com/users";
     private static final String DOWN = "http://download.kugou.com/download/kugou_android";
     private TextView mTextView;
@@ -61,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void post(View view) {
-        OkHttpRun.post(POST)
-                .addParams("username", "irainiop_hxw")
-                .addParams("password", DigestUtil.doDigest("MD5", "000000"))
+        OkHttpRun.post("")
+                .addParams("name", "xwdz")
+                .addParams("age", "13")
                 .execute(new JsonCallBack<Response<WebToken>>() {
 
                     @Override
