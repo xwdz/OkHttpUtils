@@ -9,7 +9,7 @@ import okhttp3.Response;
  * @author 黄兴伟 (xwd9989@gamil.com)
  * @since 2018/4/6
  */
-public abstract class StringCallBack extends AbstractCallBack<String> implements ICallBack {
+public abstract class StringCallBack extends AbstractCallBack<String> {
 
     @Override
     protected String parser(Call call, Response response) throws IOException {
@@ -18,5 +18,5 @@ public abstract class StringCallBack extends AbstractCallBack<String> implements
         return result;
     }
 
-    public abstract void onSuccess(Call call, String response);
+    protected abstract void onSuccess(Call call, String response);
 }

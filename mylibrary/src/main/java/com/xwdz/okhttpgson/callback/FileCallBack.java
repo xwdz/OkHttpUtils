@@ -13,7 +13,7 @@ import okhttp3.Response;
 /**
  * @since 2018/3/31
  */
-public abstract class FileCallBack<T> extends AbstractCallBack<T> implements ICallBack {
+public abstract class FileCallBack<T> extends AbstractCallBack<T> {
 
     private static final int SIZE = 2048;
 

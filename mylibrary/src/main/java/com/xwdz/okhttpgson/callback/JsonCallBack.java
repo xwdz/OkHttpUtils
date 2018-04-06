@@ -12,7 +12,7 @@ import okhttp3.Response;
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/3/31
  */
-public abstract class JsonCallBack<T> extends AbstractCallBack<T> implements ICallBack {
+public abstract class JsonCallBack<T> extends AbstractCallBack<T> {
 
     @Override
     protected T parser(Call call, Response response) throws IOException {

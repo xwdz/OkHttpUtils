@@ -12,6 +12,15 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
 ```
 
+### Feature
+
+- 支持JSON解析CallBack生命泛型即可
+- UI线程回调
+- 支持文件下载
+- 支持Activity/fragment绑定生命周期
+- 支持自定义解析内容
+- 如功能不够，可拿到原生Client，自定义功能
+
 ## 请求
 
 ### Get
@@ -50,6 +59,38 @@ OkHttpRun.post(POST).addParams("name", "xwd")
                 });
 ```
 
+### 下载文件
+
+```
+String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
+        OkHttpRun.get("http://download.kugou.com/download/kugou_android")
+                //path 文件路径
+                // 文件名称
+                .execute(new FileCallBack<File>(path, "temp.apk") {
+                    @Override
+                    protected void onProgressListener(float current, long total) {
+                        LOG.w("TAG", "current " + current * 100 + "/" + " " + total);
+                    }
+
+                    @Override
+                    protected void onFinish(File file) {
+                        LOG.w("TAG", "finish");
+                    }
+
+                    @Override
+                    protected void onStart() {
+                        LOG.w("TAG", "start");
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Exception e) {
+
+                    }
+                });
+
+
+```
+
 
 ## 解析
 
@@ -57,16 +98,25 @@ OkHttpRun.post(POST).addParams("name", "xwd")
 
 - StringCallBack
 - JsonCallBack
+- FileCallBack
 
-### 如需要扩展实现ICallBack即可
+### 如需要其他解析扩展，继承AbstractCallBack 即可
 
+**比如**
 ```
-public interface ICallBack {
 
-    void onFailure(Call call, Exception e);
+public abstract class StringCallBack extends AbstractCallBack<String> {
 
-    void onNativeResponse(Call call, Response response) throws Exception;
+    @Override
+    protected String parser(Call call, Response response) throws IOException {
+        final String result = response.body().string();
+        onSuccess(call, result);
+        return result;
+    }
+
+    protected abstract void onSuccess(Call call, String response);
 }
+
 ```
 
 
