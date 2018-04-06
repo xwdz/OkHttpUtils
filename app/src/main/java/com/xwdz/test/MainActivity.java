@@ -5,20 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-
-import com.xwdz.okhttpgson.CallBack;
+import com.githang.android.snippet.security.DigestUtil;
+import com.xwdz.okhttpgson.JsonCallBack;
+import com.xwdz.okhttpgson.LOG;
 import com.xwdz.okhttpgson.OkHttpRun;
 import com.xwdz.okhttpgson.method.MethodGet;
 import com.xwdz.okhttpgson.method.MethodPost;
 
-import java.util.LinkedHashMap;
-
 import okhttp3.Call;
+
 
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final String POST = "https://api.github.com"; //https://api.github.com/users
+    private static final String POST = "http://iop.parkingwang.com:9397/iop/auth/login"; //https://api.github.com/users
     private TextView mTextView;
 
     @Override
@@ -26,42 +26,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextView = findViewById(R.id.main);
+        OkHttpRun.post(POST).addParams("username", "irainiop_hxw")
+                .addParams("password", DigestUtil.doDigest("MD5", "000000"))
+                .create()
+                .execute(new JsonCallBack<WebToken>() {
 
+                    @Override
+                    public void onSuccess(Call call, WebToken response) {
+                        LOG.w("response = " + response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Exception e) {
+                    }
+                });
     }
 
 
     public void get(View view) {
         MethodGet methodGet = OkHttpRun.get("");
         methodGet.addParams("user_key", "6a78a712331416582166e3b02446eea");
-        methodGet.addParams(new LinkedHashMap<String, String>());
-        methodGet.execute(new CallBack<String>() {
-            @Override
-            public void onError(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, String response) {
-
-            }
-        });
+//        methodGet.addParams(new LinkedHashMap<String, String>());
     }
 
     public void post(View view) {
-        MethodPost post = OkHttpRun.post("");
-        post.addParams("username","111");
-        post.addParams("password","000000");
-        post.execute(new CallBack<Test2>() {
-            @Override
-            public void onError(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Test2 response) {
-
-            }
-        });
+        MethodPost post = OkHttpRun.post(POST);
+        String str = "000000";
+        post.addParams("username", "irainiop_hxw");
     }
 }

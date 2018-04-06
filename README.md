@@ -11,12 +11,12 @@
         methodGet.addParams(new LinkedHashMap<String, String>());
         methodGet.execute(new CallBack<String>() {
             @Override
-            public void onError(Call call, Exception e) {
+            public void onFailure(Call call, Exception e) {
 
             }
 
             @Override
-            public void onResponse(Call call, String response) {
+            public void onSuccess(Call call, String response) {
 
             }
         });
@@ -33,12 +33,12 @@
         post.setClass(Test2.class);
         post.execute(new CallBack<Test2>() {
             @Override
-            public void onError(Call call, Exception e) {
+            public void onFailure(Call call, Exception e) {
 
             }
 
             @Override
-            public void onResponse(Call call, Test2 response) {
+            public void onSuccess(Call call, Test2 response) {
                 mTextView.setText(response.toString());
             }
         });

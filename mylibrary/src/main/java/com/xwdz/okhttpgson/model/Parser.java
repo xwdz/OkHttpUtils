@@ -6,7 +6,7 @@ import com.google.gson.Gson;
  * @author huangxingwei(xwdz9989 @ gmail.com)
  * @since 2018/4/2
  */
-public class Parser<T> {
+public class Parser {
 
     private Gson mGson;
 
@@ -31,6 +31,4 @@ public class Parser<T> {
     public <T> T parser(String json, Class<T> tClass) {
         return mGson.fromJson(json, tClass);
     }
-
-
 }

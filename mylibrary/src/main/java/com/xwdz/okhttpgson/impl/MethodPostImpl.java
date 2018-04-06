@@ -1,10 +1,8 @@
 package com.xwdz.okhttpgson.impl;
 
-import android.text.TextUtils;
-
 import com.xwdz.okhttpgson.CallBack;
-import com.xwdz.okhttpgson.HttpManager;
 import com.xwdz.okhttpgson.method.MethodPost;
+import com.xwdz.okhttpgson.method.OkHttpRequest;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -18,12 +16,10 @@ import okhttp3.Response;
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/3/31
  */
-public final class MethodPostImpl extends BaseImpl implements MethodPost {
+public class MethodPostImpl extends BaseImpl implements MethodPost {
 
-    private final LinkedHashMap<String, String> mLinkedHashMap;
 
     private String mUrl;
-    private HttpManager mHttpManager;
     private String mTag;
     private Request mRequest;
 
@@ -31,45 +27,58 @@ public final class MethodPostImpl extends BaseImpl implements MethodPost {
     public MethodPostImpl(String url) {
         this.mUrl = url;
         this.mTag = url;
-        this.mHttpManager = HttpManager.getInstance();
-        this.mLinkedHashMap = new LinkedHashMap<>();
+
     }
 
     @Override
     public Response execute() throws IOException {
-        mRequest = buildPostRequest();
-        return mHttpManager.execute(mRequest);
+        assertRequest(mRequest);
+        return super.execute(mRequest);
     }
 
     @Override
     public void execute(CallBack callBack) {
-        mRequest = buildPostRequest();
+        assertRequest(mRequest);
         super.execute(mRequest, callBack);
     }
 
     @Override
     public void cancel() {
-        mHttpManager.cancel();
+        super.cancel();
     }
 
     @Override
-    public void addParams(String key, String value) {
-        if (TextUtils.isEmpty(key)) {
-            throw new NullPointerException("key == null");
-        }
-        mLinkedHashMap.put(key, value);
+    public OkHttpRequest addParams(String key, String value) {
+        assertKeyValue(key, value);
+        mParams.put(key, value);
+        return this;
     }
 
 
     @Override
-    public void addParams(LinkedHashMap<String, String> map) {
-        mLinkedHashMap.clear();
-        mLinkedHashMap.putAll(map);
+    public OkHttpRequest addParams(LinkedHashMap<String, String> map) {
+        mParams.clear();
+        mParams.putAll(map);
+        return this;
     }
 
     @Override
-    public void setTag(String tag) {
+    public OkHttpRequest addHeaders(String key, String value) {
+        assertKeyValue(key, value);
+        mHeaders.put(key, value);
+        return this;
+    }
+
+    @Override
+    public OkHttpRequest addHeaders(LinkedHashMap<String, String> headers) {
+        mHeaders.putAll(headers);
+        return this;
+    }
+
+    @Override
+    public OkHttpRequest setTag(String tag) {
         this.mTag = tag;
+        return this;
     }
 
     @Override
@@ -77,20 +86,21 @@ public final class MethodPostImpl extends BaseImpl implements MethodPost {
         return mRequest;
     }
 
-    private Request createPostRequest(String url, LinkedHashMap<String, String> httpParams) {
-        Request.Builder requestBuilder = new Request.Builder();
-        FormBody.Builder params = new FormBody.Builder();
-        for (Map.Entry<String, String> map : httpParams.entrySet()) {
-            params.add(map.getKey(), map.getValue());
-        }
-        requestBuilder.url(url).post(params.build());
-        requestBuilder.tag(mTag);
-        return requestBuilder.build();
+    @Override
+    public OkHttpRequest create() {
+        mRequest = buildPostRequest();
+        return this;
     }
 
-
     private Request buildPostRequest() {
-        return createPostRequest(mUrl, mLinkedHashMap);
+        Request.Builder requestBuilder = new Request.Builder();
+        FormBody.Builder params = new FormBody.Builder();
+        for (Map.Entry<String, String> map : mParams.entrySet()) {
+            params.add(map.getKey(), map.getValue());
+        }
+        requestBuilder.url(mUrl).post(params.build());
+        requestBuilder.tag(mTag);
+        return requestBuilder.build();
     }
 
 }

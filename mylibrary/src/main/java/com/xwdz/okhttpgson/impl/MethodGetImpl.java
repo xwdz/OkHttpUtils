@@ -1,9 +1,8 @@
 package com.xwdz.okhttpgson.impl;
 
-import android.text.TextUtils;
-
 import com.xwdz.okhttpgson.CallBack;
 import com.xwdz.okhttpgson.method.MethodGet;
+import com.xwdz.okhttpgson.method.OkHttpRequest;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -17,12 +16,10 @@ import okhttp3.Response;
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/3/31/031
  */
-public final class MethodGetImpl extends BaseImpl implements MethodGet {
-
-    private final LinkedHashMap<String, String> mLinkedHashMap;
+public class MethodGetImpl extends BaseImpl implements MethodGet {
 
     private String mUrl;
-    private String mTag;
+    private Object mTag;
     private Request mRequest;
 
 
@@ -30,19 +27,18 @@ public final class MethodGetImpl extends BaseImpl implements MethodGet {
         super();
         this.mUrl = url;
         this.mTag = url;
-        this.mLinkedHashMap = new LinkedHashMap<>();
     }
 
     @Override
     public Response execute() throws IOException {
-        mRequest  = buildRequest();
+        assertRequest(mRequest);
         return super.execute(mRequest);
     }
 
     @Override
     public void execute(CallBack callBack) {
-        mRequest  = buildRequest();
-        super.execute(mRequest,callBack);
+        assertRequest(mRequest);
+        super.execute(mRequest, callBack);
     }
 
     @Override
@@ -51,22 +47,37 @@ public final class MethodGetImpl extends BaseImpl implements MethodGet {
     }
 
     @Override
-    public void addParams(String key, String value) {
-        if (TextUtils.isEmpty(key)) {
-            throw new NullPointerException("key == null");
-        }
-        mLinkedHashMap.put(key, value);
+    public OkHttpRequest addParams(String key, String value) {
+        assertKeyValue(key, value);
+        mParams.put(key, value);
+        return this;
     }
 
     @Override
-    public void addParams(LinkedHashMap<String, String> map) {
-        mLinkedHashMap.clear();
-        mLinkedHashMap.putAll(map);
+    public OkHttpRequest addParams(LinkedHashMap<String, String> map) {
+        mParams.clear();
+        mParams.putAll(map);
+        return this;
     }
 
     @Override
-    public void setTag(String tag) {
+    public OkHttpRequest addHeaders(String key, String value) {
+        assertKeyValue(key, value);
+        mHeaders.put(key, value);
+        return this;
+    }
+
+    @Override
+    public OkHttpRequest addHeaders(LinkedHashMap<String, String> headers) {
+        mHeaders.clear();
+        mHeaders.putAll(headers);
+        return this;
+    }
+
+    @Override
+    public OkHttpRequest setTag(String tag) {
         this.mTag = tag;
+        return this;
     }
 
     @Override
@@ -75,14 +86,14 @@ public final class MethodGetImpl extends BaseImpl implements MethodGet {
     }
 
     @Override
-    public void setClass(Class gsonClass) {
-
+    public OkHttpRequest create() {
+        this.mRequest = buildRequest();
+        return this;
     }
-
 
     private Request buildRequest() {
         Request.Builder builder = new Request.Builder();
-        builder.url(mUrl + appendHttpParams(mLinkedHashMap));
+        builder.url(mUrl + appendHttpParams(mParams));
         builder.tag(mTag);
         return builder.build();
     }

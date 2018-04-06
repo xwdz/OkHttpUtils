@@ -12,7 +12,7 @@ import okhttp3.Response;
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/3/31
  */
-public interface BaseRequest {
+public interface OkHttpRequest {
 
     Response execute() throws IOException;
 
@@ -20,12 +20,18 @@ public interface BaseRequest {
 
     void cancel();
 
-    void addParams(String key, String value);
+    OkHttpRequest addParams(String key, String value);
 
-    void addParams(LinkedHashMap<String, String> map);
+    OkHttpRequest addParams(LinkedHashMap<String, String> params);
 
-    void setTag(String tag);
+    OkHttpRequest addHeaders(String key, String value);
+
+    OkHttpRequest addHeaders(LinkedHashMap<String, String> headers);
+
+    OkHttpRequest setTag(String tag);
 
     Request getRequest();
+
+    OkHttpRequest create();
 
 }
