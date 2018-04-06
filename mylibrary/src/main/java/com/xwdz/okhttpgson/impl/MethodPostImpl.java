@@ -90,10 +90,6 @@ public class MethodPostImpl extends BaseImpl implements MethodPost {
         return mRequest;
     }
 
-    private void create() {
-        mRequest = buildPostRequest();
-    }
-
     private Request buildPostRequest() {
         Request.Builder requestBuilder = new Request.Builder();
         FormBody.Builder params = new FormBody.Builder();
