@@ -14,7 +14,7 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
 ### Feature
 
-- 支持JSON解析CallBack生命泛型即可
+- 支持JSON解析CallBack声明泛型即可
 - UI线程回调
 - 支持文件下载
 - 支持Activity/fragment绑定生命周期
