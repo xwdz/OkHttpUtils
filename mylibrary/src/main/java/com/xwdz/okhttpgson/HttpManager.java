@@ -102,16 +102,11 @@ public class HttpManager {
             @Override
             public void onResponse(final Call call, final Response response) {
                 if (iCallBack != null) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                iCallBack.onNativeResponse(call, response);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
+                    try {
+                        iCallBack.onNativeResponse(call, response);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

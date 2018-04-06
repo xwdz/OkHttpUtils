@@ -1,5 +1,8 @@
 package com.xwdz.okhttpgson.callback;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -10,6 +13,8 @@ import okhttp3.Response;
  * @since 2018/4/6
  */
 public abstract class AbstractCallBack<T> implements ICallBack {
+
+    protected Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     public void onNativeResponse(Call call, Response response) throws Exception {

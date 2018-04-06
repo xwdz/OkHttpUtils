@@ -34,9 +34,14 @@ public abstract class FileCallBack<T> extends AbstractCallBack<T> {
     @Override
     protected T parser(Call call, Response response) throws IOException {
         //todo 先读取缓存中是否存在文件
-        File file = saveFile(response);
+        final File file = saveFile(response);
         if (file != null) {
-            onFinish(file);
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    onFinish(file);
+                }
+            });
         }
         return (T) file;
     }
@@ -58,12 +63,24 @@ public abstract class FileCallBack<T> extends AbstractCallBack<T> {
             resultFile = new File(dir, mFileName);
             LOG.w("file " + resultFile.getAbsolutePath());
             fos = new FileOutputStream(resultFile);
-            onStart();
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    onStart();
+                }
+            });
+
             while ((len = is.read(buf)) != -1) {
                 sum += len;
                 fos.write(buf, 0, len);
                 final long finalSum = sum;
-                onProgressListener(finalSum * 1.0f / total, total);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        onProgressListener(finalSum * 1.0f / total, total);
+                    }
+                });
             }
             fos.flush();
             return resultFile;
