@@ -1,20 +1,22 @@
 package com.xwdz.okhttpgson.impl;
 
-import com.xwdz.okhttpgson.method.MethodPost;
+import com.xwdz.okhttpgson.method.MethodPut;
 
 import java.util.Map;
 
 import okhttp3.FormBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 
 /**
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/3/31
  */
-public class MethodPostImpl extends BaseImpl implements MethodPost {
+public class MethodPutImpl extends BaseImpl implements MethodPut {
 
+    private RequestBody mRequestBody;
 
-    public MethodPostImpl(String url) {
+    public MethodPutImpl(String url) {
         super(url);
     }
 
@@ -30,12 +32,19 @@ public class MethodPostImpl extends BaseImpl implements MethodPost {
             requestBuilder.addHeader(map.getKey(), map.getValue());
         }
 
+        if (mRequestBody != null) {
+            requestBuilder.put(mRequestBody);
+        }
 
         requestBuilder
                 .url(mUrl)
-                .tag(mTag)
-                .post(params.build());
+                .tag(mTag);
 
         return requestBuilder.build();
+    }
+
+    @Override
+    public void requestBody(RequestBody body) {
+        this.mRequestBody = body;
     }
 }

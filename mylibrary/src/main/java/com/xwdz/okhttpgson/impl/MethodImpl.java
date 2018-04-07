@@ -1,35 +1,54 @@
 package com.xwdz.okhttpgson.impl;
 
-import com.xwdz.okhttpgson.method.MethodGet;
+import com.xwdz.okhttpgson.OkHttpRun;
+import com.xwdz.okhttpgson.method.OkHttpRequest;
 
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import okhttp3.FormBody;
 import okhttp3.Request;
 
 /**
  * @author huangxingwei(xwdz9989@gmail.com)
- * @since 2018/3/31/031
+ * @since 2018/3/31
  */
-public class MethodGetImpl extends BaseImpl implements MethodGet {
+public class MethodImpl extends BaseImpl implements OkHttpRequest {
 
+    private final String mMethod;
 
-    public MethodGetImpl(String url) {
+    public MethodImpl(String url, String method) {
         super(url);
+        this.mMethod = method;
     }
 
     @Override
     public Request buildRequest() {
-        Request.Builder builder = new Request.Builder();
+        Request.Builder requestBuilder = new Request.Builder();
+        FormBody.Builder params = new FormBody.Builder();
+
         for (Map.Entry<String, String> map : mHeaders.entrySet()) {
-            builder.addHeader(map.getKey(), map.getValue());
+            requestBuilder.addHeader(map.getKey(), map.getValue());
         }
-        builder.url(mUrl + appendHttpParams(mParams));
-        builder.tag(mTag);
-        return builder.build();
+
+        if (OkHttpRun.Method.GET.equals(mMethod)) {
+            requestBuilder.url(mUrl + appendHttpParams(mParams));
+        } else if (OkHttpRun.Method.POST.equals(mMethod)) {
+            for (Map.Entry<String, String> map : mParams.entrySet()) {
+                params.add(map.getKey(), map.getValue());
+            }
+            requestBuilder.post(params.build());
+        }
+
+        requestBuilder
+                .url(mUrl)
+                .tag(mTag);
+
+        return requestBuilder.build();
     }
+
 
     private String appendHttpParams(LinkedHashMap<String, String> sLinkedHashMap) {
         Iterator<String> keys = sLinkedHashMap.keySet().iterator();
