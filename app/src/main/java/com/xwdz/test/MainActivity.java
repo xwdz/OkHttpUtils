@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
         OkHttpRun.post("")
                 .addParams("name", "xwdz")
                 .addParams("age", "13")
-                .execute(new JsonCallBack<Response<WebToken>>() {
+                .execute(new JsonCallBack<Response<TestToken>>() {
 
                     @Override
-                    public void onSuccess(Call call, Response<WebToken> response) {
+                    public void onSuccess(Call call, Response<TestToken> response) {
                         mTextView.setText(response.data.toString());
                     }
 

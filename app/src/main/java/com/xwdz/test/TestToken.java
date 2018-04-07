@@ -17,7 +17,7 @@ import java.util.List;
  * @author 黄兴伟 (huangxingwei@parkingwang.com)
  * @time 17-5-4 下午4:48
  */
-public class WebToken implements Serializable {
+public class TestToken implements Serializable {
 
     public final int id;
     public final String username;
@@ -34,10 +34,10 @@ public class WebToken implements Serializable {
     public String theme;
     public List<ParkInfo> park_info;
 
-    public WebToken(String token, String power, String parkCodes,
-                    String ustatus, String email, String phone, String utype,
-                    String cid, String username, int id, String theme, String is_new_user, String is_todo_binding,
-                    List<ParkInfo> park_info) {
+    public TestToken(String token, String power, String parkCodes,
+                     String ustatus, String email, String phone, String utype,
+                     String cid, String username, int id, String theme, String is_new_user, String is_todo_binding,
+                     List<ParkInfo> park_info) {
         this.token = token;
         this.is_new_user = is_new_user;
         this.is_todo_binding = is_todo_binding;
@@ -56,7 +56,7 @@ public class WebToken implements Serializable {
 
     @Override
     public String toString() {
-        return "WebToken{" +
+        return "TestToken{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", cid='" + cid + '\'' +
