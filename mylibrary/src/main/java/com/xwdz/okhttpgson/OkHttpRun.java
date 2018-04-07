@@ -1,8 +1,6 @@
 package com.xwdz.okhttpgson;
 
 import com.xwdz.okhttpgson.impl.MethodImpl;
-import com.xwdz.okhttpgson.impl.MethodPutImpl;
-import com.xwdz.okhttpgson.method.MethodPut;
 import com.xwdz.okhttpgson.method.OkHttpRequest;
 
 /**
@@ -20,14 +18,24 @@ public class OkHttpRun {
         return new MethodImpl(url, Method.POST);
     }
 
-    public static MethodPut put(String url) {
-        return new MethodPutImpl(url);
-    }
-
     public static class Method {
         public static final String GET = "GET";
         public static final String POST = "POST";
         public static final String PUT = "PUT";
         public static final String DELETE = "DELETE";
+    }
+
+    public static class MediaType {
+        /*
+             json : application/json
+             xml : application/xml
+             png : image/png
+             jpg : image/jpeg
+             gif : imge/gif
+        */
+        public static final String IMG = "image/jpeg;charset=utf-8";
+        public static final String JSON = "application/json;charset=utf-8";
+        public static final String PNG = "image/png;charset=utf-8";
+
     }
 }
