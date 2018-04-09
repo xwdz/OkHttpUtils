@@ -69,7 +69,7 @@ public class HttpManager {
         return this;
     }
 
-    public HttpManager seLogListener(LogListener listener) {
+    public HttpManager addLogTagNameListener(LogListener listener) {
         this.mLogListener = listener;
         return this;
     }
