@@ -3,8 +3,8 @@ package com.xwdz.okhttpgson;
 import android.util.Log;
 
 /**
- * @author huangxingwei(quinn @ 9fens.com)
- * @since 2018/3/31/031
+ * @author huangxingwei(xwdz9989@gmail.com)
+ * @since 2018/3/31
  */
 public class LOG {
 

@@ -1,5 +1,6 @@
 package com.xwdz.okhttpgson.impl;
 
+import com.xwdz.okhttpgson.LOG;
 import com.xwdz.okhttpgson.OkHttpRun;
 import com.xwdz.okhttpgson.method.OkHttpRequest;
 
@@ -39,11 +40,11 @@ public class MethodImpl extends BaseImpl implements OkHttpRequest {
             for (Map.Entry<String, String> map : mParams.entrySet()) {
                 params.add(map.getKey(), map.getValue());
             }
+            requestBuilder.url(mUrl);
             requestBuilder.post(params.build());
         }
 
         requestBuilder
-                .url(mUrl)
                 .tag(mTag);
 
         return requestBuilder.build();

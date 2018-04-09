@@ -66,6 +66,8 @@ task buildJar(type: Jar) {
 
     from("build/libs/res")
 }
+copyClasses.dependsOn(build)
+buildJar.dependsOn(copyClasses)
 
 
 
@@ -75,7 +77,7 @@ publish {
     repoName = 'xwdz-http'//远程仓库名字,不指明，默认是上传到maven
     groupId = 'com.xingwei'//jcenter上的路径
     artifactId = 'OkHttpUtil-Json'//项目名称
-    publishVersion = 'alpha-v0.0.6'//版本号
+    publishVersion = 'alpha-v0.1.0'//版本号
     desc = '网络请求库'//描述，不重要
     website = siteUrl//项目主页
 }
