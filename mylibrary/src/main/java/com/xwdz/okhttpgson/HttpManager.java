@@ -59,19 +59,26 @@ public class HttpManager {
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         mBuilder.addInterceptor(logInterceptor);
 
+    }
+
+    public void build(){
         mClient = mBuilder.build();
     }
 
-    public void addInterceptor(Interceptor interceptor){
+
+    public HttpManager addInterceptor(Interceptor interceptor){
         mBuilder.addInterceptor(interceptor);
+        return this;
     }
 
-    public void addNetworkInterceptor(Interceptor interceptor){
+    public HttpManager addNetworkInterceptor(Interceptor interceptor){
         mBuilder.addNetworkInterceptor(interceptor);
+        return this;
     }
 
-    public void setOkHttpClient(OkHttpClient client) {
+    public HttpManager setOkHttpClient(OkHttpClient client) {
         this.mClient = client;
+        return this;
     }
 
     public OkHttpClient getDefaultClient(){

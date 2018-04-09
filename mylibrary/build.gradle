@@ -29,12 +29,45 @@ android {
 
 }
 
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.squareup.okhttp3:okhttp:3.5.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.5.0'
     implementation 'com.google.code.gson:gson:2.2.4'
 }
+
+
+//拷贝集成所需的代码
+task copyClasses(type: Copy) {
+    delete('build/libs/classes/')
+    from('build/intermediates/classes/release') {
+        include('ninefens/**/*.class')
+        into('classes')
+    }
+    into('build/libs')
+}
+
+task buildAdJar(type: Jar) {
+    //最终的 Jar 包名，如果没设置，默认为 [baseName]-[appendix]-[version]-[classifier].[extension]
+    baseName = "okHttp-util"
+    version = '0.0.6'
+    classifier = "release"
+    extension = "jar"
+
+    //需打包的资源所在的路径集
+    from("build/libs/classes") {
+        include("com/xwdz/okhttpgson/impl/**/*.class")
+        include("com/xwdz/okhttpgson/model/**/*.class")
+        include("com/xwdz/okhttpgson/method/**/*.class")
+        include("com/xwdz/okhttpgson/**/*.class")
+    }
+
+    from("build/libs/res")
+}
+
+
 
 def siteUrl = 'http://huangxingwei.cn'
 publish {
