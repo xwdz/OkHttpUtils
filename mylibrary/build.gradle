@@ -52,7 +52,7 @@ task copyClasses(type: Copy) {
 task buildAdJar(type: Jar) {
     //最终的 Jar 包名，如果没设置，默认为 [baseName]-[appendix]-[version]-[classifier].[extension]
     baseName = "okHttp-util"
-    version = '0.0.6'
+    version = '0.1.0'
     classifier = "release"
     extension = "jar"
 
