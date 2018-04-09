@@ -18,7 +18,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
- * @author huangxingwei(xwdz9989@gmail.com)
+ * @author huangxingwei(xwdz9989 @ gmail.com)
  * @since 2018/3/27
  */
 public class HttpManager {
@@ -27,13 +27,14 @@ public class HttpManager {
     private static final int READ_TIMEOUT_SECONDS = 30;
     private static final int WRITE_TIMEOUT_SECONDS = 30;
 
-
     private final ArrayList<Call> mCalls = new ArrayList<>();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     private static HttpManager sHttpManager;
+
     private OkHttpClient mClient;
     private OkHttpClient.Builder mBuilder;
+    private LogListener mLogListener;
 
 
     public static HttpManager getInstance() {
@@ -52,25 +53,29 @@ public class HttpManager {
                 .connectTimeout(CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                 .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                 .writeTimeout(WRITE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
-
-        //默认log拦截器
-        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog());
-        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        mBuilder.addInterceptor(logInterceptor);
-
     }
 
-    public void build(){
+    public void build() {
+        //默认log拦截器
+        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog(mLogListener));
+        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        mBuilder.addInterceptor(logInterceptor);
+        
         mClient = mBuilder.build();
     }
 
 
-    public HttpManager addInterceptor(Interceptor interceptor){
+    public HttpManager addInterceptor(Interceptor interceptor) {
         mBuilder.addInterceptor(interceptor);
         return this;
     }
 
-    public HttpManager addNetworkInterceptor(Interceptor interceptor){
+    public HttpManager seLogListener(LogListener listener) {
+        this.mLogListener = listener;
+        return this;
+    }
+
+    public HttpManager addNetworkInterceptor(Interceptor interceptor) {
         mBuilder.addNetworkInterceptor(interceptor);
         return this;
     }
@@ -129,5 +134,11 @@ public class HttpManager {
                 }
             }
         }
+    }
+
+
+    /* log interface */
+    public interface LogListener {
+        String getHttpLogTag();
     }
 }
