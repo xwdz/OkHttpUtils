@@ -60,7 +60,6 @@ public class HttpManager {
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog(mLogListener));
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         mBuilder.addInterceptor(logInterceptor);
-        
         mClient = mBuilder.build();
     }
 
