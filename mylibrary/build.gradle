@@ -43,13 +43,13 @@ dependencies {
 task copyClasses(type: Copy) {
     delete('build/libs/classes/')
     from('build/intermediates/classes/release') {
-        include('ninefens/**/*.class')
+        include('com/**/*.class')
         into('classes')
     }
     into('build/libs')
 }
 
-task buildAdJar(type: Jar) {
+task buildJar(type: Jar) {
     //最终的 Jar 包名，如果没设置，默认为 [baseName]-[appendix]-[version]-[classifier].[extension]
     baseName = "okHttp-util"
     version = '0.1.0'
