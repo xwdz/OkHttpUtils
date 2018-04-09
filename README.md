@@ -2,12 +2,12 @@
 
 ```
 
-implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.1.1'
+implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.1.2'
 implementation 'com.squareup.okhttp3:okhttp:3.5.0'
 
 or
 
-complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.1.1'
+complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.1.2'
 compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
 ```
@@ -125,8 +125,18 @@ public abstract class StringCallBack extends AbstractCallBack<String> {
 #### 添加拦截器到默认client
 
 ```
-HttpManager.getInstance().addInterceptor();
-HttpManager.getInstance().addNetworkInterceptor();
+final Interceptor interceptor = new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                ...
+                return chain.proceed(requestBuilder.build());
+            }
+        };
+
+ //最后build一下
+ HttpManager.getInstance().addInterceptor(interceptor)
+                .addNetworkInterceptor();
+                .build();
 ```
 
 #### 获取内置OkHttpClient
