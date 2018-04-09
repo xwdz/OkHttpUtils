@@ -4,7 +4,7 @@ package com.xwdz.test;
  * @author huangxingwei(quinn @ 9fens.com)
  * @since 2018/4/2/002
  */
-public class Test {
+public class Github {
     private String login;
     private int id;
     private String avatar_url;
@@ -23,7 +23,7 @@ public class Test {
     private String type;
     private boolean site_admin;
 
-    public Test(String login, int id, String avatar_url, String gravatar_id, String url, String html_url, String followers_url, String following_url, String gists_url, String starred_url, String subscriptions_url, String organizations_url, String repos_url, String events_url, String received_events_url, String type, boolean site_admin) {
+    public Github(String login, int id, String avatar_url, String gravatar_id, String url, String html_url, String followers_url, String following_url, String gists_url, String starred_url, String subscriptions_url, String organizations_url, String repos_url, String events_url, String received_events_url, String type, boolean site_admin) {
         this.login = login;
         this.id = id;
         this.avatar_url = avatar_url;
@@ -45,7 +45,7 @@ public class Test {
 
     @Override
     public String toString() {
-        return "Test{" +
+        return "Github{" +
                 "login='" + login + '\'' +
                 ", id=" + id +
                 ", avatar_url='" + avatar_url + '\'' +

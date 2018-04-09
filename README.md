@@ -1,70 +1,148 @@
 ### 添加依赖
 
-> compile 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
+```
 
+implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.6'
+implementation 'com.squareup.okhttp3:okhttp:3.5.0'
+
+or
+
+complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.6' 
+compile 'com.squareup.okhttp3:okhttp:3.5.0'
+
+```
+
+### Feature
+
+- 支持JSON解析CallBack声明泛型即可
+- UI线程回调
+- 支持文件下载
+- 支持Activity/fragment绑定生命周期
+- 支持自定义解析内容
+- 如功能不够，可拿到原生Client，自定义功能
+
+## 请求
 
 ### Get
 
 ```
- MethodGet methodGet = OkHttpRun.get("url");
-        methodGet.addParams("key", "6a78a712331416582166e3b02446eea");
-        methodGet.addParams(new LinkedHashMap<String, String>());
-        methodGet.execute(new CallBack<String>() {
-            @Override
-            public void onError(Call call, Exception e) {
+OkHttpRun.get(GET)
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onSuccess(Call call, String response) {
+                        mTextView.setText(response);
+                    }
 
-            }
+                    @Override
+                    public void onFailure(Call call, Exception e) {
 
-            @Override
-            public void onResponse(Call call, String response) {
-
-            }
-        });
+                    }
+                });
 ```
 
 
 ### POST
 
 ```
- MethodPost post = OkHttpRun.post("url");
-        post.addParams("username","abc");
-        post.addParams("password","000000");
-        //设置解析bean
-        post.setClass(Test2.class);
-        post.execute(new CallBack<Test2>() {
-            @Override
-            public void onError(Call call, Exception e) {
+OkHttpRun.post(POST).addParams("name", "xwd")
+                .addParams("pwd", "123")
+                .execute(new JsonCallBack<Token>() {
 
-            }
+                    @Override
+                    public void onSuccess(Call call, Token response) {
+                        mTextView.setText(response.toString());
+                    }
 
-            @Override
-            public void onResponse(Call call, Test2 response) {
-                mTextView.setText(response.toString());
-            }
-        });
+                    @Override
+                    public void onFailure(Call call, Exception e) {
+                    }
+                });
+```
+
+### 下载文件
+
+```
+String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
+        OkHttpRun.get("http://download.kugou.com/download/kugou_android")
+                //path 文件路径
+                // 文件名称
+                .execute(new FileCallBack<File>(path, "temp.apk") {
+                    @Override
+                    protected void onProgressListener(float current, long total) {
+                        LOG.w("TAG", "current " + current * 100 + "/" + " " + total);
+                    }
+
+                    @Override
+                    protected void onFinish(File file) {
+                        LOG.w("TAG", "finish");
+                    }
+
+                    @Override
+                    protected void onStart() {
+                        LOG.w("TAG", "start");
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Exception e) {
+
+                    }
+                });
+
+
 ```
 
 
-### 配置OkHttpClient
+## 解析
 
-> 添加拦截器到默认client
+### 默认支持Callback如下
+
+- StringCallBack
+- JsonCallBack
+- FileCallBack
+
+### 如需要其他解析扩展，继承AbstractCallBack 即可
+
+**比如**
+```
+
+public abstract class StringCallBack extends AbstractCallBack<String> {
+
+    @Override
+    protected String parser(Call call, Response response) throws IOException {
+        final String result = response.body().string();
+        onSuccess(call, result);
+        return result;
+    }
+
+    protected abstract void onSuccess(Call call, String response);
+}
+
+```
+
+
+## 配置OkHttpClient
+
+#### 添加拦截器到默认client
 
 ```
 HttpManager.getInstance().addInterceptor();
 HttpManager.getInstance().addNetworkInterceptor();
 ```
 
-> 获取内置OkHttpClient
+#### 获取内置OkHttpClient
 
 ```
 HttpManager.getInstance().getDefaultClient();
 ```
 
-### Alpha-v0.0.3 修改 minSdkVersion 为15'
 
-### Alpha-v0.0.2 修改groupId为 'com.xingwei:OkHttpUtil-Json:alpha-v0.0.2'
+#### 设置OKHttpClient
 
-### Alpha-v0.0.1 完成基础功能
+```
+HttpManaget.getInstance().setOkHttpClient();
+```
+
+
 
 
 

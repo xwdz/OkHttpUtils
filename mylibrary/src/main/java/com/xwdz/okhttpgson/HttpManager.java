@@ -3,8 +3,7 @@ package com.xwdz.okhttpgson;
 import android.os.Handler;
 import android.os.Looper;
 
-
-import com.xwdz.okhttpgson.model.Parser;
+import com.xwdz.okhttpgson.callback.ICallBack;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
- * @author huangxingwei(quinn @ 9fens.com)
+ * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/3/27
  */
 public class HttpManager {
@@ -81,7 +80,7 @@ public class HttpManager {
         return this;
     }
 
-    public OkHttpClient getDefaultClient(){
+    public OkHttpClient getDefaultClient() {
         return mClient;
     }
 
@@ -92,46 +91,33 @@ public class HttpManager {
     }
 
 
-    public void execute(final Request request, final CallBack callBack, final Class c) {
+    public void execute(final Request request, final ICallBack iCallBack) {
         Call call = mClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                if (callBack != null) {
-                    callBack.error(call, e);
+            public void onFailure(final Call call, final IOException e) {
+                if (iCallBack != null) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            iCallBack.onFailure(call, e);
+                        }
+                    });
                 }
             }
 
             @Override
             public void onResponse(final Call call, final Response response) {
-                if (callBack != null){
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!response.isSuccessful()){
-                                IOException ioException = new IOException("request failed , reponse's code is : " + response.code());
-                                callBack.error(call,ioException);
-                                return;
-                            }
-
-                            if (call.isCanceled()) {
-                                callBack.error(call,new IOException("Canceled!"));
-                                return;
-                            }
-
-                            try {
-                                final String json = response.body().string();
-                                final Object object = Parser.getInstance().parser(json, c);
-                                callBack.onNativeResponse(call, response);
-                                callBack.response(call, object);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
+                if (iCallBack != null) {
+                    try {
+                        iCallBack.onNativeResponse(call, response);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
+
         mCalls.add(call);
     }
 
