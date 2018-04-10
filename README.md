@@ -76,21 +76,73 @@ OkHttpRun.get(GET)
 
 ### POST
 
+**支持JSON泛型解析**
+
+
+```json
+{
+    "code":"200"
+    "message":"success"
+    "data": {
+        "id":"1111";
+        "username":"xwdz"
+        "token":"token"
+    }
+}
 ```
-OkHttpRun.post(POST).addParams("name", "xwd")
-                .addParams("pwd", "123")
-                .execute(new JsonCallBack<Token>() {
+
+Response 定义如下
+```
+public class Response<T> {
+    public String code;
+    public String message;
+    public T data;
+
+    public Response(String code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+}
+```
+
+TestToken定义如下
+```
+public class TestToken  {
+
+    public final String id;
+    public final String username;
+    public final String token;
+
+    public TestToken(String id, String username, String token) {
+        this.id = id;
+        this.username = username;
+        this.token = token;
+    }
+}
+
+```
+
+请求
+```
+ OkHttpRun.post("xxx")
+                .addParams("name", "xwdz")
+                .addParams("age", "13")
+                .execute(new JsonCallBack<Response<TestToken>>() {
 
                     @Override
-                    public void onSuccess(Call call, Token response) {
-                        mTextView.setText(response.toString());
+                    public void onSuccess(Call call, Response<TestToken> response) {
+                        mTextView.setText(response.data.toString());
                     }
+
 
                     @Override
                     public void onFailure(Call call, Exception e) {
                     }
                 });
 ```
+
+
 
 ### 下载文件
 
