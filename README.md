@@ -26,9 +26,10 @@ final Interceptor interceptor = new Interceptor() {
             }
         };
 
- //最后build一下
+
  HttpManager.getInstance().addInterceptor(interceptor)
                 .addNetworkInterceptor();
+                //不要忘记build，不然不会生成client
                 .build();
 ```
 
@@ -176,8 +177,6 @@ String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File
 
 ```
 
-
-## 解析
 
 ### 默认支持Callback如下
 
