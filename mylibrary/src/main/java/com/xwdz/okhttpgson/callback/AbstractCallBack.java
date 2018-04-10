@@ -19,7 +19,7 @@ public abstract class AbstractCallBack<T> implements ICallBack {
     @Override
     public void onNativeResponse(Call call, Response response) throws Exception {
         if (!response.isSuccessful()) {
-            IOException ioException = new IOException("request failed , reponses code is : " + response.code());
+            IOException ioException = new IOException("request failed , response code is : " + response.code());
             onFailure(call, ioException);
             return;
         }

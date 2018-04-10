@@ -12,7 +12,40 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
 ```
 
-### Feature
+
+## 配置OkHttpClient
+
+#### 添加拦截器到默认client
+
+```
+final Interceptor interceptor = new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                ...
+                return chain.proceed(requestBuilder.build());
+            }
+        };
+
+ //最后build一下
+ HttpManager.getInstance().addInterceptor(interceptor)
+                .addNetworkInterceptor();
+                .build();
+```
+
+#### 获取内置OkHttpClient
+
+```
+HttpManager.getInstance().getDefaultClient();
+```
+
+
+#### 设置OKHttpClient
+
+```
+HttpManaget.getInstance().setOkHttpClient();
+```
+
+### 特性
 
 - 支持JSON解析CallBack声明泛型即可
 - UI线程回调
@@ -120,37 +153,6 @@ public abstract class StringCallBack extends AbstractCallBack<String> {
 ```
 
 
-## 配置OkHttpClient
-
-#### 添加拦截器到默认client
-
-```
-final Interceptor interceptor = new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                ...
-                return chain.proceed(requestBuilder.build());
-            }
-        };
-
- //最后build一下
- HttpManager.getInstance().addInterceptor(interceptor)
-                .addNetworkInterceptor();
-                .build();
-```
-
-#### 获取内置OkHttpClient
-
-```
-HttpManager.getInstance().getDefaultClient();
-```
-
-
-#### 设置OKHttpClient
-
-```
-HttpManaget.getInstance().setOkHttpClient();
-```
 
 
 

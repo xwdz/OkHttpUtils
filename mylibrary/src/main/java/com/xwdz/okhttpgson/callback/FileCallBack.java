@@ -13,7 +13,7 @@ import okhttp3.Response;
 /**
  * @since 2018/3/31
  */
-public abstract class FileCallBack<T> extends AbstractCallBack<T> {
+public abstract class FileCallBack extends AbstractCallBack<File> {
 
     private static final int SIZE = 2048;
 
@@ -32,21 +32,25 @@ public abstract class FileCallBack<T> extends AbstractCallBack<T> {
     }
 
     @Override
-    protected T parser(Call call, Response response) throws IOException {
-        //todo 先读取缓存中是否存在文件
-        final File file = saveFile(response);
-        if (file != null) {
+    protected File parser(Call call, Response response) {
+        File file = null;
+        try {
+            file = saveFile(response);
+            final File finalFile = file;
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    onFinish(file);
+                    onFinish(finalFile);
                 }
             });
+        } catch (IOException e) {
+            e.printStackTrace();
+            onFailure(call, e);
         }
-        return (T) file;
+        return file;
     }
 
-    private File saveFile(Response response) {
+    private File saveFile(Response response) throws IOException {
         InputStream is = null;
         byte[] buf = new byte[SIZE];
         int len;
@@ -61,7 +65,6 @@ public abstract class FileCallBack<T> extends AbstractCallBack<T> {
                 dir.mkdirs();
             }
             resultFile = new File(dir, mFileName);
-            LOG.w("file " + resultFile.getAbsolutePath());
             fos = new FileOutputStream(resultFile);
 
             mHandler.post(new Runnable() {
@@ -74,18 +77,10 @@ public abstract class FileCallBack<T> extends AbstractCallBack<T> {
             while ((len = is.read(buf)) != -1) {
                 sum += len;
                 fos.write(buf, 0, len);
-                final long finalSum = sum;
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        onProgressListener(finalSum * 1.0f / total, total);
-                    }
-                });
+                onProgressListener(sum * 1.0f / total, total);
             }
             fos.flush();
             return resultFile;
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             try {
                 response.body().close();
@@ -102,9 +97,7 @@ public abstract class FileCallBack<T> extends AbstractCallBack<T> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
-        return null;
     }
 
     protected abstract void onProgressListener(float current, long total);

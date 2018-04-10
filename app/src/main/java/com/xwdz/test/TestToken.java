@@ -13,10 +13,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * @author 黄兴伟 (huangxingwei@parkingwang.com)
- * @time 17-5-4 下午4:48
- */
 public class TestToken implements Serializable {
 
     public final int id;
