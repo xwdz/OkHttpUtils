@@ -81,13 +81,13 @@ OkHttpRun.get(GET)
 
 ```json
 {
-    "code":"200"
-    "message":"success"
-    "data": {
-        "id":"1111"
-        "username":"xwdz"
-        "token":"token"
-    }
+	"code": "200",
+	"message": "success",
+	"data": {
+		"id": "1111",
+		"username": "xwdz",
+		"token": "token"
+	}
 }
 ```
 
