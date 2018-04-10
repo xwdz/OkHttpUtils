@@ -84,7 +84,7 @@ OkHttpRun.get(GET)
     "code":"200"
     "message":"success"
     "data": {
-        "id":"1111";
+        "id":"1111"
         "username":"xwdz"
         "token":"token"
     }
