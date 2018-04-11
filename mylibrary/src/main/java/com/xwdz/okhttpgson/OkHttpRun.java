@@ -1,7 +1,8 @@
 package com.xwdz.okhttpgson;
 
-import com.xwdz.okhttpgson.impl.MethodImpl;
-import com.xwdz.okhttpgson.method.OkHttpRequest;
+import com.xwdz.okhttpgson.impl.DownLoadImpl;
+import com.xwdz.okhttpgson.impl.GETRequestImpl;
+import com.xwdz.okhttpgson.method.Request;
 
 /**
  * @author huangxingwei(xwdz9989@gmail.com)
@@ -10,12 +11,16 @@ import com.xwdz.okhttpgson.method.OkHttpRequest;
 public class OkHttpRun {
 
 
-    public static OkHttpRequest get(String url) {
-        return new MethodImpl(url, Method.GET);
+    public static Request get(String url) {
+        return new GETRequestImpl(url, Method.GET);
     }
 
-    public static OkHttpRequest post(String url) {
-        return new MethodImpl(url, Method.POST);
+    public static Request post(String url) {
+        return new GETRequestImpl(url, Method.POST);
+    }
+
+    public static Request download(String url,long current){
+        return new DownLoadImpl(url,Method.GET,current);
     }
 
     public static class Method {

@@ -1,8 +1,7 @@
 package com.xwdz.okhttpgson.impl;
 
-import com.xwdz.okhttpgson.LOG;
 import com.xwdz.okhttpgson.OkHttpRun;
-import com.xwdz.okhttpgson.method.OkHttpRequest;
+import com.xwdz.okhttpgson.method.Request;
 
 import java.net.URLEncoder;
 import java.util.Iterator;
@@ -10,24 +9,23 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import okhttp3.FormBody;
-import okhttp3.Request;
 
 /**
- * @author huangxingwei(xwdz9989@gmail.com)
+ * @author huangxingwei(xwdz9989 @ gmail.com)
  * @since 2018/3/31
  */
-public class MethodImpl extends BaseImpl implements OkHttpRequest {
+public class GETRequestImpl extends BaseImpl implements Request {
 
     private final String mMethod;
 
-    public MethodImpl(String url, String method) {
+    public GETRequestImpl(String url, String method) {
         super(url);
         this.mMethod = method;
     }
 
     @Override
-    public Request buildRequest() {
-        Request.Builder requestBuilder = new Request.Builder();
+    public okhttp3.Request buildRequest() {
+        okhttp3.Request.Builder requestBuilder = new okhttp3.Request.Builder();
         FormBody.Builder params = new FormBody.Builder();
 
         for (Map.Entry<String, String> map : mHeaders.entrySet()) {
