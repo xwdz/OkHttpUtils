@@ -4,11 +4,13 @@
 
 implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.1.4'
 implementation 'com.squareup.okhttp3:okhttp:3.5.0'
+implementation 'com.squareup.okhttp3:logging-interceptor:3.5.0'
 
 or
 
 complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.1.4'
 compile 'com.squareup.okhttp3:okhttp:3.5.0'
+complie 'com.squareup.okhttp3:logging-interceptor:3.5.0'
 
 ```
 
