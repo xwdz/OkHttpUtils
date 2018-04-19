@@ -14,7 +14,41 @@ complie 'com.squareup.okhttp3:logging-interceptor:3.5.0'
 
 ```
 
-### Feature
+
+## 配置OkHttpClient
+
+#### 添加拦截器到默认client
+
+```
+final Interceptor interceptor = new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                ...
+                return chain.proceed(requestBuilder.build());
+            }
+        };
+
+
+ HttpManager.getInstance().addInterceptor(interceptor)
+                .addNetworkInterceptor();
+                //不要忘记build，不然不会生成client
+                .build();
+```
+
+#### 获取内置OkHttpClient
+
+```
+HttpManager.getInstance().getDefaultClient();
+```
+
+
+#### 设置OKHttpClient
+
+```
+HttpManaget.getInstance().setOkHttpClient();
+```
+
+### 特性
 
 - 支持JSON解析CallBack声明泛型即可
 - UI线程回调
@@ -45,21 +79,73 @@ OkHttpRun.get(GET)
 
 ### POST
 
+**支持JSON泛型解析**
+
+
+```json
+{
+	"code": "200",
+	"message": "success",
+	"data": {
+		"id": "1111",
+		"username": "xwdz",
+		"token": "token"
+	}
+}
 ```
-OkHttpRun.post(POST).addParams("name", "xwd")
-                .addParams("pwd", "123")
-                .execute(new JsonCallBack<Token>() {
+
+Response 定义如下
+```
+public class Response<T> {
+    public String code;
+    public String message;
+    public T data;
+
+    public Response(String code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+}
+```
+
+TestToken定义如下
+```
+public class TestToken  {
+
+    public final String id;
+    public final String username;
+    public final String token;
+
+    public TestToken(String id, String username, String token) {
+        this.id = id;
+        this.username = username;
+        this.token = token;
+    }
+}
+
+```
+
+请求
+```
+ OkHttpRun.post("xxx")
+                .addParams("name", "xwdz")
+                .addParams("age", "13")
+                .execute(new JsonCallBack<Response<TestToken>>() {
 
                     @Override
-                    public void onSuccess(Call call, Token response) {
-                        mTextView.setText(response.toString());
+                    public void onSuccess(Call call, Response<TestToken> response) {
+                        mTextView.setText(response.data.toString());
                     }
+
 
                     @Override
                     public void onFailure(Call call, Exception e) {
                     }
                 });
 ```
+
+
 
 ### 下载文件
 
@@ -94,8 +180,6 @@ String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File
 ```
 
 
-## 解析
-
 ### 默认支持Callback如下
 
 - StringCallBack
@@ -122,37 +206,6 @@ public abstract class StringCallBack extends AbstractCallBack<String> {
 ```
 
 
-## 配置OkHttpClient
-
-#### 添加拦截器到默认client
-
-```
-final Interceptor interceptor = new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                ...
-                return chain.proceed(requestBuilder.build());
-            }
-        };
-
- //最后build一下
- HttpManager.getInstance().addInterceptor(interceptor)
-                .addNetworkInterceptor();
-                .build();
-```
-
-#### 获取内置OkHttpClient
-
-```
-HttpManager.getInstance().getDefaultClient();
-```
-
-
-#### 设置OKHttpClient
-
-```
-HttpManaget.getInstance().setOkHttpClient();
-```
 
 
 

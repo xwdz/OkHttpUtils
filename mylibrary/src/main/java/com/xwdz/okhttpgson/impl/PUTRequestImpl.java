@@ -3,7 +3,7 @@ package com.xwdz.okhttpgson.impl;
 import android.text.TextUtils;
 
 import com.xwdz.okhttpgson.OkHttpRun;
-import com.xwdz.okhttpgson.method.MethodPut;
+import com.xwdz.okhttpgson.method.PUTRequest;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import okhttp3.RequestBody;
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/3/31
  */
-public class MethodPutImpl extends BaseImpl implements MethodPut {
+public class PUTRequestImpl extends BaseImpl implements PUTRequest{
 
     private RequestBody mRequestBody;
     private okhttp3.MediaType mMediaType;
@@ -24,11 +24,11 @@ public class MethodPutImpl extends BaseImpl implements MethodPut {
 
     private String mType;
 
-    public MethodPutImpl(String url) {
+    public PUTRequestImpl(String url) {
         super(url);
     }
 
-    public MethodPutImpl(String url, String mediaType) {
+    public PUTRequestImpl(String url, String mediaType) {
         super(url);
         this.mType = mediaType;
     }

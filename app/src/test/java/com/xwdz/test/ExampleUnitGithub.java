@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.junit.Test;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -15,13 +16,7 @@ import java.util.List;
 public class ExampleUnitGithub {
     @Test
     public void addition_isCorrect() {
-        Gson gson = new Gson();
-        String jsonArray = "[\"Android\",\"Java\",\"PHP\"]";
-        String[] strings = gson.fromJson(jsonArray, String[].class);
-        List<String> stringList = gson.fromJson(jsonArray, new TypeToken<List<String>>() {}.getType());
-        for (String s : stringList) {
-            System.out.println("s = " + s);
-
-        }
+        File file = new File("pause");
+        System.out.println("name = " + file.getName());
     }
 }

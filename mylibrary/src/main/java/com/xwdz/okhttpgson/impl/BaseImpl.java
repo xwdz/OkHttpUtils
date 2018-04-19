@@ -4,26 +4,25 @@ import android.text.TextUtils;
 
 import com.xwdz.okhttpgson.callback.ICallBack;
 import com.xwdz.okhttpgson.HttpManager;
-import com.xwdz.okhttpgson.method.OkHttpRequest;
+import com.xwdz.okhttpgson.method.Request;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
-import okhttp3.Request;
 import okhttp3.Response;
 
 /**
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/4/2
  */
-public abstract class BaseImpl implements OkHttpRequest {
+public abstract class BaseImpl implements Request {
 
     private HttpManager mHttpManager;
     final LinkedHashMap<String, String> mParams;
     final LinkedHashMap<String, String> mHeaders;
     final String mUrl;
 
-    private Request mRequest;
+    private okhttp3.Request mRequest;
     String mTag;
 
     BaseImpl(String url) {
@@ -58,7 +57,7 @@ public abstract class BaseImpl implements OkHttpRequest {
 
 
     @Override
-    public OkHttpRequest addParams(String key, String value) {
+    public Request addParams(String key, String value) {
         assertKeyValue(key, value);
         mParams.put(key, value);
         return this;
@@ -66,37 +65,37 @@ public abstract class BaseImpl implements OkHttpRequest {
 
 
     @Override
-    public OkHttpRequest addParams(LinkedHashMap<String, String> map) {
+    public Request addParams(LinkedHashMap<String, String> map) {
         mParams.clear();
         mParams.putAll(map);
         return this;
     }
 
     @Override
-    public OkHttpRequest addHeaders(String key, String value) {
+    public Request addHeaders(String key, String value) {
         assertKeyValue(key, value);
         mHeaders.put(key, value);
         return this;
     }
 
     @Override
-    public OkHttpRequest addHeaders(LinkedHashMap<String, String> headers) {
+    public Request addHeaders(LinkedHashMap<String, String> headers) {
         mHeaders.putAll(headers);
         return this;
     }
 
     @Override
-    public OkHttpRequest setTag(String tag) {
+    public Request setTag(String tag) {
         this.mTag = tag;
         return this;
     }
 
     @Override
-    public Request getRequest() {
+    public okhttp3.Request getRequest() {
         return mRequest;
     }
 
-    public abstract Request buildRequest();
+    public abstract okhttp3.Request buildRequest();
 
 
     /*      */
