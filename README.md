@@ -205,7 +205,6 @@ public abstract class StringCallBack extends AbstractCallBack<String> {
 
 ```
 
-This is Test2222222222
 
 
 
