@@ -29,6 +29,8 @@ public interface Request {
 
     Request setTag(String tag);
 
+    Request setCallBackToMainUIThread(boolean isMainUIThread);
+
     okhttp3.Request getRequest();
 
 }

@@ -11,5 +11,5 @@ public interface ICallBack {
 
     void onFailure(Call call, Exception e);
 
-    void onNativeResponse(Call call, Response response) throws Exception;
+    void onNativeResponse(Call call, Response response, boolean isMainUIThread) throws Exception;
 }

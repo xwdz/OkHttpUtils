@@ -4,8 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import java.io.IOException;
-import java.net.HttpRetryException;
-import java.net.HttpURLConnection;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -20,7 +18,7 @@ public abstract class AbstractCallBack<T> implements ICallBack {
     protected Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
-    public void onNativeResponse(Call call, Response response) throws Exception {
+    public void onNativeResponse(Call call, Response response, boolean isMainUIThread) throws Exception {
         final int errorCode = response.code();
 
         if (!response.isSuccessful()) {
@@ -33,8 +31,14 @@ public abstract class AbstractCallBack<T> implements ICallBack {
             onFailure(call, new IOException("Canceled!"));
             return;
         }
-        parser(call, response);
+        parser(call, response, isMainUIThread);
     }
 
-    protected abstract T parser(Call call, Response response) throws IOException;
+    protected void post(Runnable runnable, boolean isMainUI) {
+        if (isMainUI) {
+            mHandler.post(runnable);
+        }
+    }
+
+    protected abstract T parser(Call call, Response response, boolean isMainUIThread) throws IOException;
 }

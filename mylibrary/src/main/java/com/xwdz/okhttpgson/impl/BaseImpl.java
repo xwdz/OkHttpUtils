@@ -23,6 +23,8 @@ public abstract class BaseImpl implements Request {
     final String mUrl;
 
     private okhttp3.Request mRequest;
+    private boolean mIsCallbackToMainUIThread;
+
     String mTag;
 
     BaseImpl(String url) {
@@ -47,7 +49,7 @@ public abstract class BaseImpl implements Request {
             mRequest = buildRequest();
         }
 
-        mHttpManager.execute(mRequest, callBack);
+        mHttpManager.execute(mRequest, callBack, mIsCallbackToMainUIThread);
     }
 
     @Override
@@ -75,6 +77,12 @@ public abstract class BaseImpl implements Request {
     public Request addHeaders(String key, String value) {
         assertKeyValue(key, value);
         mHeaders.put(key, value);
+        return this;
+    }
+
+    @Override
+    public Request setCallBackToMainUIThread(boolean isMainUIThread) {
+        this.mIsCallbackToMainUIThread = isMainUIThread;
         return this;
     }
 

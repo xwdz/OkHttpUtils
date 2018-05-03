@@ -12,14 +12,14 @@ import okhttp3.Response;
 public abstract class StringCallBack extends AbstractCallBack<String> {
 
     @Override
-    protected String parser(final Call call, Response response) throws IOException {
+    protected String parser(final Call call, Response response, boolean isMainUIThread) throws IOException {
         final String result = response.body().string();
-        mHandler.post(new Runnable() {
+        post(new Runnable() {
             @Override
             public void run() {
                 onSuccess(call, result);
             }
-        });
+        }, isMainUIThread);
         return result;
     }
 

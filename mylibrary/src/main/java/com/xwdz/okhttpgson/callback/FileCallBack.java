@@ -29,17 +29,17 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
     }
 
     @Override
-    protected File parser(Call call, Response response) {
+    protected File parser(Call call, Response response, boolean isMainUIThread) {
         File file = null;
         try {
             file = saveFile(response);
             final File finalFile = file;
-            mHandler.post(new Runnable() {
+            post(new Runnable() {
                 @Override
                 public void run() {
                     onFinish(finalFile);
                 }
-            });
+            }, isMainUIThread);
         } catch (IOException e) {
             e.printStackTrace();
             onFailure(call, e);

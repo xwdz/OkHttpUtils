@@ -1,6 +1,7 @@
 package com.xwdz.okhttpgson.impl;
 
 import com.xwdz.okhttpgson.method.Download;
+import com.xwdz.okhttpgson.method.Request;
 
 /**
  * @author huangxingwei(quinn @ 9fens.com)

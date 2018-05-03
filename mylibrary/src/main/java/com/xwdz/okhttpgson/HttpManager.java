@@ -94,7 +94,7 @@ public class HttpManager {
     }
 
 
-    public void execute(final Request request, final ICallBack iCallBack) {
+    public void execute(final Request request, final ICallBack iCallBack, final boolean isMainUIThread) {
         Call call = mClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -113,7 +113,7 @@ public class HttpManager {
             public void onResponse(final Call call, final Response response) {
                 if (iCallBack != null) {
                     try {
-                        iCallBack.onNativeResponse(call, response);
+                        iCallBack.onNativeResponse(call, response, isMainUIThread);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

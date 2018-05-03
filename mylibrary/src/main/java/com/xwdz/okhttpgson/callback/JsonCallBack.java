@@ -15,16 +15,16 @@ import okhttp3.Response;
 public abstract class JsonCallBack<T> extends AbstractCallBack<T> {
 
     @Override
-    protected T parser(final Call call, Response response) throws IOException {
+    protected T parser(final Call call, Response response, boolean isMainUIThread) throws IOException {
         final String json = response.body().string();
         Type type = Parser.getInstance().getSuperclassTypeParameter(getClass());
         final Object object = Parser.getInstance().parser(json, type);
-        mHandler.post(new Runnable() {
+        post(new Runnable() {
             @Override
             public void run() {
                 onSuccess(call, (T) object);
             }
-        });
+        }, isMainUIThread);
         return (T) object;
     }
 
