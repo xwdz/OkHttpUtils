@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         mTextView = findViewById(R.id.main);
         HttpManager.getInstance().build();
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
-        mFileCallBack = new FileCallBack(path, "temp.apk", mCurrent) {
+        mFileCallBack = new FileCallBack(path, "temp.apk") {
             @Override
             protected void onProgressListener(float current, long total) {
                 mCurrent = (long) (current * 100);
@@ -54,12 +54,6 @@ public class MainActivity extends AppCompatActivity {
             protected void onStart() {
                 LOG.w("start");
             }
-
-            @Override
-            protected void onPause() {
-                LOG.w("pause");
-            }
-
             @Override
             public void onFailure(Call call, Exception e) {
 
@@ -69,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void get(View view) {
-        mFileCallBack.pause();
     }
 
     public void post(View view) {
