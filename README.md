@@ -2,15 +2,13 @@
 
 ```
 
-implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.1.4'
-implementation 'com.squareup.okhttp3:okhttp:3.5.0'
-implementation 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.1.5'
+implementation 'com.squareup.okhttp3:okhttp:3.5.0'git 
 
 or
 
-complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.1.4'
+complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.1.5'
 compile 'com.squareup.okhttp3:okhttp:3.5.0'
-complie 'com.squareup.okhttp3:logging-interceptor:3.5.0'
 
 ```
 
