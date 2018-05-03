@@ -23,10 +23,18 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
      */
     private String mFileName;
 
+    private File mFile;
+
     public FileCallBack(String path, String fileName) {
         this.mPath = path;
         this.mFileName = fileName;
     }
+
+
+    public FileCallBack(File file) {
+        this.mFile = file;
+    }
+
 
     @Override
     protected File parser(Call call, Response response, boolean isMainUIThread) {
@@ -56,12 +64,18 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
             is = response.body().byteStream();
             final long total = response.body().contentLength();
             long sum = 0;
-            File dir = new File(mPath);
-            if (!dir.exists()) {
-                dir.mkdirs();
+
+            if (mFile == null) {
+                File dir = new File(mPath);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                resultFile = new File(dir, mFileName);
+                fos = new FileOutputStream(resultFile);
+            } else {
+                fos = new FileOutputStream(mFile);
             }
-            resultFile = new File(dir, mFileName);
-            fos = new FileOutputStream(resultFile);
+
             int len = 0;
             byte[] buffer = new byte[32 * 1024];
             onStart();
