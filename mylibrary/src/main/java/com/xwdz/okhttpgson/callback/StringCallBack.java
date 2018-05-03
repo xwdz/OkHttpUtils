@@ -6,7 +6,7 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 /**
- * @author 黄兴伟 (xwd9989@gamil.com)
+ * @author 黄兴伟 (xwdz9989@gamil.com)
  * @since 2018/4/6
  */
 public abstract class StringCallBack extends AbstractCallBack<String> {
