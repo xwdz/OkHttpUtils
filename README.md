@@ -19,34 +19,34 @@ complie 'com.squareup.okhttp3:logging-interceptor:3.5.0'
 
 #### 添加拦截器到默认client
 
-```
-final Interceptor interceptor = new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                ...
-                return chain.proceed(requestBuilder.build());
-            }
-        };
 
+	final Interceptor interceptor = new Interceptor() {
+	            @Override
+	            public okhttp3.Response intercept(Chain chain) throws IOException {
+	                ...
+	                return chain.proceed(requestBuilder.build());
+	            }
+	        };
+	
+	
+	 HttpManager.getInstance().addInterceptor(interceptor)
+	                .addNetworkInterceptor();
+	                //不要忘记build，不然不会生成client
+	                .build();
 
- HttpManager.getInstance().addInterceptor(interceptor)
-                .addNetworkInterceptor();
-                //不要忘记build，不然不会生成client
-                .build();
-```
 
 #### 获取内置OkHttpClient
 
-```
-HttpManager.getInstance().getDefaultClient();
-```
+
+	HttpManager.getInstance().getDefaultClient();
+
 
 
 #### 设置OKHttpClient
 
-```
-HttpManaget.getInstance().setOkHttpClient();
-```
+
+	HttpManaget.getInstance().setOkHttpClient();
+
 
 ### 特性
 
@@ -61,20 +61,20 @@ HttpManaget.getInstance().setOkHttpClient();
 
 ### Get
 
-```
-OkHttpRun.get(GET)
-                .execute(new StringCallBack() {
-                    @Override
-                    public void onSuccess(Call call, String response) {
-                        mTextView.setText(response);
-                    }
 
-                    @Override
-                    public void onFailure(Call call, Exception e) {
+	OkHttpRun.get(GET)
+	                .execute(new StringCallBack() {
+	                    @Override
+	                    public void onSuccess(Call call, String response) {
+	                        mTextView.setText(response);
+	                    }
+	
+	                    @Override
+	                    public void onFailure(Call call, Exception e) {
+	
+	                    }
+	                });
 
-                    }
-                });
-```
 
 
 ### POST
@@ -95,89 +95,88 @@ OkHttpRun.get(GET)
 ```
 
 Response 定义如下
-```
-public class Response<T> {
-    public String code;
-    public String message;
-    public T data;
 
-    public Response(String code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
-    }
-}
-```
+	public class Response<T> {
+	    public String code;
+	    public String message;
+	    public T data;
+	
+	    public Response(String code, String message, T data) {
+	        this.code = code;
+	        this.message = message;
+	        this.data = data;
+	    }
+	}
+
 
 TestToken定义如下
-```
-public class TestToken  {
 
-    public final String id;
-    public final String username;
-    public final String token;
+	public class TestToken  {
+	
+	    public final String id;
+	    public final String username;
+	    public final String token;
+	
+	    public TestToken(String id, String username, String token) {
+	        this.id = id;
+	        this.username = username;
+	        this.token = token;
+	    }
+	}
 
-    public TestToken(String id, String username, String token) {
-        this.id = id;
-        this.username = username;
-        this.token = token;
-    }
-}
 
-```
 
 请求
-```
- OkHttpRun.post("xxx")
-                .addParams("name", "xwdz")
-                .addParams("age", "13")
-                .execute(new JsonCallBack<Response<TestToken>>() {
+	
+	 OkHttpRun.post("xxx")
+	                .addParams("name", "xwdz")
+	                .addParams("age", "13")
+	                .execute(new JsonCallBack<Response<TestToken>>() {
+	
+	                    @Override
+	                    public void onSuccess(Call call, Response<TestToken> response) {
+	                        mTextView.setText(response.data.toString());
+	                    }
+	
+	
+	                    @Override
+	                    public void onFailure(Call call, Exception e) {
+	                    }
+	                });
 
-                    @Override
-                    public void onSuccess(Call call, Response<TestToken> response) {
-                        mTextView.setText(response.data.toString());
-                    }
-
-
-                    @Override
-                    public void onFailure(Call call, Exception e) {
-                    }
-                });
-```
 
 
 
 ### 下载文件
 
-```
-String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
-        OkHttpRun.get("http://download.kugou.com/download/kugou_android")
-                //path 文件路径
-                // 文件名称
-                .execute(new FileCallBack<File>(path, "temp.apk") {
-                    @Override
-                    protected void onProgressListener(float current, long total) {
-                        LOG.w("TAG", "current " + current * 100 + "/" + " " + total);
-                    }
+	
+	String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
+	        OkHttpRun.get("http://download.kugou.com/download/kugou_android")
+	                //path 文件路径
+	                // 文件名称
+	                .execute(new FileCallBack<File>(path, "temp.apk") {
+	                    @Override
+	                    protected void onProgressListener(float current, long total) {
+	                        LOG.w("TAG", "current " + current * 100 + "/" + " " + total);
+	                    }
+	
+	                    @Override
+	                    protected void onFinish(File file) {
+	                        LOG.w("TAG", "finish");
+	                    }
+	
+	                    @Override
+	                    protected void onStart() {
+	                        LOG.w("TAG", "start");
+	                    }
+	
+	                    @Override
+	                    public void onFailure(Call call, Exception e) {
+	
+	                    }
+	                });
 
-                    @Override
-                    protected void onFinish(File file) {
-                        LOG.w("TAG", "finish");
-                    }
 
-                    @Override
-                    protected void onStart() {
-                        LOG.w("TAG", "start");
-                    }
-
-                    @Override
-                    public void onFailure(Call call, Exception e) {
-
-                    }
-                });
-
-
-```
 
 
 ### 默认支持Callback如下
@@ -189,23 +188,22 @@ String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File
 ### 如需要其他解析扩展，继承AbstractCallBack 即可
 
 **比如**
-```
 
-public abstract class StringCallBack extends AbstractCallBack<String> {
 
-    @Override
-    protected String parser(Call call, Response response) throws IOException {
-        final String result = response.body().string();
-        onSuccess(call, result);
-        return result;
-    }
+	public abstract class StringCallBack extends AbstractCallBack<String> {
+	
+	    @Override
+	    protected String parser(Call call, Response response) throws IOException {
+	        final String result = response.body().string();
+	        onSuccess(call, result);
+	        return result;
+	    }
+	
+	    protected abstract void onSuccess(Call call, String response);
+	}
 
-    protected abstract void onSuccess(Call call, String response);
-}
 
-```
 
-This is Test2222222222
 
 
 
