@@ -71,10 +71,10 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
                     dir.mkdirs();
                 }
                 resultFile = new File(dir, mFileName);
-                fos = new FileOutputStream(resultFile);
             } else {
-                fos = new FileOutputStream(mFile);
+                resultFile = mFile;
             }
+            fos = new FileOutputStream(resultFile);
 
             int len = 0;
             byte[] buffer = new byte[32 * 1024];
