@@ -2,7 +2,6 @@ package com.xwdz.okhttpgson;
 
 import android.util.Log;
 
-import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * @author huangxingwei(quinn @ 9fens.com)
@@ -21,7 +20,7 @@ public class HttpLog implements HttpLoggingInterceptor.Logger {
         if (mLogListener == null) {
             Log.w(LOG.TAG, message);
         } else {
-            Log.w(mLogListener.getHttpLogTag(), message);
+            Log.w(mLogListener.getHttpLogTAG(), message);
         }
     }
 }

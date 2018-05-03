@@ -90,7 +90,7 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
             LOG.w("[saveFile] current =" + mCurrentLength + " ,total=" + total);
             MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, mCurrentLength, total);
             int len = 0;
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[32 * 1024];
             onStart();
             while ((len = is.read(buffer)) != -1) {
 

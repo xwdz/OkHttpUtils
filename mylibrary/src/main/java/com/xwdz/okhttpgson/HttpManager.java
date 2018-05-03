@@ -15,7 +15,6 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * @author huangxingwei(xwdz9989 @ gmail.com)
@@ -69,7 +68,7 @@ public class HttpManager {
         return this;
     }
 
-    public HttpManager addLogTagNameListener(LogListener listener) {
+    public HttpManager addTAGNameProvide(LogListener listener) {
         this.mLogListener = listener;
         return this;
     }
@@ -138,6 +137,6 @@ public class HttpManager {
 
     /* log interface */
     public interface LogListener {
-        String getHttpLogTag();
+        String getHttpLogTAG();
     }
 }
