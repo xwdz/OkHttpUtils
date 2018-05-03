@@ -57,7 +57,7 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
 
     private File saveFile(Response response) throws IOException {
         InputStream is = null;
-        File resultFile;
+        File resultFile = null;
         FileOutputStream fos = null;
 
         try {
