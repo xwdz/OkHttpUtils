@@ -44,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
         File file = new File(path);
         mFileCallBack = new FileCallBack(file) {
+
             @Override
-            protected void onProgressListener(float current, long total) {
-                mCurrent = (long) (current * 100);
+            protected void onProgressListener(float percent, long currentLength, long total) {
+                mCurrent = (long) (percent * 100);
                 mProgressBar.setProgress((int) mCurrent);
                 LOG.w("MainActivity", "current = " + mCurrent);
             }

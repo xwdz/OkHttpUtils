@@ -87,11 +87,12 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
                 float length = sum * 1.0f / total;
                 int percent = (int) (length * 100);
 
-                if ((percent - mPercent) >= 1) {
+                if (isControlCallback(percent)) {
                     mPercent = percent;
-                    onProgressListener(length, total);
+                    onProgressListener(length, sum, total);
+                } else {
+                    onProgressListener(length, sum, total);
                 }
-
             }
             return resultFile;
         } finally {
@@ -113,12 +114,15 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
         }
     }
 
-    protected void pencentProgress(long current) {
-
+    /**
+     * 控制回调，一定是下载进度大于1才回调上层
+     * @param percent 下载百分比
+     */
+    protected boolean isControlCallback(int percent) {
+        return ((percent - mPercent) >= 1);
     }
 
-
-    protected abstract void onProgressListener(float current, long total);
+    protected abstract void onProgressListener(float percent, long currentLength, long total);
 
     protected abstract void onFinish(File file);
 
