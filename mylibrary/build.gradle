@@ -37,7 +37,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.2.4'
 }
 
-
 //拷贝集成所需的代码
 task copyClasses(type: Copy) {
     delete('build/libs/classes/')
@@ -75,8 +74,8 @@ publish {
     userOrg = 'quinnhuang'//bintray.com的用户名
     repoName = 'xwdz-http'//远程仓库名字,不指明，默认是上传到maven
     groupId = 'com.xingwei'//jcenter上的路径
-    artifactId = 'OkHttpUtil-Json'//项目名称
-    publishVersion = 'alpha-v0.4.1'//版本号
+    artifactId = 'OkHttpUtil'//项目名称
+    publishVersion = 'alpha-v1.0.0'//版本号
     desc = '网络请求库'//描述，不重要
     website = siteUrl//项目主页
 }
