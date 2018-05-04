@@ -25,6 +25,8 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
 
     private File mFile;
 
+    private int mPercent;
+
     public FileCallBack(String path, String fileName) {
         this.mPath = path;
         this.mFileName = fileName;
@@ -77,12 +79,19 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
             fos = new FileOutputStream(resultFile);
 
             int len = 0;
-            byte[] buffer = new byte[32 * 1024];
+            byte[] buffer = new byte[2 * 1024];
             onStart();
             while ((len = is.read(buffer)) != -1) {
                 sum += len;
                 fos.write(buffer, 0, len);
-                onProgressListener(sum * 1.0f / total, total);
+                float length = sum * 1.0f / total;
+                int percent = (int) (length * 100);
+
+                if ((percent - mPercent) >= 1) {
+                    mPercent = percent;
+                    onProgressListener(length, total);
+                }
+
             }
             return resultFile;
         } finally {
@@ -103,6 +112,11 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
             }
         }
     }
+
+    protected void pencentProgress(long current) {
+
+    }
+
 
     protected abstract void onProgressListener(float current, long total);
 

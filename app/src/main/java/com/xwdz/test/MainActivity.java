@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.xwdz.okhttpgson.HttpManager;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private FileCallBack mFileCallBack;
 
     private long mCurrent;
+    private ProgressBar mProgressBar;
 
 
     @Override
@@ -37,12 +39,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTextView = findViewById(R.id.main);
+        mProgressBar = findViewById(R.id.progressBar);
         HttpManager.getInstance().build();
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
-        mFileCallBack = new FileCallBack(path, "temp.apk") {
+        File file = new File(path);
+        mFileCallBack = new FileCallBack(file) {
             @Override
             protected void onProgressListener(float current, long total) {
                 mCurrent = (long) (current * 100);
+                mProgressBar.setProgress((int) mCurrent);
+                LOG.w("MainActivity", "current = " + mCurrent);
             }
 
             @Override
@@ -54,12 +60,13 @@ public class MainActivity extends AppCompatActivity {
             protected void onStart() {
                 LOG.w("start");
             }
+
             @Override
             public void onFailure(Call call, Exception e) {
 
             }
         };
-        OkHttpRun.download(DOWN, mCurrent).execute(mFileCallBack);
+        OkHttpRun.get(DOWN).execute(mFileCallBack);
     }
 
     public void get(View view) {
