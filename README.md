@@ -2,12 +2,12 @@
 
 ```
 
-implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.2.1'
+implementation 'com.xingwei:OkHttpUtil-Json:alpha-v0.3.1'
 implementation 'com.squareup.okhttp3:okhttp:3.5.0'
 
 or
 
-complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.2.1'
+complie 'com.xingwei:OkHttpUtil-Json:alpha-v0.3.1'
 compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
 ```
