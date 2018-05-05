@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mFileCallBack = new FileCallBack(file) {
 
             @Override
-            protected void onProgressListener(float percent, long currentLength, long total) {
+            protected void onProgressListener(int percent, long currentLength, long total) {
                 mCurrent = (long) (percent * 100);
                 mProgressBar.setProgress((int) mCurrent);
                 LOG.w("MainActivity", "current = " + mCurrent);
