@@ -16,7 +16,6 @@ import com.xwdz.okhttpgson.callback.FileCallBack;
 
 import java.io.File;
 
-import okhttp3.Call;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -46,10 +45,13 @@ public class MainActivity extends AppCompatActivity {
         mFileCallBack = new FileCallBack(file) {
 
             @Override
+            public void onFailure(okhttp3.Call call, Exception e) {
+
+            }
+
+            @Override
             protected void onProgressListener(int percent, long currentLength, long total) {
-                mCurrent = (long) (percent * 100);
-                mProgressBar.setProgress((int) mCurrent);
-                LOG.w("MainActivity", "current = " + mCurrent);
+
             }
 
             @Override
@@ -62,10 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 LOG.w("start");
             }
 
-            @Override
-            public void onFailure(Call call, Exception e) {
-
-            }
         };
         OkHttpRun.get(DOWN).execute(mFileCallBack);
     }

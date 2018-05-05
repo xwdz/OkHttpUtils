@@ -1,12 +1,9 @@
 package com.xwdz.test;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.junit.Test;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
