@@ -122,7 +122,7 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
         return ((percent - mPercent) >= 1);
     }
 
-    protected abstract void onProgressListener(float percent, long currentLength, long total);
+    protected abstract void onProgressListener(int percent, long currentLength, long total);
 
     protected abstract void onFinish(File file);
 
