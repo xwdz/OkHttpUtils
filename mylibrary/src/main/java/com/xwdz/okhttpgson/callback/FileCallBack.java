@@ -89,9 +89,9 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
 
                 if (isControlCallback(percent)) {
                     mPercent = percent;
-                    onProgressListener(length, sum, total);
+                    onProgressListener(percent, sum, total);
                 } else {
-                    onProgressListener(length, sum, total);
+                    onProgressListener(percent, sum, total);
                 }
             }
             return resultFile;
