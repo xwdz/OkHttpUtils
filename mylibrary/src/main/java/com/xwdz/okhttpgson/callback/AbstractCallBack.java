@@ -37,6 +37,8 @@ public abstract class AbstractCallBack<T> implements ICallBack {
     protected void post(Runnable runnable, boolean isMainUI) {
         if (isMainUI) {
             mHandler.post(runnable);
+        } else {
+            runnable.run();
         }
     }
 
