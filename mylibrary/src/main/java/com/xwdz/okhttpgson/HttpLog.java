@@ -1,5 +1,6 @@
 package com.xwdz.okhttpgson;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 
@@ -9,18 +10,18 @@ import android.util.Log;
  */
 public class HttpLog implements HttpLoggingInterceptor.Logger {
 
-    private HttpManager.LogListener mLogListener;
+    private String mTag;
 
-    public HttpLog(HttpManager.LogListener logListener) {
-        mLogListener = logListener;
+    public HttpLog(String tag) {
+        this.mTag = tag;
     }
 
     @Override
     public void log(String message) {
-        if (mLogListener == null) {
+        if (TextUtils.isEmpty(mTag)) {
             Log.w(LOG.TAG, message);
         } else {
-            Log.w(mLogListener.getHttpLogTAG(), message);
+            Log.w(mTag, message);
         }
     }
 }

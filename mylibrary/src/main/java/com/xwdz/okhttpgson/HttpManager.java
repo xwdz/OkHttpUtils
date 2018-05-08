@@ -33,7 +33,7 @@ public class HttpManager {
 
     private OkHttpClient mClient;
     private OkHttpClient.Builder mBuilder;
-    private LogListener mLogListener;
+    private String mTag;
 
 
     public static HttpManager getInstance() {
@@ -54,7 +54,7 @@ public class HttpManager {
 
     public void build() {
         //默认log拦截器
-        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog(mLogListener));
+        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog(mTag));
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         mBuilder.addInterceptor(logInterceptor);
         mClient = mBuilder.build();
@@ -80,8 +80,8 @@ public class HttpManager {
         return this;
     }
 
-    public HttpManager addTAGNameProvide(LogListener listener) {
-        this.mLogListener = listener;
+    public HttpManager attachTag(String tag) {
+        this.mTag = tag;
         return this;
     }
 
@@ -144,11 +144,5 @@ public class HttpManager {
                 }
             }
         }
-    }
-
-
-    /* log interface */
-    public interface LogListener {
-        String getHttpLogTAG();
     }
 }
