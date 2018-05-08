@@ -48,11 +48,9 @@ public class HttpManager {
     }
 
     private HttpManager() {
-        mBuilder = new OkHttpClient.Builder()
-                .connectTimeout(CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                .writeTimeout(WRITE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        mBuilder = newBuilder(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS, WRITE_TIMEOUT_SECONDS);
     }
+
 
     public void build() {
         //默认log拦截器
@@ -60,6 +58,20 @@ public class HttpManager {
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         mBuilder.addInterceptor(logInterceptor);
         mClient = mBuilder.build();
+    }
+
+
+    public HttpManager newBuilder() {
+        mBuilder = newBuilder(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS, WRITE_TIMEOUT_SECONDS);
+        return this;
+    }
+
+
+    private OkHttpClient.Builder newBuilder(long connectTimeout, long readTimeout, long writeTimeout) {
+        return new OkHttpClient.Builder()
+                .connectTimeout(connectTimeout, TimeUnit.SECONDS)
+                .readTimeout(readTimeout, TimeUnit.SECONDS)
+                .writeTimeout(writeTimeout, TimeUnit.SECONDS);
     }
 
 
