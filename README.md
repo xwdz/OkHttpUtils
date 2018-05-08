@@ -2,12 +2,12 @@
 
 ```
 
-implementation 'com.xwdz:okHttpUtils:1.0.3'
+implementation 'com.xwdz:okHttpUtils:1.0.4'
 implementation 'com.squareup.okhttp3:okhttp:3.5.0'
 
 or
 
-compile 'com.xwdz:okHttpUtils:1.0.3'
+compile 'com.xwdz:okHttpUtils:1.0.4'
 compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
 ```
