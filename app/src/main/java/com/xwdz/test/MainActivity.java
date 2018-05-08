@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         mTextView = findViewById(R.id.main);
         mProgressBar = findViewById(R.id.progressBar);
         HttpManager.getInstance().build();
+
+        
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
         File file = new File(path);
         mFileCallBack = new FileCallBack(file) {

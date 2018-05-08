@@ -20,7 +20,7 @@ import okhttp3.Response;
  * @author huangxingwei(xwdz9989 @ gmail.com)
  * @since 2018/3/27
  */
-public class HttpManager {
+public class OkRun {
 
     private static final int CONNECT_TIMEOUT_SECONDS = 30;
     private static final int READ_TIMEOUT_SECONDS = 30;
@@ -29,25 +29,25 @@ public class HttpManager {
     private final ArrayList<Call> mCalls = new ArrayList<>();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
-    private static HttpManager sHttpManager;
+    private static OkRun sOkRun;
 
     private OkHttpClient mClient;
     private OkHttpClient.Builder mBuilder;
     private String mTag;
 
 
-    public static HttpManager getInstance() {
-        if (sHttpManager == null) {
-            synchronized (HttpManager.class) {
-                if (sHttpManager == null) {
-                    sHttpManager = new HttpManager();
+    public static OkRun getInstance() {
+        if (sOkRun == null) {
+            synchronized (OkRun.class) {
+                if (sOkRun == null) {
+                    sOkRun = new OkRun();
                 }
             }
         }
-        return sHttpManager;
+        return sOkRun;
     }
 
-    private HttpManager() {
+    private OkRun() {
         mBuilder = newBuilder(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS, WRITE_TIMEOUT_SECONDS);
     }
 
@@ -61,7 +61,7 @@ public class HttpManager {
     }
 
 
-    public HttpManager newBuilder() {
+    public OkRun newBuilder() {
         mBuilder = newBuilder(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS, WRITE_TIMEOUT_SECONDS);
         return this;
     }
@@ -75,22 +75,22 @@ public class HttpManager {
     }
 
 
-    public HttpManager addInterceptor(Interceptor interceptor) {
+    public OkRun addInterceptor(Interceptor interceptor) {
         mBuilder.addInterceptor(interceptor);
         return this;
     }
 
-    public HttpManager attachTag(String tag) {
+    public OkRun attachTag(String tag) {
         this.mTag = tag;
         return this;
     }
 
-    public HttpManager addNetworkInterceptor(Interceptor interceptor) {
+    public OkRun addNetworkInterceptor(Interceptor interceptor) {
         mBuilder.addNetworkInterceptor(interceptor);
         return this;
     }
 
-    public HttpManager setOkHttpClient(OkHttpClient client) {
+    public OkRun setOkHttpClient(OkHttpClient client) {
         this.mClient = client;
         return this;
     }

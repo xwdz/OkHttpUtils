@@ -3,7 +3,7 @@ package com.xwdz.okhttpgson.impl;
 import android.text.TextUtils;
 
 import com.xwdz.okhttpgson.callback.ICallBack;
-import com.xwdz.okhttpgson.HttpManager;
+import com.xwdz.okhttpgson.OkRun;
 import com.xwdz.okhttpgson.method.Request;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ import okhttp3.Response;
  */
 public abstract class BaseImpl implements Request {
 
-    private HttpManager mHttpManager;
+    private OkRun mOkRun;
     final LinkedHashMap<String, String> mParams;
     final LinkedHashMap<String, String> mHeaders;
     final String mUrl;
@@ -29,7 +29,7 @@ public abstract class BaseImpl implements Request {
 
     BaseImpl(String url) {
         this.mUrl = url;
-        this.mHttpManager = HttpManager.getInstance();
+        this.mOkRun = OkRun.getInstance();
         this.mParams = new LinkedHashMap<>();
         this.mHeaders = new LinkedHashMap<>();
     }
@@ -40,7 +40,7 @@ public abstract class BaseImpl implements Request {
             mRequest = buildRequest();
         }
 
-        return mHttpManager.execute(mRequest);
+        return mOkRun.execute(mRequest);
     }
 
     @Override
@@ -49,12 +49,12 @@ public abstract class BaseImpl implements Request {
             mRequest = buildRequest();
         }
 
-        mHttpManager.execute(mRequest, callBack, mIsCallbackToMainUIThread);
+        mOkRun.execute(mRequest, callBack, mIsCallbackToMainUIThread);
     }
 
     @Override
     public void cancel() {
-        this.mHttpManager.cancel();
+        this.mOkRun.cancel();
     }
 
 
