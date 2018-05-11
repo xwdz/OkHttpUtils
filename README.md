@@ -27,7 +27,7 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 	        };
 	
 	
-	 HttpManager.getInstance().addInterceptor(interceptor)
+	 OkRun.getInstance().addInterceptor(interceptor)
 	                .addNetworkInterceptor();
 	                //不要忘记build，不然不会生成client
 	                .build();
@@ -36,14 +36,14 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 #### 获取内置OkHttpClient
 
 
-	HttpManager.getInstance().getDefaultClient();
+	OkRun.getInstance().getDefaultClient();
 
 
 
 #### 设置OKHttpClient
 
 
-	HttpManaget.getInstance().setOkHttpClient();
+	OkRun.getInstance().setOkHttpClient();
 
 
 ### 特性
