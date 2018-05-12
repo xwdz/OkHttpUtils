@@ -49,7 +49,7 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 ### 特性
 
 - 支持JSON解析CallBack声明泛型即可
-- UI线程回调
+- UI线程回调(设置`setCallBackToMainUIThread(true)`则回调到主线程,反之则在子线程)
 - 支持文件下载
 - 支持Activity/fragment绑定生命周期
 - 支持自定义解析内容
@@ -58,7 +58,6 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 ## 请求
 
 ### Get
-
 
 	OkHttpRun.get(GET)
 	                .execute(new StringCallBack() {

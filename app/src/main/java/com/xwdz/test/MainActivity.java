@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.xwdz.okhttpgson.HttpManager;
 import com.xwdz.okhttpgson.LOG;
 import com.xwdz.okhttpgson.OkHttpRun;
+import com.xwdz.okhttpgson.OkRun;
 import com.xwdz.okhttpgson.callback.FileCallBack;
 
 import java.io.File;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mTextView = findViewById(R.id.main);
         mProgressBar = findViewById(R.id.progressBar);
-        HttpManager.getInstance().build();
+        OkRun.getInstance().build();
 
         
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
@@ -67,7 +67,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
-        OkHttpRun.get(DOWN).execute(mFileCallBack);
+        OkHttpRun.get(DOWN)
+                .setCallBackToMainUIThread(true)
+                .execute(mFileCallBack);
+
     }
 
     public void get(View view) {
