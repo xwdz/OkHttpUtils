@@ -21,8 +21,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".OtherActivity" />
-
     </application>
 
 </manifest>
