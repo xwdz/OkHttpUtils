@@ -1,16 +1,17 @@
 ### 添加依赖
 
 
+$lastVersion = [![](https://jitpack.io/v/xwdz/OkHttpUtils.svg)](https://jitpack.io/#xwdz/OkHttpUtils)
 
 
 ```
 
-implementation 'com.xwdz:okHttpUtils:1.0.5'
+implementation 'com.xwdz:okHttpUtils:$lastVersion'
 implementation 'com.squareup.okhttp3:okhttp:3.5.0'
 
 or
 
-compile 'com.xwdz:okHttpUtils:1.0.5'
+compile 'com.xwdz:okHttpUtils:$lastVersion'
 compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
 ```
