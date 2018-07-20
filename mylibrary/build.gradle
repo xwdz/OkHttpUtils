@@ -27,9 +27,11 @@ android {
         abortOnError false
     }
 
-    packageBuildConfig(false)
+    //packageBuildConfig(false)
 
 }
+
+
 
 
 

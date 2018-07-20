@@ -51,15 +51,5 @@ public class User {
         this.htmlUrl = htmlUrl;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "login='" + login + '\'' +
-                ", id='" + id + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
-                ", nodeId='" + nodeId + '\'' +
-                ", score='" + score + '\'' +
-                ", htmlUrl='" + htmlUrl + '\'' +
-                '}';
-    }
+
 }

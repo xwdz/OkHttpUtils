@@ -107,38 +107,6 @@ okHttpManager = new OkHttpManager.Builder()
                              }
                          });
 
-
-
-### 下载文件
-
-	
-	String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.test";
-	        OkHttpRun.get("http://download.kugou.com/download/kugou_android")
-	                //path 文件路径
-	                // 文件名称
-	                .execute(new FileCallBack<File>(path, "temp.apk") {
-	                    @Override
-	                    protected void onProgressListener(float current, long total) {
-	                        LOG.w("TAG", "current " + current * 100 + "/" + " " + total);
-	                    }
-	
-	                    @Override
-	                    protected void onFinish(File file) {
-	                        LOG.w("TAG", "finish");
-	                    }
-	
-	                    @Override
-	                    protected void onStart() {
-	                        LOG.w("TAG", "start");
-	                    }
-	
-	                    @Override
-	                    public void onFailure(Call call, Exception e) {
-	
-	                    }
-	                });
-
-
 ##### 取消一个请求
 
 调用okHttpManager.cancel(tag) 方法，参数tag即是标记request的一个tag
