@@ -58,10 +58,9 @@ task buildJar(type: Jar) {
 
     //需打包的资源所在的路径集
     from("build/libs/classes") {
-        include("com/xwdz/okhttpgson/impl/**/*.class")
-        include("com/xwdz/okhttpgson/model/**/*.class")
-        include("com/xwdz/okhttpgson/method/**/*.class")
-        include("com/xwdz/okhttpgson/**/*.class")
+        include("com/xwdz/http/model/**/*.class")
+        include("com/xwdz/http/claaback/**/*.class")
+        include("com/xwdz/http/**/*.class")
     }
 
     from("build/libs/res")

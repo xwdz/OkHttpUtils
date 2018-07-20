@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         okHttpManager.get("https://api.github.com/search/users")
                 .tag(MainActivity.class.getName())
                 .addParams("q", "a")

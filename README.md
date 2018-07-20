@@ -56,7 +56,7 @@ okHttpManager = new OkHttpManager.Builder()
 ### 特性
 
 - 支持自动解析JSON返回实体类
-- UI线程回调
+- UI线程回调(设置`setCallBackToMainUIThread(true)`则回调到主线程,反之则在子线程)
 - 支持文件下载
 - 支持Activity/fragment绑定生命周期
 
@@ -83,7 +83,6 @@ okHttpManager = new OkHttpManager.Builder()
     
                         }
                     });
-
 
 
 ### POST
@@ -157,13 +156,6 @@ okHttpManager.cancel(MainActivity.class.getName());
 okHttpManager.cancelAll();
 
 ```
-
-##### callback默认回调到主线程
-
-```
-callbackMainUIThread(true) //flase 回调到子线程
-```
-
 
 
 ### 默认支持Callback如下
