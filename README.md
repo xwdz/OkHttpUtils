@@ -2,146 +2,111 @@
 
 ```
 
-implementation 'com.xwdz:okHttpUtils:1.0.4'
+implementation 'com.xwdz:okHttpUtils:1.0.5'
 implementation 'com.squareup.okhttp3:okhttp:3.5.0'
 
 or
 
-compile 'com.xwdz:okHttpUtils:1.0.4'
+compile 'com.xwdz:okHttpUtils:1.0.5'
 compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
 ```
 
 
-## 配置OkHttpClient
+### 提供两种获取OkHttpManager方法
 
-#### 添加拦截器到默认client
+```
+1. 直接实例化使用内置配置
 
+    OkHttpManager okHttpManager = new OkHttpManager();
 
-	final Interceptor interceptor = new Interceptor() {
-	            @Override
-	            public okhttp3.Response intercept(Chain chain) throws IOException {
-	                ...
-	                return chain.proceed(requestBuilder.build());
-	            }
-	        };
-	
-	
-	 OkRun.getInstance().addInterceptor(interceptor)
-	                .addNetworkInterceptor();
-	                //不要忘记build，不然不会生成client
-	                .build();
+    默认配置如下:
+    
+    public OkHttpManager() {
+        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog("XHttp"));
+        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        mOkHttpClient = new OkHttpClient.Builder()
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .addInterceptor(logInterceptor)
+                .writeTimeout(20, TimeUnit.SECONDS).build();
+    }
+    
+    
+2.  自定义一些简单配置
 
+okHttpManager = new OkHttpManager.Builder()
+                   .addInterceptor(interceptor)
+                   .addNetworkInterceptor(interceptor)
+                   .readTimeout(long readTimeout, TimeUnit timeUnit)
+                   .connectTimeout(long connectTimeout, TimeUnit timeUnit)
+                   .writeTimeout(long writeTimeout, TimeUnit timeUnit)
+                   .build();
+                   
+2.1 如果以上配置不够可直接传入开发者自定义buidler
+okHttpManager = new OkHttpManager.Builder()
+                .newBuilder(OkHttpClient.Builder builder)
+                .build();
+                   
+     
+```
 
-#### 获取内置OkHttpClient
-
-
-	OkRun.getInstance().getDefaultClient();
-
-
-
-#### 设置OKHttpClient
-
-
-	OkRun.getInstance().setOkHttpClient();
 
 
 ### 特性
 
-- 支持JSON解析CallBack声明泛型即可
+- 支持自动解析JSON返回实体类
 - UI线程回调
 - 支持文件下载
 - 支持Activity/fragment绑定生命周期
-- 支持自定义解析内容
-- 如功能不够，可拿到原生Client，自定义功能
 
 ## 请求
 
 ### Get
 
-
-	OkHttpRun.get(GET)
-	                .execute(new StringCallBack() {
-	                    @Override
-	                    public void onSuccess(Call call, String response) {
-	                        mTextView.setText(response);
-	                    }
-	
-	                    @Override
-	                    public void onFailure(Call call, Exception e) {
-	
-	                    }
-	                });
+	 okHttpManager.get("https://api.github.com/search/users")
+	                .tag(MainActivity.class.getName())
+                    .addParams("q", "a")
+                    .addParams("page", "1")
+                    .addParams("per_page", "10")
+                    .callbackMainUIThread(true)
+                    .execute(new JsonCallBack<Response<List<User>>>() {
+                        @Override
+                        public void onSuccess(Call call, Response<List<User>> response) {
+                            for (User item : response.items) {
+                                Log.e("XHttp", "res = " + item.toString());
+                            }
+                        }
+    
+                        @Override
+                        public void onFailure(Call call, Exception e) {
+    
+                        }
+                    });
 
 
 
 ### POST
-
-**支持JSON泛型解析**
-
-
-```json
-{
-	"code": "200",
-	"message": "success",
-	"data": {
-		"id": "1111",
-		"username": "xwdz",
-		"token": "token"
-	}
-}
-```
-
-Response 定义如下
-
-	public class Response<T> {
-	    public String code;
-	    public String message;
-	    public T data;
 	
-	    public Response(String code, String message, T data) {
-	        this.code = code;
-	        this.message = message;
-	        this.data = data;
-	    }
-	}
-
-
-TestToken定义如下
-
-	public class TestToken  {
-	
-	    public final String id;
-	    public final String username;
-	    public final String token;
-	
-	    public TestToken(String id, String username, String token) {
-	        this.id = id;
-	        this.username = username;
-	        this.token = token;
-	    }
-	}
-
-
-
-请求
-	
-	 OkHttpRun.post("xxx")
-	                .addParams("name", "xwdz")
-	                .addParams("age", "13")
-	                .execute(new JsonCallBack<Response<TestToken>>() {
-	
-	                    @Override
-	                    public void onSuccess(Call call, Response<TestToken> response) {
-	                        mTextView.setText(response.data.toString());
-	                    }
-	
-	
-	                    @Override
-	                    public void onFailure(Call call, Exception e) {
-	                    }
-	                });
-
+	 okHttpManager.post("https:xxx")
+	                     .tag(MainActivity.class.getName())
+                         .addParams("q", "xwdz")
+                         .addParams("page", "1")
+                         .addParams("per_page", "10")
+                         .callbackMainUIThread(true)
+                         .execute(new JsonCallBack<Response<List<User>>>() {
+                             @Override
+                             public void onSuccess(Call call, Response<List<User>> response) {
+                                 for (User item : response.items) {
+                                     Log.e("XHttp", "res = " + item.toString());
+                                 }
+                             }
+         
+                             @Override
+                             public void onFailure(Call call, Exception e) {
+         
+                             }
+                         });
 
 
 
@@ -174,6 +139,30 @@ TestToken定义如下
 	                    }
 	                });
 
+
+##### 取消一个请求
+
+调用okHttpManager.cancel(tag) 方法，参数tag即是标记request的一个tag
+
+```
+
+okHttpManager.cancel(MainActivity.class.getName());
+
+```
+
+##### 取消全部请求
+
+```
+
+okHttpManager.cancelAll();
+
+```
+
+##### callback默认回调到主线程
+
+```
+callbackMainUIThread(true) //flase 回调到子线程
+```
 
 
 

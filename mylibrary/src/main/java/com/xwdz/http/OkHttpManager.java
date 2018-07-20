@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.xwdz.http.callback.ICallBack;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +23,6 @@ import okhttp3.Response;
  * @since 2018/3/27
  */
 public class OkHttpManager {
-
 
     public static class Builder {
 
@@ -71,7 +69,6 @@ public class OkHttpManager {
     private static final LinkedHashMap<String, String> PARAMS = new LinkedHashMap<>();
     private static final LinkedHashMap<String, String> HEADERS = new LinkedHashMap<>();
 
-    private static final ArrayList<Call> CALLS = new ArrayList<>();
     private static final Handler MAIN_UI_THREAD = new Handler();
 
     private boolean isMainUIThread = true;
@@ -79,19 +76,22 @@ public class OkHttpManager {
     private String mTag;
     private String mUrl;
     private OkHttpClient mOkHttpClient;
+    private RequestTraces mRequestTraces;
 
     public OkHttpManager(OkHttpClient.Builder builder) {
         mOkHttpClient = builder.build();
+        mRequestTraces = new RequestTraces();
     }
 
     public OkHttpManager() {
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog("XHttp"));
-        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
         mOkHttpClient = new OkHttpClient.Builder()
                 .writeTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
                 .addInterceptor(logInterceptor)
                 .writeTimeout(20, TimeUnit.SECONDS).build();
+        mRequestTraces = new RequestTraces();
     }
 
     public OkHttpManager callbackMainUIThread(boolean isMainUIThread) {
@@ -139,7 +139,7 @@ public class OkHttpManager {
 
     public Response execute() throws IOException {
         Call call = mOkHttpClient.newCall(buildRequest());
-        CALLS.add(call);
+        mRequestTraces.add(call);
         return call.execute();
     }
 
@@ -169,7 +169,19 @@ public class OkHttpManager {
                 }
             }
         });
-        CALLS.add(call);
+        mRequestTraces.add(call);
+    }
+
+
+    public void cancel(String tag) {
+        if (TextUtils.isEmpty(tag)) {
+            throw new NullPointerException("cancel... url = " + tag);
+        }
+        mRequestTraces.cancel(tag);
+    }
+
+    public void cancelAll() {
+        mRequestTraces.cancelAll();
     }
 
 
