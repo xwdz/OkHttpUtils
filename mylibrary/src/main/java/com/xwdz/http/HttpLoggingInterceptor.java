@@ -1,4 +1,4 @@
-package com.xwdz.okhttpgson;
+package com.xwdz.http;
 
 import java.io.EOFException;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.xwdz.okhttpgson.model;
+package com.xwdz.http.model;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;

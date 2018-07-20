@@ -5,13 +5,14 @@ package com.xwdz.test;
  * @since 2018/4/7
  */
 public class Response<T> {
-    public String code;
-    public String message;
-    public T data;
 
-    public Response(String code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
+    public String total_count;
+    public String incomplete_results;
+    public T items;
+
+    public Response(String total_count, String incomplete_results, T items) {
+        this.total_count = total_count;
+        this.incomplete_results = incomplete_results;
+        this.items = items;
     }
 }

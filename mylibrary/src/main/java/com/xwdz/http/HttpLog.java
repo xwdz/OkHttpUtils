@@ -1,4 +1,4 @@
-package com.xwdz.okhttpgson;
+package com.xwdz.http;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,7 +19,7 @@ public class HttpLog implements HttpLoggingInterceptor.Logger {
     @Override
     public void log(String message) {
         if (TextUtils.isEmpty(mTag)) {
-            Log.w(LOG.TAG, message);
+            Log.w("XHttp", message);
         } else {
             Log.w(mTag, message);
         }

@@ -1,4 +1,4 @@
-package com.xwdz.okhttpgson.callback;
+package com.xwdz.http.callback;
 
 import java.io.IOException;
 

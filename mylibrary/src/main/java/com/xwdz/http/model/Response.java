@@ -1,4 +1,4 @@
-package com.xwdz.okhttpgson.model;
+package com.xwdz.http.model;
 
 /**
  * @author 黄兴伟 (xwdz9989@gamil.com)

@@ -1,6 +1,6 @@
-package com.xwdz.okhttpgson.callback;
+package com.xwdz.http.callback;
 
-import com.xwdz.okhttpgson.model.Parser;
+import com.xwdz.http.model.Parser;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
