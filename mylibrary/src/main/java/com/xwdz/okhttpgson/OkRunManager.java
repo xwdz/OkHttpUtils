@@ -20,7 +20,7 @@ import okhttp3.Response;
  * @author huangxingwei(xwdz9989 @ gmail.com)
  * @since 2018/3/27
  */
-public class OkRun {
+public class OkRunManager {
 
     private static final int CONNECT_TIMEOUT_SECONDS = 30;
     private static final int READ_TIMEOUT_SECONDS = 30;
@@ -29,25 +29,25 @@ public class OkRun {
     private final ArrayList<Call> mCalls = new ArrayList<>();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
-    private static OkRun sOkRun;
+    private static OkRunManager sOkRunManager;
 
     private OkHttpClient mClient;
     private OkHttpClient.Builder mBuilder;
     private String mTag;
 
 
-    public static OkRun getInstance() {
-        if (sOkRun == null) {
-            synchronized (OkRun.class) {
-                if (sOkRun == null) {
-                    sOkRun = new OkRun();
+    public static OkRunManager getInstance() {
+        if (sOkRunManager == null) {
+            synchronized (OkRunManager.class) {
+                if (sOkRunManager == null) {
+                    sOkRunManager = new OkRunManager();
                 }
             }
         }
-        return sOkRun;
+        return sOkRunManager;
     }
 
-    private OkRun() {
+    private OkRunManager() {
         mBuilder = newBuilder(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS, WRITE_TIMEOUT_SECONDS);
     }
 
@@ -61,7 +61,7 @@ public class OkRun {
     }
 
 
-    public OkRun newBuilder() {
+    public OkRunManager newBuilder() {
         mBuilder = newBuilder(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS, WRITE_TIMEOUT_SECONDS);
         return this;
     }
@@ -75,22 +75,22 @@ public class OkRun {
     }
 
 
-    public OkRun addInterceptor(Interceptor interceptor) {
+    public OkRunManager addInterceptor(Interceptor interceptor) {
         mBuilder.addInterceptor(interceptor);
         return this;
     }
 
-    public OkRun attachTag(String tag) {
+    public OkRunManager attachTag(String tag) {
         this.mTag = tag;
         return this;
     }
 
-    public OkRun addNetworkInterceptor(Interceptor interceptor) {
+    public OkRunManager addNetworkInterceptor(Interceptor interceptor) {
         mBuilder.addNetworkInterceptor(interceptor);
         return this;
     }
 
-    public OkRun setOkHttpClient(OkHttpClient client) {
+    public OkRunManager setOkHttpClient(OkHttpClient client) {
         this.mClient = client;
         return this;
     }
