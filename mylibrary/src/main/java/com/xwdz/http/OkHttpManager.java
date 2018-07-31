@@ -1,6 +1,7 @@
 package com.xwdz.http;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import com.xwdz.http.callback.ICallBack;
@@ -69,7 +70,7 @@ public class OkHttpManager {
     private static final LinkedHashMap<String, String> PARAMS = new LinkedHashMap<>();
     private static final LinkedHashMap<String, String> HEADERS = new LinkedHashMap<>();
 
-    private static final Handler MAIN_UI_THREAD = new Handler();
+    private static final Handler MAIN_UI_THREAD = new Handler(Looper.getMainLooper());
 
     private boolean isMainUIThread = true;
     private String mMethod = GET;
