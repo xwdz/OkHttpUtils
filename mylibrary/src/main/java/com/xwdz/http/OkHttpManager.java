@@ -140,7 +140,7 @@ public class OkHttpManager {
 
     public Response execute() throws IOException {
         Call call = mOkHttpClient.newCall(buildRequest());
-        mRequestTraces.add(call);
+        mRequestTraces.add(mTag, call);
         return call.execute();
     }
 
@@ -170,7 +170,7 @@ public class OkHttpManager {
                 }
             }
         });
-        mRequestTraces.add(call);
+        mRequestTraces.add(mTag,call);
     }
 
 

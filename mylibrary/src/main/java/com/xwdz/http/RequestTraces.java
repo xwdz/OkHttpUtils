@@ -2,6 +2,7 @@ package com.xwdz.http;
 
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 
 import java.util.Iterator;
@@ -22,17 +23,17 @@ public class RequestTraces {
         mRequestMap = new ArrayMap<>();
     }
 
-    public void add(Call call) {
-        if (call != null) {
+    public void add(String tag, Call call) {
+        if (call != null && !TextUtils.isEmpty(tag)) {
             final Request request = call.request();
             if (request != null) {
-                mRequestMap.put((String) request.tag(), call);
+                mRequestMap.put(tag, call);
             }
         }
     }
 
-    public void cancel(String url) {
-        Call call = mRequestMap.get(url);
+    public void cancel(String tag) {
+        Call call = mRequestMap.get(tag);
         if (call != null) {
             if (!call.isCanceled() && call.isExecuted()) {
                 call.cancel();
