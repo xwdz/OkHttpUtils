@@ -17,16 +17,16 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 ```
 
 
-### 提供两种获取OkHttpManager方法
+### 提供两种获取QuietOkHttp方法
 
 ```
 1. 直接实例化使用内置配置
 
-    OkHttpManager okHttpManager = new OkHttpManager();
+    QuietOkHttp QuietOkHttp = new QuietOkHttp();
 
     默认配置如下:
     
-    public OkHttpManager() {
+    public QuietOkHttp() {
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog("XHttp"));
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         mOkHttpClient = new OkHttpClient.Builder()
@@ -39,7 +39,7 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
     
 2.  自定义一些简单配置
 
-okHttpManager = new OkHttpManager.Builder()
+QuietOkHttp = new QuietOkHttp.Builder()
                    .addInterceptor(interceptor)
                    .addNetworkInterceptor(interceptor)
                    .readTimeout(long readTimeout, TimeUnit timeUnit)
@@ -48,7 +48,7 @@ okHttpManager = new OkHttpManager.Builder()
                    .build();
                    
 2.1 如果以上配置不够可直接传入开发者自定义buidler
-okHttpManager = new OkHttpManager.Builder()
+QuietOkHttp = new QuietOkHttp.Builder()
                 .newBuilder(OkHttpClient.Builder builder)
                 .build();
                    
@@ -68,7 +68,7 @@ okHttpManager = new OkHttpManager.Builder()
 
 ### Get
 
-	 okHttpManager.get("https://api.github.com/search/users")
+	 QuietOkHttp.get("https://api.github.com/search/users")
 	                .tag(MainActivity.class.getName())
                     .addParams("q", "a")
                     .addParams("page", "1")
@@ -91,7 +91,7 @@ okHttpManager = new OkHttpManager.Builder()
 
 ### POST
 	
-	 okHttpManager.post("https:xxx")
+	 QuietOkHttp.post("https:xxx")
 	                     .tag(MainActivity.class.getName())
                          .addParams("q", "xwdz")
                          .addParams("page", "1")
@@ -113,11 +113,11 @@ okHttpManager = new OkHttpManager.Builder()
 
 ##### 取消一个请求
 
-调用okHttpManager.cancel(tag) 方法，参数tag即是标记request的一个tag
+调用QuietOkHttp.cancel(tag) 方法，参数tag即是标记request的一个tag
 
 ```
 
-okHttpManager.cancel(MainActivity.class.getName());
+QuietOkHttp.cancel(MainActivity.class.getName());
 
 ```
 
@@ -125,7 +125,7 @@ okHttpManager.cancel(MainActivity.class.getName());
 
 ```
 
-okHttpManager.cancelAll();
+QuietOkHttp.cancelAll();
 
 ```
 

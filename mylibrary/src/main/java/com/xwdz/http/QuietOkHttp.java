@@ -23,7 +23,7 @@ import okhttp3.Response;
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 2018/3/27
  */
-public class OkHttpManager {
+public class QuietOkHttp {
 
     public static class Builder {
 
@@ -59,8 +59,8 @@ public class OkHttpManager {
             return this;
         }
 
-        public OkHttpManager build() {
-            return new OkHttpManager(mBuilder);
+        public QuietOkHttp build() {
+            return new QuietOkHttp(mBuilder);
         }
     }
 
@@ -79,12 +79,12 @@ public class OkHttpManager {
     private OkHttpClient mOkHttpClient;
     private RequestTraces mRequestTraces;
 
-    public OkHttpManager(OkHttpClient.Builder builder) {
+    public QuietOkHttp(OkHttpClient.Builder builder) {
         mOkHttpClient = builder.build();
         mRequestTraces = new RequestTraces();
     }
 
-    public OkHttpManager() {
+    public QuietOkHttp() {
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog("XHttp"));
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
         mOkHttpClient = new OkHttpClient.Builder()
@@ -95,44 +95,44 @@ public class OkHttpManager {
         mRequestTraces = new RequestTraces();
     }
 
-    public OkHttpManager callbackMainUIThread(boolean isMainUIThread) {
+    public QuietOkHttp callbackMainUIThread(boolean isMainUIThread) {
         this.isMainUIThread = isMainUIThread;
         return this;
     }
 
-    public OkHttpManager tag(String tag) {
+    public QuietOkHttp tag(String tag) {
         mTag = tag;
         return this;
     }
 
-    public OkHttpManager get(String url) {
+    public QuietOkHttp get(String url) {
         mMethod = GET;
         mUrl = url;
         return this;
     }
 
-    public OkHttpManager post(String url) {
+    public QuietOkHttp post(String url) {
         mMethod = POST;
         mUrl = url;
         return this;
     }
 
-    public OkHttpManager addParams(String key, String value) {
+    public QuietOkHttp addParams(String key, String value) {
         PARAMS.put(key, value);
         return this;
     }
 
-    public OkHttpManager addParams(LinkedHashMap<String, String> params) {
+    public QuietOkHttp addParams(LinkedHashMap<String, String> params) {
         PARAMS.putAll(params);
         return this;
     }
 
-    public OkHttpManager addHeader(String key, String value) {
+    public QuietOkHttp addHeader(String key, String value) {
         HEADERS.put(key, value);
         return this;
     }
 
-    public OkHttpManager addHeader(LinkedHashMap<String, String> headers) {
+    public QuietOkHttp addHeader(LinkedHashMap<String, String> headers) {
         HEADERS.putAll(headers);
         return this;
     }
