@@ -22,7 +22,7 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 ```
 1. 直接实例化使用内置配置
 
-    QuietOkHttp QuietOkHttp = new QuietOkHttp();
+    QuietOkHttp quietOkHttp = new QuietOkHttp();
 
     默认配置如下:
     
@@ -39,7 +39,7 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
     
 2.  自定义一些简单配置
 
-QuietOkHttp = new QuietOkHttp.Builder()
+quietOkHttp = new QuietOkHttp.Builder()
                    .addInterceptor(interceptor)
                    .addNetworkInterceptor(interceptor)
                    .readTimeout(long readTimeout, TimeUnit timeUnit)
@@ -48,7 +48,7 @@ QuietOkHttp = new QuietOkHttp.Builder()
                    .build();
                    
 2.1 如果以上配置不够可直接传入开发者自定义buidler
-QuietOkHttp = new QuietOkHttp.Builder()
+quietOkHttp = new QuietOkHttp.Builder()
                 .newBuilder(OkHttpClient.Builder builder)
                 .build();
                    
@@ -68,7 +68,7 @@ QuietOkHttp = new QuietOkHttp.Builder()
 
 ### Get
 
-	 QuietOkHttp.get("https://api.github.com/search/users")
+	 quietOkHttp.get("https://api.github.com/search/users")
 	                .tag(MainActivity.class.getName())
                     .addParams("q", "a")
                     .addParams("page", "1")
@@ -91,7 +91,7 @@ QuietOkHttp = new QuietOkHttp.Builder()
 
 ### POST
 	
-	 QuietOkHttp.post("https:xxx")
+	 quietOkHttp.post("https:xxx")
 	                     .tag(MainActivity.class.getName())
                          .addParams("q", "xwdz")
                          .addParams("page", "1")
@@ -113,11 +113,11 @@ QuietOkHttp = new QuietOkHttp.Builder()
 
 ##### 取消一个请求
 
-调用QuietOkHttp.cancel(tag) 方法，参数tag即是标记request的一个tag
+调用quietOkHttp.cancel(tag) 方法，参数tag即是标记request的一个tag
 
 ```
 
-QuietOkHttp.cancel(MainActivity.class.getName());
+quietOkHttp.cancel(MainActivity.class.getName());
 
 ```
 
@@ -125,7 +125,7 @@ QuietOkHttp.cancel(MainActivity.class.getName());
 
 ```
 
-QuietOkHttp.cancelAll();
+quietOkHttp.cancelAll();
 
 ```
 
