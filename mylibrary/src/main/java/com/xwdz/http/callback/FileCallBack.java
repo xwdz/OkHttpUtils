@@ -90,8 +90,6 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
                 if (isControlCallback(percent)) {
                     mPercent = percent;
                     onProgressListener(percent, sum, total);
-                } else {
-                    onProgressListener(percent, sum, total);
                 }
             }
             return resultFile;
@@ -116,6 +114,7 @@ public abstract class FileCallBack extends AbstractCallBack<File> {
 
     /**
      * 控制回调，一定是下载进度大于1才回调上层
+     *
      * @param percent 下载百分比
      */
     protected boolean isControlCallback(int percent) {
