@@ -1,15 +1,22 @@
-### 添加依赖
+
+
+
+### 特性
+
+- 支持自动解析JSON返回实体类
+- 可随时取消某个请求或者全部请求
+- 支持上传多文件
+- 支持上传混合参数(文件参数以及json参数)
+- 线程回调再主线程
+- 支持文件下载
 
 
 $lastVersion = [![](https://jitpack.io/v/xwdz/OkHttpUtils.svg)](https://jitpack.io/#xwdz/OkHttpUtils)
 
 
+### 添加依赖
+
 ```
-
-implementation 'com.xwdz:okHttpUtils:$lastVersion'
-implementation 'com.squareup.okhttp3:okhttp:3.5.0'
-
-or
 
 compile 'com.xwdz:okHttpUtils:$lastVersion'
 compile 'com.squareup.okhttp3:okhttp:3.5.0'
@@ -17,16 +24,16 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 ```
 
 
-### 提供两种获取QuietOkHttp方法
+### 提供两种获取QuietHttp方法
 
 ```
 1. 直接实例化使用内置配置
 
-    QuietOkHttp quietOkHttp = new QuietOkHttp();
+    QuietHttp QuietHttp = QuietHttp.getImpl();
 
     默认配置如下:
     
-    public QuietOkHttp() {
+    private QuietHttp() {
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog("XHttp"));
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         mOkHttpClient = new OkHttpClient.Builder()
@@ -39,7 +46,7 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
     
 2.  自定义一些简单配置
 
-quietOkHttp = new QuietOkHttp.Builder()
+QuietHttp = new QuietHttp.Builder()
                    .addInterceptor(interceptor)
                    .addNetworkInterceptor(interceptor)
                    .readTimeout(long readTimeout, TimeUnit timeUnit)
@@ -47,85 +54,126 @@ quietOkHttp = new QuietOkHttp.Builder()
                    .writeTimeout(long writeTimeout, TimeUnit timeUnit)
                    .build();
                    
-2.1 如果以上配置不够可直接传入开发者自定义buidler
-quietOkHttp = new QuietOkHttp.Builder()
-                .newBuilder(OkHttpClient.Builder builder)
-                .build();
+
+QuietHttp QuietHttp = QuietHttp.getImpl(OkHttpClient.Builder builder);
                    
-     
 ```
 
 
 
-### 特性
 
-- 支持自动解析JSON返回实体类
-- UI线程回调(设置`setCallBackToMainUIThread(true)`则回调到主线程,反之则在子线程)
-- 支持文件下载
-- 支持Activity/fragment绑定生命周期
 
 ## 请求
 
 ### Get
+       
+	 QuietHttp.getImpl().get("https://api.github.com/search/users")
+         .tag(MainActivity.class.getName())
+         .addParams("q", "a")
+         .addParams("page", "1")
+         .addParams("per_page", "10")
+         .execute(new JsonCallBack<Response<List<User>>>() {
+             @Override
+             public void onSuccess(Call call, Response<List<User>> response) {
+                 for (User item : response.items) {
+                     Log.e("XHttp", "res = " + item.toString());
+                 }
+             }
 
-	 quietOkHttp.get("https://api.github.com/search/users")
-	                .tag(MainActivity.class.getName())
-                    .addParams("q", "a")
-                    .addParams("page", "1")
-                    .addParams("per_page", "10")
-                    .callbackMainUIThread(true)
-                    .execute(new JsonCallBack<Response<List<User>>>() {
-                        @Override
-                        public void onSuccess(Call call, Response<List<User>> response) {
-                            for (User item : response.items) {
-                                Log.e("XHttp", "res = " + item.toString());
-                            }
-                        }
-    
-                        @Override
-                        public void onFailure(Call call, Exception e) {
-    
-                        }
-                    });
+             @Override
+             public void onFailure(Call call, Exception e) {
+
+             }
+         });
 
 
 ### POST
 	
-	 quietOkHttp.post("https:xxx")
-	                     .tag(MainActivity.class.getName())
-                         .addParams("q", "xwdz")
-                         .addParams("page", "1")
-                         .addParams("per_page", "10")
-                         .callbackMainUIThread(true)
-                         .execute(new JsonCallBack<Response<List<User>>>() {
-                             @Override
-                             public void onSuccess(Call call, Response<List<User>> response) {
-                                 for (User item : response.items) {
-                                     Log.e("XHttp", "res = " + item.toString());
-                                 }
-                             }
-         
-                             @Override
-                             public void onFailure(Call call, Exception e) {
-         
-                             }
-                         });
+	 QuietHttp.getImpl()("https:xxx")
+         .tag(MainActivity.class.getName())
+         .addParams("q", "xwdz")
+         .addParams("page", "1")
+         .addParams("per_page", "10")
+         .execute(new JsonCallBack<Response<List<User>>>() {
+             @Override
+             public void onSuccess(Call call, Response<List<User>> response) {
+                 for (User item : response.items) {
+                     Log.e("XHttp", "res = " + item.toString());
+                 }
+             }
 
-##### 取消一个请求
+             @Override
+             public void onFailure(Call call, Exception e) {
 
-调用quietOkHttp.cancel(tag) 方法，参数tag即是标记request的一个tag
+             }
+         });
+                         
+### POST 文件
+
+```
+        HashMap<String, File> fileParams = new HashMap<>();
+        fileParams.put("file", file);
+    
+        QuietHttp.getImpl().post(BASE_URL + "file/upload/")
+                .uploadFiles(fileParams)
+                .tag(mTag)
+                .execute(new StringCallBack() {
+                    @Override
+                    protected void onSuccess(Call call, String response) {
+                        Log.e("TAG", "res:" + response);
+                    }
+    
+                    @Override
+                    public void onFailure(Call call, Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+```
+    
+                
+### POST文件 以及 混合参数
 
 ```
 
-quietOkHttp.cancel(MainActivity.class.getName());
+        HashMap<String, File> fileParams = new HashMap<>();
+        fileParams.put("file", file);
+    
+        HashMap<String, String> textParams = new HashMap<>();
+        textParams.put("desc", "Android Test");
+        textParams.put("address", "深圳");
+    
+        QuietHttp.getImpl().post(BASE_URL + "file/upload/")
+                .uploadFiles(fileParams, textParams)
+                .tag(mTag)
+                .execute(new StringCallBack() {
+                    @Override
+                    protected void onSuccess(Call call, String response) {
+                        Log.e("TAG", "res:" + response);
+                    }
+    
+                    @Override
+                    public void onFailure(Call call, Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
 ```
+
+### 取消一个请求
+
+```
+
+QuietHttp.getImpl().cancel(tag)
+
+```
+
 
 ##### 取消全部请求
 
 ```
 
-quietOkHttp.cancelAll();
+QuietHttp.getImpl().cancelAll()
 
 ```
 
