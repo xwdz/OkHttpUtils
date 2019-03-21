@@ -3,7 +3,7 @@ package com.xwdz.http.wrapper;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.xwdz.http.RequestTraces;
+import com.xwdz.http.traces.RequestTraces;
 import com.xwdz.http.callback.ICallBack;
 import com.xwdz.http.listener.WrapperTask;
 import com.xwdz.http.utils.Assert;
@@ -27,16 +27,13 @@ public abstract class BaseWrapper<T> implements WrapperTask {
 
     private static final Handler MAIN_UI_THREAD = new Handler(Looper.getMainLooper());
 
-    protected static final String GET  = "GET";
-    protected static final String POST = "POST";
-
     private RequestTraces mRequestTraces;
     private OkHttpClient  mOkHttpClient;
 
     public BaseWrapper(OkHttpClient okHttpClient) {
         Assert.checkNull(mOkHttpClient, "OkHttpClient cannot not null!");
 
-        mRequestTraces = new RequestTraces();
+        mRequestTraces = RequestTraces.getImpl();
         mOkHttpClient = okHttpClient;
     }
 
@@ -57,7 +54,7 @@ public abstract class BaseWrapper<T> implements WrapperTask {
 
 
     @Override
-    public Response run() throws Throwable {
+    public Response execute() throws Throwable {
         final Request request = buildRequest();
         Call call = mOkHttpClient.newCall(buildRequest());
         mRequestTraces.add(String.valueOf(request.tag()), call);
@@ -65,7 +62,7 @@ public abstract class BaseWrapper<T> implements WrapperTask {
     }
 
     @Override
-    public void run(final ICallBack iCallBack) {
+    public void execute(final ICallBack iCallBack) {
         final Request request = buildRequest();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -93,17 +90,5 @@ public abstract class BaseWrapper<T> implements WrapperTask {
             }
         });
         mRequestTraces.add(String.valueOf(request.tag()), call);
-    }
-
-    @Override
-    public void cancel(String tag) {
-        Assert.checkNull(tag, "tag 不能为空!");
-
-        mRequestTraces.cancel(tag);
-    }
-
-    @Override
-    public void cancelAll() {
-        mRequestTraces.cancelAll();
     }
 }
