@@ -1,4 +1,4 @@
-package com.xwdz.http;
+package com.xwdz.http.log;
 
 import android.text.TextUtils;
 import android.util.Log;

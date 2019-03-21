@@ -1,14 +1,14 @@
-package com.xwdz.http;
+package com.xwdz.http.utils;
 
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 /**
- * @author 黄兴伟 (xwd9989@gamil.com)
- * @since 2018/7/20
+ * @author xingwei.huang (xwdz9989@gamil.com)
+ * @since 2019/3/21
  */
-public class Utils {
+public class StringUtils {
 
     public static String appendHttpParams(LinkedHashMap<String, String> sLinkedHashMap) {
         Iterator<String> keys = sLinkedHashMap.keySet().iterator();

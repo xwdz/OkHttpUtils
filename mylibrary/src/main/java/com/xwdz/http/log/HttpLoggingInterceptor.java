@@ -1,4 +1,4 @@
-package com.xwdz.http;
+package com.xwdz.http.log;
 
 import java.io.EOFException;
 import java.io.IOException;

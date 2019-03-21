@@ -11,6 +11,10 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 /**
+ * 1. 添加一个正在运行的Http请求
+ * 2. 用tag取消一个Http请求
+ * 3. 取消所有正在进行Http请求
+ *
  * @author 黄兴伟 (xwd9989@gamil.com)
  * @since 2018/7/20
  */
