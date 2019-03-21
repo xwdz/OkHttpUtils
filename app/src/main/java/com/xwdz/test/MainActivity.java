@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.xwdz.http.QuietHttp;
+import com.xwdz.http.callback.JsonCallBack;
 import com.xwdz.http.callback.StringCallBack;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.Call;
 
@@ -26,6 +28,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        QuietHttp.getImpl().get("https://api.github.com/search/users")
+                .tag(MainActivity.class.getName())
+                .addParams("q", "a")
+                .addParams("page", "1")
+                .addParams("per_page", "10")
+                .execute(new JsonCallBack<Response<List<User>>>() {
+                    @Override
+                    public void onSuccess(Call call, Response<List<User>> response) {
+                        for (User item : response.items) {
+                            Log.e("XHttp", "res = " + item.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Exception e) {
+
+                    }
+                });
+
+
 
         File file = new File(Environment.getExternalStorageDirectory() + "/test.jpg");
 
@@ -51,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         textParams.put("desc", "Android Test");
         textParams.put("address", "深圳");
 
-        mQuietHttp.post(BASE_URL + "file/upload/")
+        QuietHttp.getImpl().post(BASE_URL + "file/upload/")
                 .uploadFiles(fileParams, textParams)
                 .tag(BASE_URL + "file/upload/" + "testCall")
                 .execute(new StringCallBack() {
