@@ -2,6 +2,8 @@ package com.xwdz.http;
 
 import com.xwdz.http.log.HttpLog;
 import com.xwdz.http.log.HttpLoggingInterceptor;
+import com.xwdz.http.traces.RequestTraces;
+import com.xwdz.http.utils.Assert;
 import com.xwdz.http.wrapper.GetWrapper;
 import com.xwdz.http.wrapper.PostWrapper;
 
@@ -167,5 +169,24 @@ public class QuietHttp {
         PostWrapper postWrapper = new PostWrapper(mOkHttpClient, url);
         postWrapper.uploadFiles(fileParams, textParams);
         return postWrapper;
+    }
+
+
+    /**
+     * 取消一个正在进行的Http请求
+     *
+     * @param tag 标记
+     */
+    public void cancel(String tag) {
+        Assert.checkNull(tag, "tag cannot not null!");
+
+        RequestTraces.getImpl().cancel(tag);
+    }
+
+    /**
+     * 取消所有正在进行的Http请求
+     */
+    public void cancellAll() {
+        RequestTraces.getImpl().cancelAll();
     }
 }

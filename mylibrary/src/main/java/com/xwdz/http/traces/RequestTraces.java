@@ -1,4 +1,4 @@
-package com.xwdz.http;
+package com.xwdz.http.traces;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -23,7 +23,18 @@ public class RequestTraces {
 
     private ArrayMap<String, Call> mRequestMap;
 
-    public RequestTraces() {
+
+    private static RequestTraces sRequestTraces;
+
+    public synchronized static RequestTraces getImpl() {
+        if (sRequestTraces == null) {
+            sRequestTraces = new RequestTraces();
+        }
+        return sRequestTraces;
+    }
+
+
+    private RequestTraces() {
         mRequestMap = new ArrayMap<>();
     }
 
