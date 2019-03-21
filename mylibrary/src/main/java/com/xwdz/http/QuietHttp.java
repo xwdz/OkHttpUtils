@@ -17,71 +17,71 @@ import okhttp3.OkHttpClient;
  * @author xingwei.huang (xwdz9989@gamil.com)
  * @since 2019/3/21
  */
-public class QuietOKHttp {
+public class QuietHttp {
 
-    public static final String TAG = QuietHttpUtils.class.getSimpleName();
+    public static final String TAG = QuietHttp.class.getSimpleName();
 
     public static class Builder {
 
         OkHttpClient.Builder mBuilder = new OkHttpClient.Builder();
 
-        public QuietOKHttp.Builder addInterceptor(Interceptor interceptor) {
+        public QuietHttp.Builder addInterceptor(Interceptor interceptor) {
             mBuilder.addInterceptor(interceptor);
             return this;
         }
 
-        public QuietOKHttp.Builder connectTimeout(long time, TimeUnit timeUnit) {
+        public QuietHttp.Builder connectTimeout(long time, TimeUnit timeUnit) {
             mBuilder.connectTimeout(time, timeUnit);
             return this;
         }
 
-        public QuietOKHttp.Builder readTimeout(long readTimeout, TimeUnit timeUnit) {
+        public QuietHttp.Builder readTimeout(long readTimeout, TimeUnit timeUnit) {
             mBuilder.readTimeout(readTimeout, timeUnit);
             return this;
         }
 
-        public QuietOKHttp.Builder writeTimeout(long writeTimeout, TimeUnit timeUnit) {
+        public QuietHttp.Builder writeTimeout(long writeTimeout, TimeUnit timeUnit) {
             mBuilder.writeTimeout(writeTimeout, timeUnit);
             return this;
         }
 
-        public QuietOKHttp.Builder addNetworkInterceptor(Interceptor interceptor) {
+        public QuietHttp.Builder addNetworkInterceptor(Interceptor interceptor) {
             mBuilder.addNetworkInterceptor(interceptor);
             return this;
         }
 
-        public QuietOKHttp.Builder newBuilder(OkHttpClient.Builder builder) {
+        public QuietHttp.Builder newBuilder(OkHttpClient.Builder builder) {
             mBuilder = builder;
             return this;
         }
 
-        public QuietOKHttp build() {
-            return new QuietOKHttp(mBuilder);
+        public QuietHttp build() {
+            return new QuietHttp(mBuilder);
         }
     }
 
-    private static QuietOKHttp sQuietOkHttp;
+    private static QuietHttp sQuietHttp;
 
 
-    public static QuietOKHttp getInstance() {
-        return getInstance(null);
+    public static QuietHttp getImpl() {
+        return getImpl(null);
     }
 
-    public static QuietOKHttp getInstance(OkHttpClient.Builder builder) {
-        if (sQuietOkHttp == null) {
-            synchronized (QuietHttpUtils.class) {
-                if (sQuietOkHttp == null) {
-                    sQuietOkHttp = new QuietOKHttp(builder);
+    public static QuietHttp getImpl(OkHttpClient.Builder builder) {
+        if (sQuietHttp == null) {
+            synchronized (QuietHttp.class) {
+                if (sQuietHttp == null) {
+                    sQuietHttp = new QuietHttp(builder);
                 }
             }
         }
-        return sQuietOkHttp;
+        return sQuietHttp;
     }
 
     private OkHttpClient mOkHttpClient;
 
 
-    private QuietOKHttp(OkHttpClient.Builder builder) {
+    private QuietHttp(OkHttpClient.Builder builder) {
         if (builder == null) {
             HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog(TAG));
             logInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);

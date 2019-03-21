@@ -34,9 +34,10 @@ public abstract class BaseWrapper<T> implements WrapperTask {
     private OkHttpClient  mOkHttpClient;
 
     public BaseWrapper(OkHttpClient okHttpClient) {
+        Assert.checkNull(mOkHttpClient, "OkHttpClient cannot not null!");
+
         mRequestTraces = new RequestTraces();
         mOkHttpClient = okHttpClient;
-        Assert.checkNull(mOkHttpClient, "OkHttpClient cannot not null!");
     }
 
 
@@ -56,7 +57,7 @@ public abstract class BaseWrapper<T> implements WrapperTask {
 
 
     @Override
-    public Response execute() throws Throwable {
+    public Response run() throws Throwable {
         final Request request = buildRequest();
         Call call = mOkHttpClient.newCall(buildRequest());
         mRequestTraces.add(String.valueOf(request.tag()), call);
@@ -64,7 +65,7 @@ public abstract class BaseWrapper<T> implements WrapperTask {
     }
 
     @Override
-    public void execute(final ICallBack iCallBack) {
+    public void run(final ICallBack iCallBack) {
         final Request request = buildRequest();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {

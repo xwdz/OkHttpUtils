@@ -6,8 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.xwdz.http.QuietHttpUtils;
+import com.xwdz.http.QuietHttp;
 import com.xwdz.http.callback.StringCallBack;
+import com.xwdz.http.wrapper.PostWrapper;
 
 import java.io.File;
 import java.util.HashMap;
@@ -17,9 +18,10 @@ import okhttp3.Call;
 
 public class MainActivity extends AppCompatActivity {
 
-    private QuietHttpUtils mQuietHttp = QuietHttpUtils.getInstance();
 
     private static final String BASE_URL = "http://47.106.223.246/";
+
+    private PostWrapper mPostWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 //        mQuietHttp.get(BASE_URL + "file/query/")
 //                .addParams("id", "123123123123")
 //                .tag(BASE_URL + "file/query/123123123123")
-//                .execute(new StringCallBack() {
+//                .run(new StringCallBack() {
 //                    @Override
 //                    protected void onSuccess(Call call, String response) {
 //                        Log.e("TAG", "s:" + response);
@@ -50,20 +52,20 @@ public class MainActivity extends AppCompatActivity {
         textParams.put("desc", "Android Test");
         textParams.put("address", "深圳");
 
-        mQuietHttp.post(BASE_URL + "file/upload/")
+        mPostWrapper = QuietHttp.getImpl().post(BASE_URL + "file/upload/")
                 .uploadFiles(fileParams, textParams)
-                .tag(BASE_URL + "file/upload/" + "testCall")
-                .execute(new StringCallBack() {
-                    @Override
-                    protected void onSuccess(Call call, String response) {
-                        Log.e("TAG", "res:" + response);
-                    }
+                .tag(BASE_URL + "file/upload/" + "testCall");
+        mPostWrapper.run(new StringCallBack() {
+            @Override
+            protected void onSuccess(Call call, String response) {
+                Log.e("TAG", "res:" + response);
+            }
 
-                    @Override
-                    public void onFailure(Call call, Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+            @Override
+            public void onFailure(Call call, Exception e) {
+                e.printStackTrace();
+            }
+        });
 
     }
 

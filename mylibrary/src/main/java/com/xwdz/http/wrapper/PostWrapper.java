@@ -38,8 +38,8 @@ public class PostWrapper extends BaseWrapper<PostWrapper> {
         mHeaders.clear();
         mParams.clear();
 
-        this.mUrl = url;
-        this.mTag = url;
+        mUrl = url;
+        mTag = url;
     }
 
 

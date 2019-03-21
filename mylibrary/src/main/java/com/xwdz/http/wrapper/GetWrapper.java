@@ -24,11 +24,11 @@ public class GetWrapper extends BaseWrapper<GetWrapper> {
 
     public GetWrapper(OkHttpClient okHttpClient, String url) {
         super(okHttpClient);
-        this.mUrl = url;
-        this.mTag = url;
-
         mHeaders.clear();
         mParams.clear();
+
+        mUrl = url;
+        mTag = url;
     }
 
 

@@ -10,9 +10,9 @@ import okhttp3.Response;
  */
 public interface WrapperTask {
 
-    Response execute() throws Throwable;
+    Response run() throws Throwable;
 
-    void execute(ICallBack iCallBack);
+    void run(ICallBack iCallBack);
 
     void cancel(String tag);
 
