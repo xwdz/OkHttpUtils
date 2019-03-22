@@ -31,8 +31,8 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
     QuietHttp quietHttp = QuietHttp.getImpl();
 
-    默认配置如下:
-    
+默认配置如下:
+
     private QuietHttp() {
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog("XHttp"));
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -46,8 +46,8 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
     
 2.  传入自定义OkHttpClient
 
-```
 QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
+
 ```
 
 
