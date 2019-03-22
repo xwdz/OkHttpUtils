@@ -72,6 +72,7 @@ QuietHttp QuietHttp = QuietHttp.getImpl(OkHttpClient.Builder builder);
          .addParams("q", "a")
          .addParams("page", "1")
          .addParams("per_page", "10")
+         // 回调在子线程
          .setCallbackMainUIThread(false)
          .execute(new JsonCallBack<Response<List<User>>>() {
              @Override
