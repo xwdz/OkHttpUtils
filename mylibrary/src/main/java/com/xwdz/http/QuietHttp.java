@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
 /**
@@ -23,57 +22,13 @@ public class QuietHttp {
 
     public static final String TAG = QuietHttp.class.getSimpleName();
 
-    public static class Builder {
-
-        OkHttpClient.Builder mBuilder = new OkHttpClient.Builder();
-
-        public QuietHttp.Builder addInterceptor(Interceptor interceptor) {
-            mBuilder.addInterceptor(interceptor);
-            return this;
-        }
-
-        public QuietHttp.Builder connectTimeout(long time, TimeUnit timeUnit) {
-            mBuilder.connectTimeout(time, timeUnit);
-            return this;
-        }
-
-        public QuietHttp.Builder readTimeout(long readTimeout, TimeUnit timeUnit) {
-            mBuilder.readTimeout(readTimeout, timeUnit);
-            return this;
-        }
-
-        public QuietHttp.Builder writeTimeout(long writeTimeout, TimeUnit timeUnit) {
-            mBuilder.writeTimeout(writeTimeout, timeUnit);
-            return this;
-        }
-
-        public QuietHttp.Builder addNetworkInterceptor(Interceptor interceptor) {
-            mBuilder.addNetworkInterceptor(interceptor);
-            return this;
-        }
-
-        public QuietHttp.Builder newBuilder(OkHttpClient.Builder builder) {
-            mBuilder = builder;
-            return this;
-        }
-
-        public QuietHttp build() {
-            return new QuietHttp(mBuilder);
-        }
-    }
-
     private static QuietHttp sQuietHttp;
 
-
     public static QuietHttp getImpl() {
-        return getImpl(null);
-    }
-
-    public static QuietHttp getImpl(OkHttpClient.Builder builder) {
         if (sQuietHttp == null) {
             synchronized (QuietHttp.class) {
                 if (sQuietHttp == null) {
-                    sQuietHttp = new QuietHttp(builder);
+                    sQuietHttp = new QuietHttp();
                 }
             }
         }
@@ -82,18 +37,21 @@ public class QuietHttp {
 
     private OkHttpClient mOkHttpClient;
 
-
-    private QuietHttp(OkHttpClient.Builder builder) {
-        if (builder == null) {
-            HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog(TAG));
-            logInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
-            mOkHttpClient = new OkHttpClient.Builder()
-                    .writeTimeout(20, TimeUnit.SECONDS)
-                    .readTimeout(20, TimeUnit.SECONDS)
-                    .addInterceptor(logInterceptor)
-                    .writeTimeout(20, TimeUnit.SECONDS).build();
-        }
+    private QuietHttp() {
+        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog(TAG));
+        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        mOkHttpClient = new OkHttpClient.Builder()
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .addInterceptor(logInterceptor)
+                .writeTimeout(20, TimeUnit.SECONDS).build();
     }
+
+
+    public void setOkHttpClient(OkHttpClient okHttpClient) {
+        mOkHttpClient = okHttpClient;
+    }
+
 
     /**
      * 发起一个Http Get 请求

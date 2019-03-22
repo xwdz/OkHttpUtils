@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
-
         File file = new File(Environment.getExternalStorageDirectory() + "/test.jpg");
 
 //        mQuietHttp.get(BASE_URL + "file/query/")
@@ -67,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 
-        HashMap<String, File> fileParams = new HashMap<>();
+
+        HashMap fileParams = new HashMap<>();
         fileParams.put("file", file);
 
         HashMap<String, String> textParams = new HashMap<>();

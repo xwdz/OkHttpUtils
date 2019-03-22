@@ -29,7 +29,7 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 ```
 1. 直接实例化使用内置配置
 
-    QuietHttp QuietHttp = QuietHttp.getImpl();
+    QuietHttp quietHttp = QuietHttp.getImpl();
 
     默认配置如下:
     
@@ -44,22 +44,11 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
     }
     
     
-2.  自定义一些简单配置
+2.  传入自定义OkHttpClient
 
-QuietHttp = new QuietHttp.Builder()
-                   .addInterceptor(interceptor)
-                   .addNetworkInterceptor(interceptor)
-                   .readTimeout(long readTimeout, TimeUnit timeUnit)
-                   .connectTimeout(long connectTimeout, TimeUnit timeUnit)
-                   .writeTimeout(long writeTimeout, TimeUnit timeUnit)
-                   .build();
-                   
-
-QuietHttp QuietHttp = QuietHttp.getImpl(OkHttpClient.Builder builder);
-                   
 ```
-
-
+quietHttp.setOkHttpClient(OkHttpClient okHttpClient);
+```
 
 
 
