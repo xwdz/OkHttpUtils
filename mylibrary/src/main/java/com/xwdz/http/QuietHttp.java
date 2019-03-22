@@ -177,7 +177,7 @@ public class QuietHttp {
      *
      * @param tag 标记
      */
-    public void cancel(String tag) {
+    public void cancel(Object tag) {
         Assert.checkNull(tag, "tag cannot not null!");
 
         RequestTraces.getImpl().cancel(tag);

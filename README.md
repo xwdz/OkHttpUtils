@@ -7,7 +7,7 @@
 - 可随时取消某个请求或者全部请求
 - 支持上传多文件
 - 支持上传混合参数(文件参数以及json参数)
-- 线程回调再主线程
+- 线程默认回调再主线程(`.setCallbackMainUIThread(true /* 默认为true */)`)
 - 支持文件下载
 
 
@@ -72,6 +72,7 @@ QuietHttp QuietHttp = QuietHttp.getImpl(OkHttpClient.Builder builder);
          .addParams("q", "a")
          .addParams("page", "1")
          .addParams("per_page", "10")
+         .setCallbackMainUIThread(false)
          .execute(new JsonCallBack<Response<List<User>>>() {
              @Override
              public void onSuccess(Call call, Response<List<User>> response) {

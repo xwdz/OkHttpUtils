@@ -29,6 +29,7 @@ public class PostWrapper extends BaseWrapper<PostWrapper> {
 
     private String mFunction = NORMAL;
 
+    private boolean mCallbackToMainUIThread = true;
     private RequestBody mUploadRequestBody;
     private String      mUrl;
     private String      mTag;
@@ -134,7 +135,13 @@ public class PostWrapper extends BaseWrapper<PostWrapper> {
     }
 
     @Override
-    public boolean isCallbackMainUIThread() {
-        return true;
+    protected boolean isCallbackMainUIThread() {
+        return mCallbackToMainUIThread;
+    }
+
+    @Override
+    public PostWrapper setCallbackMainUIThread(boolean isCallbackToMainUIThread) {
+        mCallbackToMainUIThread = isCallbackToMainUIThread;
+        return this;
     }
 }

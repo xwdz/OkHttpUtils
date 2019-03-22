@@ -21,6 +21,7 @@ public class GetWrapper extends BaseWrapper<GetWrapper> {
 
     private String mUrl;
     private String mTag;
+    private boolean mCallbackToMainUIThread = true;
 
     public GetWrapper(OkHttpClient okHttpClient, String url) {
         super(okHttpClient);
@@ -82,6 +83,12 @@ public class GetWrapper extends BaseWrapper<GetWrapper> {
 
     @Override
     public boolean isCallbackMainUIThread() {
-        return true;
+        return mCallbackToMainUIThread;
+    }
+
+    @Override
+    public GetWrapper setCallbackMainUIThread(boolean isCallbackToMainUIThread) {
+        mCallbackToMainUIThread = isCallbackToMainUIThread;
+        return this;
     }
 }

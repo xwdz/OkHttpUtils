@@ -30,7 +30,7 @@ public abstract class BaseWrapper<T> implements WrapperTask {
     private RequestTraces mRequestTraces;
     private OkHttpClient  mOkHttpClient;
 
-    public BaseWrapper(OkHttpClient okHttpClient) {
+    BaseWrapper(OkHttpClient okHttpClient) {
         Assert.checkNull(mOkHttpClient, "OkHttpClient cannot not null!");
 
         mRequestTraces = RequestTraces.getImpl();
@@ -50,14 +50,16 @@ public abstract class BaseWrapper<T> implements WrapperTask {
 
     public abstract T addHeader(LinkedHashMap<String, String> header);
 
-    public abstract boolean isCallbackMainUIThread();
+    public abstract T setCallbackMainUIThread(boolean isCallbackToMainUIThread);
+
+    protected abstract boolean isCallbackMainUIThread();
 
 
     @Override
     public Response execute() throws Throwable {
         final Request request = buildRequest();
         Call call = mOkHttpClient.newCall(buildRequest());
-        mRequestTraces.add(String.valueOf(request.tag()), call);
+        mRequestTraces.add(request.tag(), call);
         return call.execute();
     }
 
@@ -89,6 +91,6 @@ public abstract class BaseWrapper<T> implements WrapperTask {
                 }
             }
         });
-        mRequestTraces.add(String.valueOf(request.tag()), call);
+        mRequestTraces.add(request.tag(), call);
     }
 }

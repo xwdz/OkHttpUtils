@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         QuietHttp.getImpl().post(BASE_URL + "file/upload/")
                 .uploadFiles(fileParams, textParams)
                 .tag(BASE_URL + "file/upload/" + "testCall")
+                .setCallbackMainUIThread(false)
                 .execute(new StringCallBack() {
                     @Override
                     protected void onSuccess(Call call, String response) {
