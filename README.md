@@ -47,7 +47,7 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 2.  传入自定义OkHttpClient
 
 ```
-quietHttp.setOkHttpClient(OkHttpClient okHttpClient);
+QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
 ```
 
 
