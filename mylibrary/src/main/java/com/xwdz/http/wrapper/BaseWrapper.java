@@ -31,7 +31,7 @@ public abstract class BaseWrapper<T> implements WrapperTask {
     private OkHttpClient  mOkHttpClient;
 
     BaseWrapper(OkHttpClient okHttpClient) {
-        Assert.checkNull(mOkHttpClient, "OkHttpClient cannot not null!");
+        Assert.checkNull(okHttpClient, "OkHttpClient cannot not null!");
 
         mRequestTraces = RequestTraces.getImpl();
         mOkHttpClient = okHttpClient;

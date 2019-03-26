@@ -68,9 +68,12 @@ public class PostWrapper extends BaseWrapper<PostWrapper> {
                     RequestBody.create(IMAGE_TYPE, entry.getValue()));
         }
 
-        for (Map.Entry<String, String> entry : textParams.entrySet()) {
-            builder.addFormDataPart(entry.getKey(), entry.getValue());
+        if (textParams != null && !textParams.isEmpty()) {
+            for (Map.Entry<String, String> entry : textParams.entrySet()) {
+                builder.addFormDataPart(entry.getKey(), entry.getValue());
+            }
         }
+
 
         mUploadRequestBody = builder.build();
         return this;
