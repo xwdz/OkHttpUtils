@@ -46,9 +46,11 @@ public abstract class BaseWrapper<T> implements WrapperTask {
 
     public abstract T addParams(String key, String value);
 
-    public abstract T addParams(LinkedHashMap<String, String> params);
+    public abstract T params(LinkedHashMap<String, String> params);
 
-    public abstract T addHeader(LinkedHashMap<String, String> header);
+    public abstract T headers(LinkedHashMap<String, String> header);
+
+    protected abstract void ready();
 
     public abstract T setCallbackMainUIThread(boolean isCallbackToMainUIThread);
 
@@ -57,14 +59,18 @@ public abstract class BaseWrapper<T> implements WrapperTask {
 
     @Override
     public Response execute() throws Throwable {
+        ready();
+
         final Request request = buildRequest();
-        Call call = mOkHttpClient.newCall(buildRequest());
+        Call call = mOkHttpClient.newCall(request);
         mRequestTraces.add(request.tag(), call);
         return call.execute();
     }
 
     @Override
     public void execute(final ICallBack iCallBack) {
+        ready();
+
         final Request request = buildRequest();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {

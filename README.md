@@ -24,6 +24,12 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 ```
 
 
+### 注意
+
+
+>  一定要保证`.execute(new xxxCallback)`方法最后调用
+
+
 ### 提供两种获取QuietHttp方法
 
 ```
@@ -80,7 +86,8 @@ QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
 
 #### POST
 	
-	 QuietHttp.getImpl()("https:xxx")
+	 QuietHttp.getImpl()
+	     .post(URL)
          .tag(MainActivity.class.getName())
          .addParams("q", "xwdz")
          .addParams("page", "1")
@@ -102,11 +109,11 @@ QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
 #### POST 文件
 
 ```
-        HashMap<String, File> fileParams = new HashMap<>();
-        fileParams.put("file", file);
+        List<File> list = new ArrayList<>();
+        list.add("file", file);
     
-        QuietHttp.getImpl().post(BASE_URL + "file/upload/")
-                .uploadFiles(fileParams)
+        QuietHttp.getImpl().postFile(URL)
+                .uploadFiles("files",list)
                 .tag(mTag)
                 .execute(new StringCallBack() {
                     @Override
@@ -123,29 +130,25 @@ QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
 ```
     
                 
-#### POST 文件 以及 混合参数
+#### POST文件 + 混合参数
 
 ```
 
-        HashMap<String, File> fileParams = new HashMap<>();
-        fileParams.put("file", file);
-    
-        HashMap<String, String> textParams = new HashMap<>();
-        textParams.put("desc", "Android Test");
-        textParams.put("address", "深圳");
-    
-        QuietHttp.getImpl().post(BASE_URL + "file/upload/")
-                .uploadFiles(fileParams, textParams)
-                .tag(mTag)
+         QuietHttp.getImpl()
+                .postFile(URL_UPLOAD)
+                .uploadFiles("files", list)
+                .addParams("key","10926a9165054566b6df6a8410e45f08")
+                .addParams("address", "sugar 办公室")
+                .addParams("desc", "测试工具测试")
                 .execute(new StringCallBack() {
                     @Override
                     protected void onSuccess(Call call, String response) {
-                        Log.e("TAG", "res:" + response);
+                        Log.e("TAG", "response:" + response);
                     }
-    
+
                     @Override
                     public void onFailure(Call call, Exception e) {
-                        e.printStackTrace();
+                        Log.e("TAG", "onFailure:" + e.toString());
                     }
                 });
 

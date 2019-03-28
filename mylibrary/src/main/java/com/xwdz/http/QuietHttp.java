@@ -5,11 +5,12 @@ import com.xwdz.http.log.HttpLoggingInterceptor;
 import com.xwdz.http.traces.RequestTraces;
 import com.xwdz.http.utils.Assert;
 import com.xwdz.http.wrapper.GetWrapper;
+import com.xwdz.http.wrapper.PostFileWrapper;
 import com.xwdz.http.wrapper.PostWrapper;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -71,7 +72,7 @@ public class QuietHttp {
 
     public GetWrapper get(String url, LinkedHashMap<String, String> params) {
         GetWrapper getWrapper = new GetWrapper(mOkHttpClient, url);
-        getWrapper.addParams(params);
+        getWrapper.params(params);
         return getWrapper;
     }
 
@@ -85,6 +86,7 @@ public class QuietHttp {
         return new PostWrapper(mOkHttpClient, url);
     }
 
+
     public PostWrapper post(String url, String key, String value) {
         PostWrapper postWrapper = new PostWrapper(mOkHttpClient, url);
         postWrapper.addParams(key, value);
@@ -93,39 +95,45 @@ public class QuietHttp {
 
     public PostWrapper post(String url, LinkedHashMap<String, String> params) {
         PostWrapper postWrapper = new PostWrapper(mOkHttpClient, url);
-        postWrapper.addParams(params);
+        postWrapper.params(params);
         return postWrapper;
     }
 
+
     /**
-     * 上传多个文件至服务器
+     * 上传文件至服务器
      *
-     * @param url        目标链接
-     * @param fileParams 文件参数
-     *                   【key】    ===>  服务器参数名称
-     *                   【value】  ===>  文件路径
+     * @param url 目标链接
      * @return
      */
-    public PostWrapper uploadFile(String url, HashMap<String, File> fileParams) {
-        PostWrapper postWrapper = new PostWrapper(mOkHttpClient, url);
-        return postWrapper.uploadFiles(fileParams);
+    public PostFileWrapper postFile(String url) {
+        return new PostFileWrapper(mOkHttpClient, url);
+    }
+
+    /**
+     * 上传文件至服务器
+     *
+     * @param url       目标链接
+     * @param paramName 服务器参数名称
+     * @param file      需要上传文件
+     * @return
+     */
+    public PostFileWrapper postFile(String url, String paramName, File file) {
+        PostFileWrapper postWrapper = new PostFileWrapper(mOkHttpClient, url);
+        return postWrapper.uploadFiles(paramName, file);
     }
 
     /**
      * 上传多个文件至服务器
      *
-     * @param url        目标链接
-     * @param fileParams 文件参数
-     *                   【key】    ===>  服务器参数名称
-     *                   【value】  ===>  本地文件路径
-     * @param textParams 混合参数
-     *                   【key】    ===>  服务器参数名称
-     *                   【value】  ===>  参数值
+     * @param url       目标链接
+     * @param paramName 服务器参数名称
+     * @param files     需要上传文件集合
      * @return
      */
-    public PostWrapper uploadFile(String url, HashMap<String, File> fileParams, HashMap<String, String> textParams) {
-        PostWrapper postWrapper = new PostWrapper(mOkHttpClient, url);
-        postWrapper.uploadFiles(fileParams, textParams);
+    public PostFileWrapper postFile(String url, String paramName, List<File> files) {
+        PostFileWrapper postWrapper = new PostFileWrapper(mOkHttpClient, url);
+        postWrapper.uploadFiles(paramName, files);
         return postWrapper;
     }
 

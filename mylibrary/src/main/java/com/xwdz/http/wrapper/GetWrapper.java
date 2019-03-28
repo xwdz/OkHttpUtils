@@ -70,15 +70,20 @@ public class GetWrapper extends BaseWrapper<GetWrapper> {
     }
 
     @Override
-    public GetWrapper addParams(LinkedHashMap<String, String> params) {
+    public GetWrapper params(LinkedHashMap<String, String> params) {
         mParams.putAll(params);
         return this;
     }
 
     @Override
-    public GetWrapper addHeader(LinkedHashMap<String, String> header) {
+    public GetWrapper headers(LinkedHashMap<String, String> header) {
         mHeaders.putAll(header);
         return this;
+    }
+
+    @Override
+    protected void ready() {
+
     }
 
     @Override

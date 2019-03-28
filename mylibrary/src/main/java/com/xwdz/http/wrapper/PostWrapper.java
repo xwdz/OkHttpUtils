@@ -2,17 +2,12 @@ package com.xwdz.http.wrapper;
 
 import com.xwdz.http.utils.Assert;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 
 /**
  * @author xingwei.huang (xwdz9989@gamil.com)
@@ -20,19 +15,14 @@ import okhttp3.RequestBody;
  */
 public class PostWrapper extends BaseWrapper<PostWrapper> {
 
-    private static final MediaType IMAGE_TYPE = MediaType.parse("image/png");
-    private static final String    NORMAL     = "normal";
-    private static final String    UPLOAD     = "upload";
 
     private LinkedHashMap<String, String> mHeaders = new LinkedHashMap<>();
     private LinkedHashMap<String, String> mParams  = new LinkedHashMap<>();
 
-    private String mFunction = NORMAL;
-
     private boolean mCallbackToMainUIThread = true;
-    private RequestBody mUploadRequestBody;
     private String      mUrl;
     private String      mTag;
+
 
     public PostWrapper(OkHttpClient okHttpClient, String url) {
         super(okHttpClient);
@@ -43,41 +33,6 @@ public class PostWrapper extends BaseWrapper<PostWrapper> {
         mTag = url;
     }
 
-
-    public PostWrapper uploadFiles(HashMap<String, File> fileParams) {
-        uploadFiles(fileParams, null);
-        return this;
-    }
-
-    public PostWrapper uploadFiles(HashMap<String, File> fileParams, HashMap<String, String> textParams) {
-        Assert.checkNull(fileParams, "upload file cannot not null!");
-
-        mFunction = UPLOAD;
-
-        MultipartBody.Builder builder = new MultipartBody.Builder();
-        if ((textParams != null && !textParams.isEmpty() && !fileParams.isEmpty())) {
-            // 混合参数 以及 文件类型
-            builder.setType(MultipartBody.ALTERNATIVE);
-        } else {
-            // 仅仅上传文件类型
-            builder.setType(MultipartBody.FORM);
-        }
-
-        for (Map.Entry<String, File> entry : fileParams.entrySet()) {
-            builder.addFormDataPart(entry.getKey(), entry.getValue().getName(),
-                    RequestBody.create(IMAGE_TYPE, entry.getValue()));
-        }
-
-        if (textParams != null && !textParams.isEmpty()) {
-            for (Map.Entry<String, String> entry : textParams.entrySet()) {
-                builder.addFormDataPart(entry.getKey(), entry.getValue());
-            }
-        }
-
-
-        mUploadRequestBody = builder.build();
-        return this;
-    }
 
     @Override
     protected Request buildRequest() {
@@ -92,14 +47,10 @@ public class PostWrapper extends BaseWrapper<PostWrapper> {
 
         requestBuilder.url(mUrl);
 
-        if (NORMAL.equals(mFunction)) {
-            for (Map.Entry<String, String> map : mParams.entrySet()) {
-                params.add(map.getKey(), map.getValue());
-            }
-            requestBuilder.post(params.build());
-        } else {
-            requestBuilder.post(mUploadRequestBody);
+        for (Map.Entry<String, String> map : mParams.entrySet()) {
+            params.add(map.getKey(), map.getValue());
         }
+        requestBuilder.post(params.build());
 
         requestBuilder
                 .tag(mTag);
@@ -126,15 +77,20 @@ public class PostWrapper extends BaseWrapper<PostWrapper> {
     }
 
     @Override
-    public PostWrapper addParams(LinkedHashMap<String, String> params) {
+    public PostWrapper params(LinkedHashMap<String, String> params) {
         mParams.putAll(params);
         return this;
     }
 
     @Override
-    public PostWrapper addHeader(LinkedHashMap<String, String> header) {
+    public PostWrapper headers(LinkedHashMap<String, String> header) {
         mHeaders.putAll(header);
         return this;
+    }
+
+    @Override
+    protected void ready() {
+
     }
 
     @Override
