@@ -3,12 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.xwdz.test"
+        applicationId "com.xwdz.parser"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.parser.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -29,11 +29,13 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     //    implementation 'com.xwdz:okHttpUtils:1.0.6'
-        implementation 'com.squareup.okhttp3:okhttp:3.5.0'
-        implementation 'com.google.code.gson:gson:2.2.4'
-    implementation 'com.zhy:okhttputils:2.6.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.5.0'
+    implementation 'com.google.code.gson:gson:2.2.4'
     implementation project(':mylibrary')
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
+
 }

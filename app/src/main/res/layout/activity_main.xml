@@ -2,16 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
+    <TextView
+        android:id="@+id/log"
         android:layout_width="match_parent"
-        android:text="stop request"
-        android:onClick="stopRequest"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

@@ -1,9 +1,9 @@
 package com.xwdz.http.wrapper;
 
 import com.xwdz.http.utils.Assert;
-import com.xwdz.http.utils.StringUtils;
 
-import java.util.LinkedHashMap;
+import java.net.URLEncoder;
+import java.util.Iterator;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
@@ -15,26 +15,13 @@ import okhttp3.Request;
  */
 public class GetWrapper extends BaseWrapper<GetWrapper> {
 
-
-    private LinkedHashMap<String, String> mHeaders = new LinkedHashMap<>();
-    private LinkedHashMap<String, String> mParams  = new LinkedHashMap<>();
-
-    private String mUrl;
-    private String mTag;
-    private boolean mCallbackToMainUIThread = true;
-
     public GetWrapper(OkHttpClient okHttpClient, String url) {
-        super(okHttpClient);
-        mHeaders.clear();
-        mParams.clear();
-
-        mUrl = url;
-        mTag = url;
+        super(okHttpClient, "GET", url);
     }
 
 
     @Override
-    protected Request buildRequest() {
+    protected Request build() {
         Assert.checkNull(mUrl, "GET 请求链接不能为空!");
 
         final Request.Builder requestBuilder = new Request.Builder();
@@ -42,58 +29,35 @@ public class GetWrapper extends BaseWrapper<GetWrapper> {
             requestBuilder.addHeader(map.getKey(), map.getValue());
         }
 
-        requestBuilder.url(mUrl + StringUtils.appendHttpParams(mParams));
+        requestBuilder.url(mUrl + appendHttpParams(mParams));
 
-        requestBuilder
-                .tag(mTag);
+        if (mTag != null) {
+            requestBuilder
+                    .tag(mTag);
+        }
         return requestBuilder.build();
     }
 
+    private static String appendHttpParams(Map<String, String> sLinkedHashMap) {
+        Iterator<String> keys = sLinkedHashMap.keySet().iterator();
+        Iterator<String> values = sLinkedHashMap.values().iterator();
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("?");
 
-    @Override
-    public GetWrapper tag(Object object) {
-        Assert.checkNull(object, "tag not null!");
-        mTag = String.valueOf(object);
-        return this;
-    }
+        for (int i = 0; i < sLinkedHashMap.size(); i++) {
+            String value = null;
+            try {
+                value = URLEncoder.encode(values.next(), "utf-8");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-    @Override
-    public GetWrapper addHeader(String key, String value) {
-        mHeaders.put(key, value);
-        return this;
-    }
+            stringBuffer.append(keys.next() + "=" + value);
+            if (i != sLinkedHashMap.size() - 1) {
+                stringBuffer.append("&");
+            }
+        }
 
-    @Override
-    public GetWrapper addParams(String key, String value) {
-        mParams.put(key, value);
-        return this;
-    }
-
-    @Override
-    public GetWrapper params(LinkedHashMap<String, String> params) {
-        mParams.putAll(params);
-        return this;
-    }
-
-    @Override
-    public GetWrapper headers(LinkedHashMap<String, String> header) {
-        mHeaders.putAll(header);
-        return this;
-    }
-
-    @Override
-    protected void ready() {
-
-    }
-
-    @Override
-    public boolean isCallbackMainUIThread() {
-        return mCallbackToMainUIThread;
-    }
-
-    @Override
-    public GetWrapper setCallbackMainUIThread(boolean isCallbackToMainUIThread) {
-        mCallbackToMainUIThread = isCallbackToMainUIThread;
-        return this;
+        return stringBuffer.toString();
     }
 }

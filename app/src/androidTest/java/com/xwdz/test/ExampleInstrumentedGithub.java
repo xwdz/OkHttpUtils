@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 /**
- * Instrumented test, which will execute on an Android device.
+ * Instrumented parser, which will execute on an Android device.
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
@@ -18,9 +18,9 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedGithub {
     @Test
     public void useAppContext() {
-        // Context of the app under test.
+        // Context of the app under parser.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.xwdz.test", appContext.getPackageName());
+        assertEquals("com.xwdz.parser", appContext.getPackageName());
     }
 }

@@ -3,6 +3,7 @@ package com.xwdz.http.utils;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author xingwei.huang (xwdz9989@gamil.com)
@@ -10,7 +11,7 @@ import java.util.LinkedHashMap;
  */
 public class StringUtils {
 
-    public static String appendHttpParams(LinkedHashMap<String, String> sLinkedHashMap) {
+    public static String appendHttpParams(Map<String, String> sLinkedHashMap) {
         Iterator<String> keys = sLinkedHashMap.keySet().iterator();
         Iterator<String> values = sLinkedHashMap.values().iterator();
         StringBuffer stringBuffer = new StringBuffer();
