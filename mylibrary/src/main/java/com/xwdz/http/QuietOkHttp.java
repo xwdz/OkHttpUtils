@@ -16,9 +16,9 @@ import okhttp3.OkHttpClient;
  * @author xingwei.huang (xwdz9989@gamil.com)
  * @since 2019/3/21
  */
-public class RxOkHttp {
+public class QuietOkHttp {
 
-    public static final String TAG = RxOkHttp.class.getSimpleName();
+    public static final String TAG = QuietOkHttp.class.getSimpleName();
 
     private static OkHttpClient sOkHttpClient;
 
@@ -33,7 +33,7 @@ public class RxOkHttp {
     }
 
 
-    private RxOkHttp() { }
+    private QuietOkHttp() { }
 
 
     public static void setOkHttpClient(OkHttpClient okHttpClient) {

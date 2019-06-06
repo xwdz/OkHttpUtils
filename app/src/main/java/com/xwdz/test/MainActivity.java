@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.xwdz.http.RxOkHttp;
+import com.xwdz.http.QuietOkHttp;
 import com.xwdz.http.callback.StringCallBack;
 
 import java.io.File;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void requestGet(View view) {
         mLoading.setVisibility(View.VISIBLE);
-        RxOkHttp.get("http://47.106.223.246/test/get")
+        QuietOkHttp.get("http://47.106.223.246/test/get")
                 .addParams("username", "wxdz")
                 .addParams("password", "123456")
                 .addHeaders("token", "11111")
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void requestPost(View view) {
         mLoading.setVisibility(View.VISIBLE);
-        RxOkHttp.post("http://47.106.223.246/test/post")
+        QuietOkHttp.post("http://47.106.223.246/test/post")
                 .addParams("username", "wxdz")
                 .addParams("password", "123456")
                 .addHeaders("token", "22222")
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             list.add(child);
         }
 
-        RxOkHttp.postFile(URL_UPLOAD)
+        QuietOkHttp.postFile(URL_UPLOAD)
                 .uploadFile("files", list)
                 .addParams("key", "10926a9165054566b6df6a8410e45f08")
                 .addParams("address", "sugar 办公室")
