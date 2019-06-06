@@ -35,24 +35,23 @@ compile 'com.squareup.okhttp3:okhttp:3.5.0'
 ```
 1. 直接实例化使用内置配置
 
-    QuietHttp quietHttp = QuietHttp.getImpl();
 
 默认配置如下:
 
-    private QuietHttp() {
-        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog("XHttp"));
-        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        mOkHttpClient = new OkHttpClient.Builder()
-                .writeTimeout(20, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .addInterceptor(logInterceptor)
-                .writeTimeout(20, TimeUnit.SECONDS).build();
-    }
+   static {
+           HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLog(TAG));
+           logInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+           sOkHttpClient = new OkHttpClient.Builder()
+                   .writeTimeout(20, TimeUnit.SECONDS)
+                   .readTimeout(20, TimeUnit.SECONDS)
+                   .addInterceptor(logInterceptor)
+                   .writeTimeout(20, TimeUnit.SECONDS).build();
+   }
     
     
 2.  传入自定义OkHttpClient
 
-QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
+QuietOkHttp.setOkHttpClient(OkHttpClient okHttpClient);
 
 ```
 
@@ -62,7 +61,7 @@ QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
 
 #### Get
        
-	 QuietHttp.getImpl().get("https://api.github.com/search/users")
+	 QuietOkHttp.get("https://api.github.com/search/users")
          .tag(MainActivity.class.getName())
          .addParams("q", "a")
          .addParams("page", "1")
@@ -86,8 +85,7 @@ QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
 
 #### POST
 	
-	 QuietHttp.getImpl()
-	     .post(URL)
+	 QuietOkHttp.post(URL)
          .tag(MainActivity.class.getName())
          .addParams("q", "xwdz")
          .addParams("page", "1")
@@ -112,8 +110,8 @@ QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
         List<File> list = new ArrayList<>();
         list.add("file", file);
     
-        QuietHttp.getImpl().postFile(URL)
-                .uploadFiles("files",list)
+        QuietOkHttp.postFile(URL)
+                .uploadFile("files",list)
                 .tag(mTag)
                 .execute(new StringCallBack() {
                     @Override
@@ -134,9 +132,8 @@ QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
 
 ```
 
-         QuietHttp.getImpl()
-                .postFile(URL_UPLOAD)
-                .uploadFiles("files", list)
+         QuietOkHttp.postFile(URL_UPLOAD)
+                .uploadFile("files", list)
                 .addParams("key","10926a9165054566b6df6a8410e45f08")
                 .addParams("address", "sugar 办公室")
                 .addParams("desc", "测试工具测试")
@@ -158,7 +155,7 @@ QuietHttp.getImpl().setOkHttpClient(OkHttpClient okHttpClient);
 
 ```
 
-QuietHttp.getImpl().cancel(tag)
+QuietOkHttp.cancel(tag)
 
 ```
 
@@ -167,7 +164,7 @@ QuietHttp.getImpl().cancel(tag)
 
 ```
 
-QuietHttp.getImpl().cancelAll()
+QuietOkHttp.cancelAll()
 
 ```
 
