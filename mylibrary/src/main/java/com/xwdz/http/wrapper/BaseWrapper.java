@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.xwdz.http.callback.ICallBack;
-import com.xwdz.http.rx.RxResult;
 import com.xwdz.http.traces.RequestTraces;
 import com.xwdz.http.utils.Assert;
 
@@ -14,8 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -85,24 +82,6 @@ public abstract class BaseWrapper<T> {
         return this;
     }
 
-    private final Subject<RxResult> mSubject = PublishSubject.<RxResult>create().toSerialized();
-
-//    public Observable<RxResult> bindRxJava() {
-//        return bindRxJava(RxResult.class);
-//    }
-//
-//
-//    public Observable<RxResult> bindRxJava(Class clz) {
-//        Observable<RxResult> observable = Observable.create(new ObservableOnSubscribe<RxResult>() {
-//            @Override
-//            public void subscribe(ObservableEmitter<RxResult> e) throws Exception {
-//                execute(null);
-//            }
-//        });
-//        return observable;
-//    }
-
-
     protected abstract Request build();
 
     public Response execute() throws Throwable {
@@ -126,9 +105,6 @@ public abstract class BaseWrapper<T> {
                         }
                     });
                 }
-                //
-//                callError(mSubject, e);
-//                callCompleted(mSubject);
             }
 
             @Override
@@ -140,26 +116,8 @@ public abstract class BaseWrapper<T> {
                         e.printStackTrace();
                     }
                 }
-
-//                callNext(mSubject, new RxResult(mHeaders, null, response.body().bytes()));
-//                callCompleted(mSubject);
             }
         });
         mRequestTraces.add(request.tag(), call);
-    }
-
-    //
-    private static void callCompleted(Subject subject) {
-        subject.onComplete();
-    }
-
-    private static void callError(Subject subscriber, Throwable e) {
-        if (subscriber != null) {
-            subscriber.onError(e);
-        }
-    }
-
-    private static void callNext(Subject<RxResult> subscriber, RxResult rxResult) {
-        subscriber.onNext(rxResult);
     }
 }

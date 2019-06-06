@@ -36,7 +36,7 @@ public class PostFileWrapper extends BaseWrapper<PostFileWrapper> {
      * @param file      需要上传文件
      * @return
      */
-    public PostFileWrapper uploadFiles(String paramName, File file) {
+    public PostFileWrapper uploadFile(String paramName, File file) {
         Assert.checkNull(file, "upload file cannot not null!");
 
         final ArrayList<File> files = new ArrayList<>();
@@ -45,13 +45,14 @@ public class PostFileWrapper extends BaseWrapper<PostFileWrapper> {
 
         return this;
     }
+
     /**
      * 上传多个文件至服务器
      *
      * @param paramName 服务器参数名称
      * @param files     需要上传文件集合
      */
-    public PostFileWrapper uploadFiles(String paramName, List<File> files) {
+    public PostFileWrapper uploadFile(String paramName, List<File> files) {
         Assert.checkNull(files, "upload file cannot not null!");
 
         mUploadFiles.put(paramName, files);
@@ -59,7 +60,19 @@ public class PostFileWrapper extends BaseWrapper<PostFileWrapper> {
         return this;
     }
 
-    public PostFileWrapper uploadFiles(MediaType mediaType, String paramName, List<File> files) {
+
+    public PostFileWrapper uploadFile(MediaType mediaType, String paramName, File file) {
+        Assert.checkNull(file, "upload file cannot not null!");
+        final ArrayList<File> list = new ArrayList<>();
+        list.add(file);
+
+        mMediaType = mediaType;
+        mUploadFiles.put(paramName, list);
+
+        return this;
+    }
+
+    public PostFileWrapper uploadFile(MediaType mediaType, String paramName, List<File> files) {
         Assert.checkNull(files, "upload file cannot not null!");
 
         mMediaType = mediaType;
